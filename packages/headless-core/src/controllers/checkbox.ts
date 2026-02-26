@@ -9,20 +9,22 @@ export interface CheckboxControllerOptions {
 export const createCheckboxController = (options: CheckboxControllerOptions = {}) => {
   let checked = options.checked ?? false;
 
+  const setChecked = (nextChecked: boolean, source: InputSource = 'programmatic'): void => {
+    if (options.disabled || checked === nextChecked) {
+      return;
+    }
+
+    checked = nextChecked;
+    options.onCheckedChange?.(checked, source);
+  };
+
   return {
     isChecked(): boolean {
       return checked;
     },
-    setChecked(nextChecked: boolean, source: InputSource = 'programmatic'): void {
-      if (options.disabled) {
-        return;
-      }
-
-      checked = nextChecked;
-      options.onCheckedChange?.(checked, source);
-    },
+    setChecked,
     toggle(source: InputSource): void {
-      this.setChecked(!checked, source);
+      setChecked(!checked, source);
     }
   };
 };

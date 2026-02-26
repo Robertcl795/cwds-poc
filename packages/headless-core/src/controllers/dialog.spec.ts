@@ -16,4 +16,16 @@ describe('dialog controller', () => {
     expect(onOpenChange).toHaveBeenNthCalledWith(1, true, 'keyboard');
     expect(onOpenChange).toHaveBeenNthCalledWith(2, false, 'pointer');
   });
+
+  it('does not emit when state does not change', () => {
+    const onOpenChange = vi.fn();
+    const dialog = createDialogController({ defaultOpen: false, onOpenChange });
+
+    dialog.close('programmatic');
+    dialog.open('pointer');
+    dialog.open('keyboard');
+
+    expect(onOpenChange).toHaveBeenCalledTimes(1);
+    expect(onOpenChange).toHaveBeenCalledWith(true, 'pointer');
+  });
 });

@@ -14,13 +14,19 @@ export interface SelectControllerOptions {
 }
 
 const firstEnabledIndex = (options: SelectOption[]): number =>
-  Math.max(
-    0,
-    options.findIndex((option) => !option.disabled)
-  );
+  options.findIndex((option) => !option.disabled);
 
-const clampEnabledIndex = (options: SelectOption[], start: number, direction: 1 | -1): number => {
+const clampEnabledIndex = (
+  options: SelectOption[],
+  start: number,
+  direction: 1 | -1,
+  fallbackIndex: number
+): number => {
   const size = options.length;
+  if (size === 0 || fallbackIndex === -1) {
+    return -1;
+  }
+
   for (let step = 0; step < size; step += 1) {
     const index = (start + step * direction + size) % size;
     if (!options[index]?.disabled) {
@@ -28,14 +34,22 @@ const clampEnabledIndex = (options: SelectOption[], start: number, direction: 1 
     }
   }
 
-  return start;
+  return fallbackIndex;
 };
 
 export const createSelectController = (config: SelectControllerOptions) => {
   const options = config.options;
   let open = false;
-  let activeIndex = firstEnabledIndex(options);
-  let selectedValue = config.value ?? options[activeIndex]?.value ?? '';
+  const fallbackIndex = firstEnabledIndex(options);
+  const configuredIndex =
+    typeof config.value === 'string' ? options.findIndex((option) => option.value === config.value) : -1;
+  const selectedIndex =
+    configuredIndex >= 0 && options[configuredIndex] && !options[configuredIndex].disabled
+      ? configuredIndex
+      : fallbackIndex;
+
+  let activeIndex = selectedIndex;
+  let selectedValue = selectedIndex >= 0 ? options[selectedIndex]?.value ?? '' : '';
 
   return {
     isOpen(): boolean {
@@ -54,11 +68,20 @@ export const createSelectController = (config: SelectControllerOptions) => {
       open = false;
     },
     moveActive(direction: 1 | -1): void {
-      activeIndex = clampEnabledIndex(options, activeIndex + direction, direction);
+      if (activeIndex === -1) {
+        return;
+      }
+
+      activeIndex = clampEnabledIndex(options, activeIndex + direction, direction, activeIndex);
     },
     selectByIndex(index: number, source: InputSource = 'programmatic'): void {
       const option = options[index];
       if (!option || option.disabled) {
+        return;
+      }
+
+      if (selectedValue === option.value) {
+        activeIndex = index;
         return;
       }
 
