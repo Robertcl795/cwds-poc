@@ -1,0 +1,9 @@
+{
+  "name": "@covalent-poc/codemods",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "codemod:m2": "tsx src/m2-to-semantic.ts"
+  }
+}

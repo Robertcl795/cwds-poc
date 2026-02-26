@@ -1,0 +1,17 @@
+{
+  "name": "@covalent-poc/styles",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./index.css": "./src/index.css"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "mkdir -p dist && cp -R src/* dist/",
+    "lint": "echo 'No CSS linter configured yet'"
+  }
+}

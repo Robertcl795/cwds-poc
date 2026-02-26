@@ -1,0 +1,8 @@
+.cv-select {
+  border-radius: var(--cv-comp-field-radius);
+  border: 1px solid var(--cv-comp-field-border);
+  background: var(--cv-comp-field-bg);
+  color: var(--cv-comp-field-text);
+  padding-block: var(--cv-comp-field-padding-block);
+  padding-inline: var(--cv-comp-field-padding-inline);
+}

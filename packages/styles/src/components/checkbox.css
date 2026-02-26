@@ -1,0 +1,10 @@
+.cv-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cv-sys-space-sm);
+}
+
+.cv-checkbox input[type='checkbox'] {
+  inline-size: 1rem;
+  block-size: 1rem;
+}

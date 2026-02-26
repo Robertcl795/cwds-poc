@@ -1,0 +1,25 @@
+{
+  "button": {
+    "bg": "var(--cv-sys-color-primary)",
+    "bg-hover": "var(--cv-sys-color-primary-hover)",
+    "text": "var(--cv-ref-color-white)",
+    "radius": "var(--cv-sys-radius-control)",
+    "padding-inline": "var(--cv-sys-space-lg)",
+    "padding-block": "var(--cv-sys-space-sm)"
+  },
+  "field": {
+    "bg": "var(--cv-sys-color-surface)",
+    "text": "var(--cv-sys-color-text)",
+    "border": "var(--cv-sys-color-border)",
+    "border-focus": "var(--cv-sys-color-primary)",
+    "border-danger": "var(--cv-sys-color-danger)",
+    "radius": "var(--cv-sys-radius-control)",
+    "padding-inline": "var(--cv-sys-space-md)",
+    "padding-block": "var(--cv-sys-space-sm)"
+  },
+  "dialog": {
+    "surface": "var(--cv-sys-color-surface)",
+    "radius": "var(--cv-sys-radius-panel)",
+    "shadow": "var(--cv-sys-elevation-popover)"
+  }
+}

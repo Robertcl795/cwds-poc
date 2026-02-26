@@ -1,0 +1,22 @@
+.cv-button {
+  appearance: none;
+  border: 0;
+  border-radius: var(--cv-comp-button-radius);
+  background: var(--cv-comp-button-bg);
+  color: var(--cv-comp-button-text);
+  padding-block: var(--cv-comp-button-padding-block);
+  padding-inline: var(--cv-comp-button-padding-inline);
+  font-weight: var(--cv-ref-font-weight-medium);
+  cursor: pointer;
+  transition: background var(--cv-sys-motion-fast) var(--cv-sys-motion-easing);
+}
+
+.cv-button:hover {
+  background: var(--cv-comp-button-bg-hover);
+}
+
+.cv-button[data-variant='secondary'] {
+  background: var(--cv-sys-color-surface);
+  color: var(--cv-sys-color-text);
+  border: 1px solid var(--cv-sys-color-border);
+}

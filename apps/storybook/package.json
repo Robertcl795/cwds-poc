@@ -1,0 +1,16 @@
+{
+  "name": "@covalent-poc/storybook",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@covalent-poc/composites": "workspace:*",
+    "@covalent-poc/primitives": "workspace:*",
+    "@covalent-poc/styles": "workspace:*",
+    "@covalent-poc/tokens": "workspace:*"
+  },
+  "scripts": {
+    "storybook": "storybook dev -p 6006 -c .storybook --ci --no-open --exact-port --disable-telemetry --no-version-updates",
+    "build-storybook": "storybook build -c .storybook --disable-telemetry"
+  }
+}
