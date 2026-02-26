@@ -17,6 +17,11 @@ export interface PrimitiveButtonOptions extends ButtonControllerOptions {
   color?: PrimitiveButtonColor;
   iconStart?: string | HTMLElement;
   iconEnd?: string | HTMLElement;
+  content?: string | HTMLElement;
+  expandContent?: boolean;
+  fullWidth?: boolean;
+  dense?: boolean;
+  raised?: boolean;
   loading?: boolean;
   loadingLabel?: string;
   loadingDensity?: LoadingDensity;
@@ -89,6 +94,10 @@ export const createPrimitiveButton = (options: PrimitiveButtonOptions): HTMLButt
   element.dataset.color = color;
   element.dataset.shape = shape;
   element.dataset.loading = isLoading ? 'true' : 'false';
+  element.dataset.raised = options.raised ? 'true' : 'false';
+  element.dataset.dense = options.dense ? 'true' : 'false';
+  element.dataset.expandContent = options.expandContent ? 'true' : 'false';
+  element.dataset.fullWidth = options.fullWidth ? 'true' : 'false';
 
   if (isLoading) {
     element.setAttribute('aria-busy', 'true');
@@ -112,6 +121,19 @@ export const createPrimitiveButton = (options: PrimitiveButtonOptions): HTMLButt
   label.className = 'cv-button__label';
   label.textContent = isLoading && options.loadingLabel ? options.loadingLabel : options.label;
   content.append(label);
+
+  if (!isLoading && (options.expandContent || options.content !== undefined)) {
+    const slot = document.createElement('span');
+    slot.className = 'cv-button__slot';
+
+    if (typeof options.content === 'string') {
+      slot.textContent = options.content;
+    } else if (options.content) {
+      slot.append(options.content);
+    }
+
+    content.append(slot);
+  }
 
   if (!isLoading && options.iconEnd) {
     appendIcon(content, 'end', options.iconEnd);

@@ -5,6 +5,7 @@ export interface PrimitiveCheckboxOptions extends CheckboxControllerOptions {
   name: string;
   label: string;
   indeterminate?: boolean;
+  reducedTouchTarget?: boolean;
 }
 
 export const createPrimitiveCheckbox = (options: PrimitiveCheckboxOptions): HTMLLabelElement => {
@@ -13,6 +14,7 @@ export const createPrimitiveCheckbox = (options: PrimitiveCheckboxOptions): HTML
   const wrapper = document.createElement('label');
   wrapper.className = 'cv-checkbox';
   wrapper.dataset.indeterminate = options.indeterminate ? 'true' : 'false';
+  wrapper.dataset.reducedTouchTarget = options.reducedTouchTarget ? 'true' : 'false';
 
   const input = document.createElement('input');
   input.className = 'cv-checkbox__control';

@@ -24,4 +24,15 @@ describe('checkbox primitive', () => {
 
     expect(checkbox.dataset.indeterminate).toBe('false');
   });
+
+  it('supports reduced touch target density mode', () => {
+    const checkbox = createPrimitiveCheckbox({
+      id: 'dense',
+      name: 'dense',
+      label: 'Compact mode',
+      reducedTouchTarget: true
+    });
+
+    expect(checkbox.dataset.reducedTouchTarget).toBe('true');
+  });
 });

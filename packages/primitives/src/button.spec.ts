@@ -18,6 +18,23 @@ describe('button primitive', () => {
     expect(button.querySelector('.cv-button__icon--end')?.textContent).toBe('→');
   });
 
+  it('supports raised, dense, full width, and expand content primitives', () => {
+    const button = createPrimitiveButton({
+      label: 'Deploy',
+      iconEnd: '→',
+      raised: true,
+      dense: true,
+      fullWidth: true,
+      expandContent: true
+    });
+
+    expect(button.dataset.raised).toBe('true');
+    expect(button.dataset.dense).toBe('true');
+    expect(button.dataset.fullWidth).toBe('true');
+    expect(button.dataset.expandContent).toBe('true');
+    expect(button.querySelector('.cv-button__slot')).not.toBeNull();
+  });
+
   it('renders loading state with spinner and disabled semantics', () => {
     const button = createPrimitiveButton({ label: 'Save', loading: true, loadingLabel: 'Saving' });
 

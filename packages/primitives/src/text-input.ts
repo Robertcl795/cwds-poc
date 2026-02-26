@@ -1,10 +1,36 @@
 import { createFieldController, type FieldControllerOptions } from '@covalent-poc/headless-core';
 
+export type PrimitiveTextInputType =
+  | 'text'
+  | 'search'
+  | 'tel'
+  | 'url'
+  | 'email'
+  | 'password'
+  | 'date'
+  | 'month'
+  | 'week'
+  | 'time'
+  | 'datetime-local'
+  | 'number'
+  | 'color';
+
 export interface PrimitiveTextInputOptions extends FieldControllerOptions {
   id: string;
   name: string;
+  type?: PrimitiveTextInputType;
   placeholder?: string;
   value?: string;
+  disabled?: boolean;
+  readOnly?: boolean;
+  pattern?: string;
+  min?: string;
+  max?: string;
+  size?: number;
+  step?: number;
+  maxLength?: number;
+  autoValidate?: boolean;
+  validateOnInitialRender?: boolean;
 }
 
 export interface PrimitiveTextInput {
@@ -17,26 +43,78 @@ export const createPrimitiveTextInput = (options: PrimitiveTextInputOptions): Pr
   const input = document.createElement('input');
 
   input.className = 'cv-text-input';
-  input.type = 'text';
+  input.type = options.type ?? 'text';
   input.id = options.id;
   input.name = options.name;
   input.placeholder = options.placeholder ?? '';
   input.value = options.value ?? '';
+  input.dataset.invalid = 'false';
 
-  input.addEventListener('input', () => {
-    controller.onInput(input.value);
-    input.dataset.invalid = controller.getValidationAttrs()['data-invalid'];
-  });
+  if (options.disabled) {
+    input.disabled = true;
+  }
 
-  input.addEventListener('blur', () => {
-    controller.onBlur();
+  if (options.readOnly) {
+    input.readOnly = true;
+  }
+
+  if (options.pattern) {
+    input.pattern = options.pattern;
+  }
+
+  if (options.min) {
+    input.min = options.min;
+  }
+
+  if (options.max) {
+    input.max = options.max;
+  }
+
+  if (options.size !== undefined) {
+    input.size = options.size;
+  }
+
+  if (options.step !== undefined) {
+    input.step = String(options.step);
+  }
+
+  if (options.maxLength !== undefined) {
+    input.maxLength = options.maxLength;
+  }
+
+  const syncValidationState = (): void => {
     const attrs = controller.getValidationAttrs();
     input.dataset.invalid = attrs['data-invalid'];
+
     if (attrs['aria-invalid']) {
       input.setAttribute('aria-invalid', 'true');
     } else {
       input.removeAttribute('aria-invalid');
     }
+  };
+
+  if (input.value.length > 0) {
+    controller.onInput(input.value);
+  }
+
+  if (options.validateOnInitialRender) {
+    controller.onBlur();
+    syncValidationState();
+  }
+
+  input.addEventListener('input', () => {
+    controller.onInput(input.value);
+
+    if (options.autoValidate) {
+      controller.onBlur();
+    }
+
+    syncValidationState();
+  });
+
+  input.addEventListener('blur', () => {
+    controller.onBlur();
+    syncValidationState();
   });
 
   return {

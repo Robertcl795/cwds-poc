@@ -1,6 +1,7 @@
 .cv-button {
   --cv-button-color: var(--cv-sys-color-primary);
   --cv-button-on-color: var(--cv-sys-color-on-primary);
+  --cv-button-ripple-duration: 920ms;
 
   appearance: none;
   position: relative;
@@ -18,6 +19,7 @@
   padding-block: var(--cv-comp-button-padding-block);
   padding-inline: var(--cv-comp-button-padding-inline);
   font-weight: var(--cv-ref-font-weight-medium);
+  font-size: 0.95rem;
   line-height: 1;
   cursor: pointer;
   transition:
@@ -37,12 +39,11 @@
   border-radius: 999px;
   background: color-mix(in oklab, currentColor 28%, transparent);
   transform: translate(-50%, -50%) scale(0);
-  animation: cv-button-ripple 460ms var(--cv-sys-motion-easing) forwards;
+  animation: cv-button-ripple var(--cv-button-ripple-duration) cubic-bezier(0.2, 0, 0, 1) forwards;
 }
 
 .cv-button:hover {
   background: color-mix(in oklab, var(--cv-button-color) 88%, black);
-  box-shadow: 0 10px 22px rgb(15 23 42 / 0.12);
 }
 
 .cv-button:active {
@@ -69,6 +70,22 @@
 
 .cv-button[data-shape='text']:hover {
   background: color-mix(in oklab, var(--cv-button-color) 12%, transparent);
+}
+
+.cv-button[data-raised='true'] {
+  box-shadow: 0 6px 14px rgb(15 23 42 / 0.14);
+}
+
+.cv-button[data-raised='true']:hover {
+  box-shadow: 0 10px 22px rgb(15 23 42 / 0.2);
+}
+
+.cv-button[data-dense='true'] {
+  min-block-size: 2.1rem;
+  padding-block: calc(var(--cv-comp-button-padding-block) * 0.7);
+  padding-inline: calc(var(--cv-comp-button-padding-inline) * 0.8);
+  font-size: 0.875rem;
+  gap: calc(var(--cv-comp-button-gap) * 0.75);
 }
 
 .cv-button[data-color='primary'] {
@@ -109,16 +126,29 @@
   box-shadow: none;
 }
 
+.cv-button[data-full-width='true'] {
+  inline-size: 100%;
+}
+
 .cv-button__content {
   position: relative;
   z-index: 1;
   display: inline-flex;
   align-items: center;
   gap: inherit;
+  inline-size: 100%;
 }
 
 .cv-button__label {
   white-space: nowrap;
+}
+
+.cv-button__slot {
+  min-inline-size: 0;
+}
+
+.cv-button[data-expand-content='true'] .cv-button__slot {
+  flex: 1;
 }
 
 .cv-button__icon {
@@ -131,13 +161,22 @@
   font-size: 0.95em;
 }
 
+.cv-button[data-dense='true'] .cv-button__icon {
+  inline-size: calc(var(--cv-comp-button-icon-size) * 0.9);
+  block-size: calc(var(--cv-comp-button-icon-size) * 0.9);
+}
+
 @keyframes cv-button-ripple {
   0% {
-    opacity: 0.34;
-    transform: translate(-50%, -50%) scale(0);
+    opacity: 0.22;
+    transform: translate(-50%, -50%) scale(0.08);
+  }
+  62% {
+    opacity: 0.2;
+    transform: translate(-50%, -50%) scale(1);
   }
   100% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(18);
+    transform: translate(-50%, -50%) scale(1.8);
   }
 }
