@@ -26,15 +26,15 @@ const loadJson = async (filename) => {
 };
 
 const generateCss = async () => {
-  const lines = [':root {'];
+  const lines = ['@layer tokens {', '  :root {'];
 
   for (const source of tokenSources) {
     const tree = await loadJson(source.file);
     const variables = flattenTokens(source.prefix, tree).sort();
-    lines.push(...variables.map((entry) => `  ${entry}`));
+    lines.push(...variables.map((entry) => `    ${entry}`));
   }
 
-  lines.push('}', '');
+  lines.push('  }', '}', '');
   return lines.join('\n');
 };
 
@@ -43,6 +43,7 @@ const run = async () => {
 
   const css = await generateCss();
   await writeFile(resolve(distDir, 'tokens.css'), css, 'utf8');
+  await writeFile(resolve(packageRoot, 'src', 'tokens.css'), css, 'utf8');
 
   await writeFile(
     resolve(distDir, 'index.js'),

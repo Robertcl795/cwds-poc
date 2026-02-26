@@ -1,5 +1,12 @@
 # Phase 1 - Foundation and Primitives
 
+## Status
+
+- [x] Workspace and package scaffold complete.
+- [x] Token pipeline and token CSS generation complete.
+- [x] Storybook and UX showcase builds passing.
+- [x] Typecheck, lint, and tests passing for current scope.
+
 ## Goals
 
 - Establish token taxonomy and CSS custom-property pipeline.

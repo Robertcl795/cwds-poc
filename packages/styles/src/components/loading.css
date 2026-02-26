@@ -1,0 +1,35 @@
+.cv-loading-indicator {
+  display: inline-flex;
+  inline-size: var(--cv-comp-loading-size-md);
+  block-size: var(--cv-comp-loading-size-md);
+  border-radius: 50%;
+  border: var(--cv-comp-loading-stroke-width) solid color-mix(in oklab, currentcolor 22%, transparent);
+  border-top-color: currentcolor;
+  animation: cv-spin 720ms linear infinite;
+  transform-origin: center;
+}
+
+.cv-loading-indicator[data-density='sm'] {
+  inline-size: var(--cv-comp-loading-size-sm);
+  block-size: var(--cv-comp-loading-size-sm);
+}
+
+.cv-loading-indicator[data-density='md'] {
+  inline-size: var(--cv-comp-loading-size-md);
+  block-size: var(--cv-comp-loading-size-md);
+}
+
+.cv-loading-indicator[data-density='lg'] {
+  inline-size: var(--cv-comp-loading-size-lg);
+  block-size: var(--cv-comp-loading-size-lg);
+}
+
+.cv-loading-indicator--muted {
+  color: var(--cv-sys-color-text-muted);
+}
+
+@keyframes cv-spin {
+  to {
+    transform: rotate(1turn);
+  }
+}

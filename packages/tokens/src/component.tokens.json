@@ -2,10 +2,13 @@
   "button": {
     "bg": "var(--cv-sys-color-primary)",
     "bg-hover": "var(--cv-sys-color-primary-hover)",
-    "text": "var(--cv-ref-color-white)",
+    "text": "var(--cv-sys-color-on-primary)",
     "radius": "var(--cv-sys-radius-control)",
     "padding-inline": "var(--cv-sys-space-lg)",
-    "padding-block": "var(--cv-sys-space-sm)"
+    "padding-block": "var(--cv-sys-space-sm)",
+    "min-height": "2.5rem",
+    "gap": "var(--cv-sys-space-sm)",
+    "icon-size": "1rem"
   },
   "field": {
     "bg": "var(--cv-sys-color-surface)",
@@ -15,7 +18,22 @@
     "border-danger": "var(--cv-sys-color-danger)",
     "radius": "var(--cv-sys-radius-control)",
     "padding-inline": "var(--cv-sys-space-md)",
-    "padding-block": "var(--cv-sys-space-sm)"
+    "padding-block": "var(--cv-sys-space-sm)",
+    "padding-inline-loading": "calc(var(--cv-sys-space-md) + 1.5rem)"
+  },
+  "checkbox": {
+    "size": "1.25rem",
+    "radius": "0.3rem",
+    "border": "var(--cv-sys-color-border)",
+    "checked-bg": "var(--cv-sys-color-primary)",
+    "checkmark": "var(--cv-ref-color-white)",
+    "hover-ring": "color-mix(in oklab, var(--cv-sys-color-primary) 18%, transparent)"
+  },
+  "loading": {
+    "size-sm": "0.875rem",
+    "size-md": "1rem",
+    "size-lg": "1.25rem",
+    "stroke-width": "0.125rem"
   },
   "dialog": {
     "surface": "var(--cv-sys-color-surface)",

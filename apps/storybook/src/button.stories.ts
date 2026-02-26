@@ -15,10 +15,65 @@ export default meta;
 
 type Story = StoryObj;
 
-export const Primary: Story = {
-  render: () => createPrimitiveButton({ label: 'Save changes' })
+const colorVariants = ['primary', 'secondary', 'emphasis', 'caution', 'negative', 'positive'] as const;
+const shapeVariants = ['contained', 'outlined', 'text'] as const;
+
+export const Gallery: Story = {
+  render: () => {
+    const wrapper = document.createElement('div');
+    wrapper.style.display = 'grid';
+    wrapper.style.gap = '1rem';
+
+    for (const shape of shapeVariants) {
+      const row = document.createElement('div');
+      row.style.display = 'flex';
+      row.style.gap = '0.75rem';
+      row.style.flexWrap = 'wrap';
+
+      for (const color of colorVariants) {
+        row.append(
+          createPrimitiveButton({
+            label: `${shape} ${color}`,
+            shape,
+            color
+          })
+        );
+      }
+
+      wrapper.append(row);
+    }
+
+    return wrapper;
+  }
 };
 
-export const Secondary: Story = {
-  render: () => createPrimitiveButton({ label: 'Cancel', variant: 'secondary' })
+export const IconsAndLoading: Story = {
+  render: () => {
+    const row = document.createElement('div');
+    row.style.display = 'flex';
+    row.style.gap = '0.75rem';
+    row.style.flexWrap = 'wrap';
+
+    row.append(
+      createPrimitiveButton({
+        label: 'Run',
+        iconStart: '▶',
+        color: 'emphasis'
+      }),
+      createPrimitiveButton({
+        label: 'Next',
+        iconEnd: '→',
+        shape: 'outlined',
+        color: 'secondary'
+      }),
+      createPrimitiveButton({
+        label: 'Save',
+        loading: true,
+        loadingLabel: 'Saving',
+        color: 'primary'
+      })
+    );
+
+    return row;
+  }
 };
