@@ -1,0 +1,148 @@
+@layer tokens, base, foundation, components, variants, overrides;
+
+@layer base {
+@property --cv-ripple-size {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 48px;
+}
+
+@property --cv-ripple-x {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --cv-ripple-y {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --cv-ripple-duration {
+  syntax: '<time>';
+  inherits: false;
+  initial-value: 180ms;
+}
+}
+
+@layer foundation {
+.cv-focus-ring {
+  --cv-focus-ring-color: var(--cv-comp-focus-ring-color, var(--cv-sys-color-primary));
+  --cv-focus-ring-width: var(--cv-comp-focus-ring-width, 2px);
+  --cv-focus-ring-offset: var(--cv-comp-focus-ring-offset, 2px);
+}
+
+.cv-focus-ring:focus-visible,
+.cv-focus-ring[data-cv-focus-ring='always']:focus {
+  outline: var(--cv-focus-ring-width) solid var(--cv-focus-ring-color);
+  outline-offset: var(--cv-focus-ring-offset);
+}
+
+.cv-focus-ring[data-cv-focus-ring='off']:focus,
+.cv-focus-ring[data-cv-focus-ring='off']:focus-visible {
+  outline: none;
+}
+
+@media (forced-colors: active) {
+  .cv-focus-ring:focus-visible,
+  .cv-focus-ring[data-cv-focus-ring='always']:focus {
+    outline-color: Highlight;
+  }
+}
+
+[data-cv-elevation='0'] {
+  box-shadow: none;
+}
+
+[data-cv-elevation='1'] {
+  box-shadow: var(--cv-comp-elevation-level-1, var(--cv-sys-elevation-level-1));
+}
+
+[data-cv-elevation='2'] {
+  box-shadow: var(--cv-comp-elevation-level-2, var(--cv-sys-elevation-level-2));
+}
+
+[data-cv-elevation='3'] {
+  box-shadow: var(--cv-comp-elevation-level-3, var(--cv-sys-elevation-level-3));
+}
+
+[data-cv-elevation='4'] {
+  box-shadow: var(--cv-comp-elevation-level-4, var(--cv-sys-elevation-level-4));
+}
+
+[data-cv-elevation='5'] {
+  box-shadow: var(--cv-comp-elevation-level-5, var(--cv-sys-elevation-level-5));
+}
+
+.cv-icon {
+  width: var(--cv-comp-icon-size-md, 1rem);
+  height: var(--cv-comp-icon-size-md, 1rem);
+  display: inline-block;
+  fill: currentColor;
+  flex: 0 0 auto;
+}
+
+.cv-icon[data-size='sm'] {
+  width: var(--cv-comp-icon-size-sm, 0.875rem);
+  height: var(--cv-comp-icon-size-sm, 0.875rem);
+}
+
+.cv-icon[data-size='lg'] {
+  width: var(--cv-comp-icon-size-lg, 1.25rem);
+  height: var(--cv-comp-icon-size-lg, 1.25rem);
+}
+
+.cv-ripple-host {
+  position: relative;
+  overflow: clip;
+  isolation: isolate;
+}
+
+.cv-ripple-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.cv-ripple-wave {
+  position: absolute;
+  width: var(--cv-ripple-size, 56px);
+  height: var(--cv-ripple-size, 56px);
+  left: calc(var(--cv-ripple-x, 0px) - (var(--cv-ripple-size, 56px) / 2));
+  top: calc(var(--cv-ripple-y, 0px) - (var(--cv-ripple-size, 56px) / 2));
+  border-radius: 999px;
+  background: var(--cv-comp-ripple-color, currentColor);
+  opacity: var(--cv-comp-ripple-opacity, 0.16);
+  transform: scale(0);
+  will-change: transform, opacity;
+  animation: cv-ripple-enter var(--cv-ripple-duration, 180ms) var(--cv-sys-motion-easing, ease-out) forwards;
+}
+
+.cv-ripple-wave--centered {
+  --cv-ripple-size: 56px;
+  left: calc(50% - (var(--cv-ripple-size, 56px) / 2));
+  top: calc(50% - (var(--cv-ripple-size, 56px) / 2));
+}
+
+@keyframes cv-ripple-enter {
+  to {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cv-ripple-wave {
+    animation-duration: 1ms;
+  }
+}
+
+@media (forced-colors: active) {
+  [data-cv-elevation] {
+    box-shadow: none;
+    border: 1px solid CanvasText;
+  }
+}
+}

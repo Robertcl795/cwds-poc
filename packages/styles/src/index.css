@@ -1,22 +1,5 @@
-@import './foundation/layers.css';
-@import './foundation/properties.css' layer(base);
-
+@import './foundation.css';
 @import './reset.css' layer(base);
 @import './theme.css' layer(base);
-@import './foundation/focus-ring.css' layer(foundation);
-@import './foundation/elevation.css' layer(foundation);
-@import './foundation/icon.css' layer(foundation);
-@import './foundation/ripple.css' layer(foundation);
-@import './foundation/media.css' layer(foundation);
 @import './motion.css' layer(variants);
-@import './components/loading.css' layer(components);
-@import './components/button.css' layer(components);
-@import './components/form-field.css' layer(components);
-@import './components/checkbox.css' layer(components);
-@import './components/radio.css' layer(components);
-@import './components/switch.css' layer(components);
-@import './components/icon-button.css' layer(components);
-@import './components/divider.css' layer(components);
-@import './components/progress.css' layer(components);
-@import './components/dialog.css' layer(components);
-@import './components/select.css' layer(components);
+@import './components.css' layer(components);

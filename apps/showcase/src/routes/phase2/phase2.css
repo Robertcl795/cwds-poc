@@ -1,0 +1,23 @@
+.phase2-page {
+  display: grid;
+  gap: var(--cv-sys-space-lg);
+  max-inline-size: 52rem;
+  margin: 0 auto;
+  padding: var(--cv-sys-space-lg);
+}
+
+.phase2-card {
+  display: grid;
+  gap: var(--cv-sys-space-md);
+  background: var(--cv-sys-color-surface);
+  border: 1px solid var(--cv-sys-color-border);
+  border-radius: var(--cv-sys-radius-panel);
+  padding: var(--cv-sys-space-lg);
+}
+
+.phase2-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--cv-sys-space-sm);
+}

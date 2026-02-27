@@ -17,4 +17,4 @@
 
 ## Visual
 
-- phase 1 baselines exported from `@covalent-poc/testing`
+- Storybook state matrices are the visual baseline source for Phase 1

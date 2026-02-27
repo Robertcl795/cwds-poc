@@ -15,6 +15,12 @@
     --cv-comp-checkbox-hover-ring: color-mix(in oklab, var(--cv-sys-color-primary) 18%, transparent);
     --cv-comp-checkbox-radius: 0.3rem;
     --cv-comp-checkbox-size: 1.25rem;
+    --cv-comp-chip-bg: var(--cv-sys-color-surface);
+    --cv-comp-chip-border: var(--cv-sys-color-border);
+    --cv-comp-chip-height: 2rem;
+    --cv-comp-chip-label: var(--cv-sys-color-text);
+    --cv-comp-chip-radius: 999px;
+    --cv-comp-chip-selected-bg: color-mix(in oklab, var(--cv-sys-color-primary) 14%, var(--cv-sys-color-surface));
     --cv-comp-dialog-radius: var(--cv-sys-radius-panel);
     --cv-comp-dialog-shadow: var(--cv-sys-elevation-popover);
     --cv-comp-dialog-surface: var(--cv-sys-color-surface);
@@ -63,6 +69,9 @@
     --cv-comp-switch-track-checked-bg: var(--cv-sys-color-primary);
     --cv-comp-switch-track-height: 1.25rem;
     --cv-comp-switch-track-width: 2.25rem;
+    --cv-comp-slider-thumb-size: 1.125rem;
+    --cv-comp-slider-track-bg: color-mix(in oklab, var(--cv-sys-color-primary) 24%, var(--cv-sys-color-surface));
+    --cv-comp-slider-track-height: 0.3rem;
     --cv-ref-color-black: #000000;
     --cv-ref-color-blue-50: #e7f0ff;
     --cv-ref-color-blue-500: #2563eb;

@@ -14,6 +14,7 @@ type SelectArgs = {
   fixedMenuPosition: boolean;
   disabled: boolean;
   validateOnInitialRender: boolean;
+  enhance: boolean;
 };
 
 const demoOptions: PrimitiveSelectOption[] = [
@@ -36,7 +37,8 @@ const meta: Meta<SelectArgs> = {
     naturalMenuWidth: false,
     fixedMenuPosition: false,
     disabled: false,
-    validateOnInitialRender: false
+    validateOnInitialRender: false,
+    enhance: true
   },
   argTypes: {
     label: { control: 'text' },
@@ -49,7 +51,8 @@ const meta: Meta<SelectArgs> = {
     naturalMenuWidth: { control: 'boolean' },
     fixedMenuPosition: { control: 'boolean' },
     disabled: { control: 'boolean' },
-    validateOnInitialRender: { control: 'boolean' }
+    validateOnInitialRender: { control: 'boolean' },
+    enhance: { control: 'boolean' }
   },
   parameters: {
     a11y: {
@@ -79,7 +82,8 @@ export const Docs: Story = {
       naturalMenuWidth: args.naturalMenuWidth,
       fixedMenuPosition: args.fixedMenuPosition,
       disabled: args.disabled,
-      validateOnInitialRender: args.validateOnInitialRender
+      validateOnInitialRender: args.validateOnInitialRender,
+      enhance: args.enhance
     });
 
     select.element.style.minWidth = '22rem';
@@ -100,7 +104,8 @@ export const States: Story = {
         name: 'standard-status',
         label: 'Status',
         options: demoOptions,
-        helper: 'Standard outlined select'
+        helper: 'Native baseline',
+        enhance: false
       }).element,
       createPrimitiveSelect({
         id: 'required-status',
@@ -111,7 +116,8 @@ export const States: Story = {
         helper: 'This is required',
         validationMessage: 'Status is required.',
         validateOnInitialRender: true,
-        icon: '⟐'
+        icon: '⟐',
+        enhance: true
       }).element,
       createPrimitiveSelect({
         id: 'disabled-status',
@@ -120,7 +126,8 @@ export const States: Story = {
         options: demoOptions,
         value: 'pending',
         helper: 'Locked by workflow state',
-        disabled: true
+        disabled: true,
+        enhance: true
       }).element
     );
 

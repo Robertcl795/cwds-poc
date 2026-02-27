@@ -6,15 +6,12 @@ Phase 1 scaffolds a framework-agnostic monorepo for semantic/headless UI migrati
 
 - `@covalent-poc/tokens`
 - `@covalent-poc/styles`
-- `@covalent-poc/headless-core`
-- `@covalent-poc/primitives`
-- `@covalent-poc/composites`
-- `@covalent-poc/compat-m2`
-- `@covalent-poc/codemods`
-- `@covalent-poc/adapter-angular`
-- `@covalent-poc/adapter-lit`
+- `@covalent-poc/core`
+- `@covalent-poc/primitives-foundation`
+- `@covalent-poc/components`
+- `@covalent-poc/web-components`
 - `@covalent-poc/storybook`
-- `@covalent-poc/ux-showcase`
+- `@covalent-poc/showcase`
 
 ## Commands
 
@@ -32,4 +29,4 @@ Phase 1 scaffolds a framework-agnostic monorepo for semantic/headless UI migrati
 
 ## Guides
 
-- Platform-native phased migration guide: `docs/architecture/platform-native-phased-guide.md`
+- Platform-native phased migration guide: `docs/architecture/GUIDE_PHASED.md`

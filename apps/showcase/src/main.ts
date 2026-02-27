@@ -10,6 +10,8 @@ import {
   setElevation
 } from '@covalent-poc/primitives-foundation';
 import { renderPhase1Showcase } from './routes/phase1';
+import { renderPhase25HardeningShowcase } from './routes/phase2-hardening';
+import { renderPhase2Showcase } from './routes/phase2';
 
 import './foundation-demo.css';
 
@@ -59,6 +61,10 @@ const renderFoundation = (container: HTMLElement): void => {
 
 if (globalThis.location.hash === '#phase1') {
   renderPhase1Showcase(app);
+} else if (globalThis.location.hash === '#phase2-hardening') {
+  renderPhase25HardeningShowcase(app);
+} else if (globalThis.location.hash === '#phase2') {
+  renderPhase2Showcase(app);
 } else {
   renderFoundation(app);
 }

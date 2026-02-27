@@ -1,0 +1,37 @@
+.phase25-page {
+  display: grid;
+  gap: var(--cv-sys-space-lg);
+  max-inline-size: 58rem;
+  margin: 0 auto;
+  padding: var(--cv-sys-space-lg);
+}
+
+.phase25-card {
+  display: grid;
+  gap: var(--cv-sys-space-md);
+  background: var(--cv-sys-color-surface);
+  border: 1px solid var(--cv-sys-color-border);
+  border-radius: var(--cv-sys-radius-panel);
+  padding: var(--cv-sys-space-lg);
+}
+
+.phase25-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cv-sys-space-sm);
+}
+
+.phase25-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cv-sys-space-sm);
+}
+
+.phase25-result {
+  margin: 0;
+  padding: var(--cv-sys-space-md);
+  border-radius: var(--cv-sys-radius-control);
+  border: 1px solid var(--cv-sys-color-border);
+  background: var(--cv-sys-color-surface-muted);
+  min-block-size: 4rem;
+}

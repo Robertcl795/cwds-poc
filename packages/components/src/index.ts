@@ -2,6 +2,15 @@ export { createPrimitiveButton } from './button/create-button';
 export type { PrimitiveButtonColor, PrimitiveButtonOptions, PrimitiveButtonShape } from './button/button.types';
 export { createPrimitiveCheckbox } from './checkbox/create-checkbox';
 export type { PrimitiveCheckboxOptions } from './checkbox/create-checkbox';
+export { createPrimitiveChip } from './chip/create-chip';
+export type {
+  PrimitiveActionChipOptions,
+  PrimitiveChipHandle,
+  PrimitiveChipInputSource,
+  PrimitiveChipOptions,
+  PrimitiveChipVariant,
+  PrimitiveFilterChipOptions
+} from './chip/chip.types';
 export { createPrimitiveDivider } from './divider/create-divider';
 export type { PrimitiveDividerOptions } from './divider/create-divider';
 export * from './form-field';
@@ -19,6 +28,8 @@ export type { PrimitiveRadioOptions } from './radio/create-radio';
 export * from './select';
 export { createPrimitiveSwitch } from './switch/create-switch';
 export type { PrimitiveSwitchOptions } from './switch/create-switch';
+export { createPrimitiveSlider } from './slider/create-slider';
+export type { PrimitiveSlider, PrimitiveSliderInputSource, PrimitiveSliderOptions } from './slider/slider.types';
 export * from './text-field';
 export * from './text-input';
 export * from './composites/dialog';

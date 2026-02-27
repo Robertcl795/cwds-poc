@@ -81,14 +81,35 @@ importers:
         specifier: ^3.0.9
         version: 3.2.4(@types/node@22.19.12)(jsdom@26.1.0)
 
+  apps/showcase:
+    dependencies:
+      '@covalent-poc/components':
+        specifier: workspace:*
+        version: link:../../packages/components
+      '@covalent-poc/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@covalent-poc/primitives-foundation':
+        specifier: workspace:*
+        version: link:../../packages/primitives-foundation
+      '@covalent-poc/styles':
+        specifier: workspace:*
+        version: link:../../packages/styles
+      '@covalent-poc/tokens':
+        specifier: workspace:*
+        version: link:../../packages/tokens
+
   apps/storybook:
     dependencies:
-      '@covalent-poc/composites':
+      '@covalent-poc/components':
         specifier: workspace:*
-        version: link:../../packages/composites
-      '@covalent-poc/primitives':
+        version: link:../../packages/components
+      '@covalent-poc/core':
         specifier: workspace:*
-        version: link:../../packages/primitives
+        version: link:../../packages/core
+      '@covalent-poc/primitives-foundation':
+        specifier: workspace:*
+        version: link:../../packages/primitives-foundation
       '@covalent-poc/styles':
         specifier: workspace:*
         version: link:../../packages/styles
@@ -96,56 +117,28 @@ importers:
         specifier: workspace:*
         version: link:../../packages/tokens
 
-  apps/ux-showcase:
+  packages/components:
     dependencies:
-      '@covalent-poc/composites':
+      '@covalent-poc/core':
         specifier: workspace:*
-        version: link:../../packages/composites
-      '@covalent-poc/primitives':
+        version: link:../core
+      '@covalent-poc/primitives-foundation':
         specifier: workspace:*
-        version: link:../../packages/primitives
-      '@covalent-poc/styles':
-        specifier: workspace:*
-        version: link:../../packages/styles
-      '@covalent-poc/tokens':
-        specifier: workspace:*
-        version: link:../../packages/tokens
+        version: link:../primitives-foundation
 
-  packages/adapters/angular: {}
+  packages/core: {}
 
-  packages/adapters/lit: {}
-
-  packages/codemods: {}
-
-  packages/compat-m2:
+  packages/primitives-foundation:
     dependencies:
-      '@covalent-poc/composites':
+      '@covalent-poc/core':
         specifier: workspace:*
-        version: link:../composites
-      '@covalent-poc/primitives':
-        specifier: workspace:*
-        version: link:../primitives
-
-  packages/composites:
-    dependencies:
-      '@covalent-poc/headless-core':
-        specifier: workspace:*
-        version: link:../headless-core
-      '@covalent-poc/primitives':
-        specifier: workspace:*
-        version: link:../primitives
-
-  packages/headless-core: {}
-
-  packages/primitives:
-    dependencies:
-      '@covalent-poc/headless-core':
-        specifier: workspace:*
-        version: link:../headless-core
+        version: link:../core
 
   packages/styles: {}
 
   packages/tokens: {}
+
+  packages/web-components: {}
 
 packages:
 

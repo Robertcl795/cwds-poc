@@ -27,6 +27,7 @@ describe('select primitive', () => {
     expect(select.element.dataset.hasIcon).toBe('true');
     expect(select.element.dataset.naturalMenuWidth).toBe('true');
     expect(select.element.dataset.fixedMenuPosition).toBe('true');
+    expect(select.element.dataset.enhanced).toMatch(/true|false/);
     expect(select.selectElement.value).toBe('pending');
     expect(select.element.querySelector('.cv-select-field__helper')?.textContent).toBe('Choose one status');
   });
@@ -68,5 +69,23 @@ describe('select primitive', () => {
 
     expect(onValueChange).toHaveBeenNthCalledWith(1, 'pending', 'keyboard');
     expect(onValueChange).toHaveBeenNthCalledWith(2, 'active', 'pointer');
+  });
+
+  it('allows disabling enhanced select features while preserving native behavior', () => {
+    const select = createPrimitiveSelect({
+      id: 'baseline-only-status',
+      name: 'baseline-only-status',
+      label: 'Baseline',
+      options: [...demoOptions],
+      enhance: false
+    });
+
+    expect(select.element.dataset.enhanced).toBe('false');
+    expect(select.selectElement.dataset.enhanced).toBe('false');
+
+    select.selectElement.value = 'pending';
+    select.selectElement.dispatchEvent(new Event('change'));
+
+    expect(select.selectElement.value).toBe('pending');
   });
 });
