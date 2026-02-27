@@ -3,6 +3,9 @@ import '@covalent-poc/styles/index.css';
 
 const preview = {
   parameters: {
+    a11y: {
+      test: 'todo'
+    },
     controls: {
       expanded: true
     },

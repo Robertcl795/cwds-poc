@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@covalent-poc/core": ["../core/src/index.ts"],
+      "@covalent-poc/primitives-foundation": ["../primitives-foundation/src/index.ts"]
+    }
+  },
+  "include": ["src/**/*.ts"]
+}

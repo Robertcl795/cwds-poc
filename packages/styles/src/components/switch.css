@@ -1,0 +1,62 @@
+.cv-switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cv-sys-space-sm);
+  padding: 0.25rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.cv-switch__control {
+  position: absolute;
+  inline-size: 100%;
+  block-size: 100%;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+}
+
+.cv-switch__track {
+  position: relative;
+  inline-size: var(--cv-comp-switch-track-width, 2.25rem);
+  block-size: var(--cv-comp-switch-track-height, 1.25rem);
+  border-radius: 999px;
+  border: 1px solid var(--cv-comp-switch-track-border, var(--cv-sys-color-border));
+  background: var(--cv-comp-switch-track-bg, color-mix(in oklab, var(--cv-sys-color-border) 30%, transparent));
+  transition: background-color var(--cv-sys-motion-fast) var(--cv-sys-motion-easing);
+}
+
+.cv-switch__thumb {
+  position: absolute;
+  inset-block-start: 0.125rem;
+  inset-inline-start: 0.125rem;
+  inline-size: 0.875rem;
+  block-size: 0.875rem;
+  border-radius: 999px;
+  background: var(--cv-sys-color-surface);
+  transition: translate var(--cv-sys-motion-fast) var(--cv-sys-motion-easing);
+}
+
+.cv-switch__control:focus-visible + .cv-switch__track {
+  outline: 2px solid var(--cv-sys-color-primary);
+  outline-offset: 2px;
+}
+
+.cv-switch__control:checked + .cv-switch__track {
+  background: var(--cv-comp-switch-track-checked-bg, var(--cv-sys-color-primary));
+  border-color: var(--cv-comp-switch-track-checked-bg, var(--cv-sys-color-primary));
+}
+
+.cv-switch__control:checked + .cv-switch__track .cv-switch__thumb {
+  translate: 1rem 0;
+  background: var(--cv-sys-color-on-primary);
+}
+
+.cv-switch[data-disabled='true'] {
+  cursor: not-allowed;
+}
+
+.cv-switch[data-disabled='true'] .cv-switch__track {
+  opacity: 0.65;
+}

@@ -4,8 +4,9 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@covalent-poc/composites": "workspace:*",
-    "@covalent-poc/primitives": "workspace:*",
+    "@covalent-poc/components": "workspace:*",
+    "@covalent-poc/core": "workspace:*",
+    "@covalent-poc/primitives-foundation": "workspace:*",
     "@covalent-poc/styles": "workspace:*",
     "@covalent-poc/tokens": "workspace:*"
   },

@@ -4,19 +4,15 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
-    },
     "./tokens.css": "./src/tokens.css"
   },
   "files": [
-    "dist",
     "src/tokens.css"
   ],
   "scripts": {
-    "build": "node src/build-tokens.mjs",
-    "typecheck": "tsc -p tsconfig.json",
-    "lint": "eslint \"src/**/*.ts\""
+    "build": "mkdir -p dist && cp src/tokens.css dist/tokens.css",
+    "typecheck": "echo 'tokens package is css-only'",
+    "lint": "echo 'tokens package is css-only'",
+    "test": "echo 'tokens package is css-only'"
   }
 }

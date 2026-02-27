@@ -1,0 +1,19 @@
+{
+  "name": "@covalent-poc/showcase",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@covalent-poc/core": "workspace:*",
+    "@covalent-poc/components": "workspace:*",
+    "@covalent-poc/primitives-foundation": "workspace:*",
+    "@covalent-poc/styles": "workspace:*",
+    "@covalent-poc/tokens": "workspace:*"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4174",
+    "test:e2e": "playwright test"
+  }
+}

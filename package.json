@@ -14,7 +14,7 @@
     "test": "pnpm -r --if-present test",
     "storybook": "pnpm --filter @covalent-poc/storybook storybook",
     "storybook:build": "pnpm --filter @covalent-poc/storybook build-storybook",
-    "test:e2e": "pnpm --filter @covalent-poc/ux-showcase test:e2e",
+    "test:e2e": "pnpm --filter @covalent-poc/showcase test:e2e",
     "changeset": "changeset",
     "version-packages": "changeset version"
   },

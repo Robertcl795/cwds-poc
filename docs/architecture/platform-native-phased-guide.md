@@ -58,8 +58,8 @@ This guide updates the Covalent POC direction toward a native-platform-first arc
 
 ### Deliverables
 
-- Stable primitive APIs in `packages/primitives`.
-- Headless logic contracts in `packages/headless-core` fully unit tested.
+- Stable primitive APIs in `packages/components`.
+- Headless logic contracts in `packages/core` fully unit tested.
 - Shared loading indicator primitive with density support (`sm`, `md`, `lg`) and aria labeling.
 
 ## [ ] Phase 3 - Native Overlays and Top-Layer Patterns (POC Week 3)
@@ -105,15 +105,15 @@ This guide updates the Covalent POC direction toward a native-platform-first arc
 
 ## [ ] Phase 5 - Compatibility and Migration Bridge
 
-- [ ] Keep `compat-m2` wrappers for phased rollout.
+- [ ] Keep migration wrappers minimal and temporary for phased rollout.
 - [ ] Map legacy APIs to semantic/native targets.
-- [ ] Prefer codemods for straightforward migration patterns.
+- [ ] Use targeted manual migration for this POC cleanup.
 - [ ] Add deprecation logging and migration telemetry.
 
 ### Deliverables
 
 - Updated mapping matrix in `docs/migration/api-mapping.md`.
-- Codemod guidance for low-risk automated migrations.
+- Manual migration checklist for low-risk updates.
 
 ## [ ] Phase 6 - Adoption and Governance
 

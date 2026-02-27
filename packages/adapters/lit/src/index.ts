@@ -1,1 +1,0 @@
-export const litAdapterStatus = 'scaffolded';

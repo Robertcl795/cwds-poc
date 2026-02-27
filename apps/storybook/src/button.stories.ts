@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-import { createPrimitiveButton } from '@covalent-poc/primitives';
+import { createPrimitiveButton } from '@covalent-poc/components';
 
 type ButtonDocsArgs = {
   label: string;

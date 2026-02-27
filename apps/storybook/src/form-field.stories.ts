@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-import { createPrimitiveTextField } from '@covalent-poc/primitives';
+import { createPrimitiveTextField } from '@covalent-poc/components';
 
 type TextFieldArgs = {
   label: string;

@@ -1,0 +1,45 @@
+.cv-ripple-host {
+  position: relative;
+  overflow: clip;
+  isolation: isolate;
+}
+
+.cv-ripple-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.cv-ripple-wave {
+  position: absolute;
+  width: var(--cv-ripple-size, 56px);
+  height: var(--cv-ripple-size, 56px);
+  left: calc(var(--cv-ripple-x, 0px) - (var(--cv-ripple-size, 56px) / 2));
+  top: calc(var(--cv-ripple-y, 0px) - (var(--cv-ripple-size, 56px) / 2));
+  border-radius: 999px;
+  background: var(--cv-comp-ripple-color, currentColor);
+  opacity: var(--cv-comp-ripple-opacity, 0.16);
+  transform: scale(0);
+  will-change: transform, opacity;
+  animation: cv-ripple-enter var(--cv-ripple-duration, 180ms) var(--cv-sys-motion-easing, ease-out) forwards;
+}
+
+.cv-ripple-wave--centered {
+  --cv-ripple-size: 56px;
+  left: calc(50% - (var(--cv-ripple-size, 56px) / 2));
+  top: calc(50% - (var(--cv-ripple-size, 56px) / 2));
+}
+
+@keyframes cv-ripple-enter {
+  to {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cv-ripple-wave {
+    animation-duration: 1ms;
+  }
+}

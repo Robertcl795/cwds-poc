@@ -1,0 +1,17 @@
+.cv-icon {
+  width: var(--cv-comp-icon-size-md, 1rem);
+  height: var(--cv-comp-icon-size-md, 1rem);
+  display: inline-block;
+  fill: currentColor;
+  flex: 0 0 auto;
+}
+
+.cv-icon[data-size='sm'] {
+  width: var(--cv-comp-icon-size-sm, 0.875rem);
+  height: var(--cv-comp-icon-size-sm, 0.875rem);
+}
+
+.cv-icon[data-size='lg'] {
+  width: var(--cv-comp-icon-size-lg, 1.25rem);
+  height: var(--cv-comp-icon-size-lg, 1.25rem);
+}

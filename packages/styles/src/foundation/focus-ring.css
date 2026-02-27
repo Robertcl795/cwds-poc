@@ -1,0 +1,23 @@
+.cv-focus-ring {
+  --cv-focus-ring-color: var(--cv-comp-focus-ring-color, var(--cv-sys-color-primary));
+  --cv-focus-ring-width: var(--cv-comp-focus-ring-width, 2px);
+  --cv-focus-ring-offset: var(--cv-comp-focus-ring-offset, 2px);
+}
+
+.cv-focus-ring:focus-visible,
+.cv-focus-ring[data-cv-focus-ring='always']:focus {
+  outline: var(--cv-focus-ring-width) solid var(--cv-focus-ring-color);
+  outline-offset: var(--cv-focus-ring-offset);
+}
+
+.cv-focus-ring[data-cv-focus-ring='off']:focus,
+.cv-focus-ring[data-cv-focus-ring='off']:focus-visible {
+  outline: none;
+}
+
+@media (forced-colors: active) {
+  .cv-focus-ring:focus-visible,
+  .cv-focus-ring[data-cv-focus-ring='always']:focus {
+    outline-color: Highlight;
+  }
+}

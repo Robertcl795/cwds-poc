@@ -1,0 +1,84 @@
+.cv-icon-button {
+  --cv-icon-button-size: var(--cv-comp-icon-button-size-md, 2.5rem);
+  --cv-icon-button-icon-size: var(--cv-comp-icon-button-icon-size, 1.25rem);
+
+  appearance: none;
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  display: inline-grid;
+  place-items: center;
+  inline-size: var(--cv-icon-button-size);
+  block-size: var(--cv-icon-button-size);
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--cv-sys-color-primary);
+  cursor: pointer;
+  transition:
+    background-color var(--cv-sys-motion-fast) var(--cv-sys-motion-easing),
+    color var(--cv-sys-motion-fast) var(--cv-sys-motion-easing),
+    border-color var(--cv-sys-motion-fast) var(--cv-sys-motion-easing);
+}
+
+.cv-icon-button[data-size='sm'] {
+  --cv-icon-button-size: var(--cv-comp-icon-button-size-sm, 2rem);
+}
+
+.cv-icon-button[data-size='lg'] {
+  --cv-icon-button-size: var(--cv-comp-icon-button-size-lg, 2.75rem);
+}
+
+.cv-icon-button[data-variant='filled'] {
+  background: var(--cv-sys-color-primary);
+  color: var(--cv-sys-color-on-primary);
+}
+
+.cv-icon-button[data-variant='tonal'] {
+  background: color-mix(in oklab, var(--cv-sys-color-primary) 16%, var(--cv-sys-color-surface));
+}
+
+.cv-icon-button[data-variant='outlined'] {
+  border-color: var(--cv-sys-color-border);
+}
+
+.cv-icon-button[data-selected='true'] {
+  background: color-mix(in oklab, var(--cv-sys-color-primary) 20%, transparent);
+}
+
+.cv-icon-button:not(:disabled):hover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: currentColor;
+  opacity: var(--cv-state-interaction-hover-opacity);
+}
+
+.cv-icon-button[data-pressed='true']::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: currentColor;
+  opacity: var(--cv-state-interaction-pressed-opacity);
+}
+
+.cv-icon-button:disabled,
+.cv-icon-button[data-disabled='true'] {
+  opacity: 0.52;
+  cursor: not-allowed;
+}
+
+.cv-icon-button__icon {
+  inline-size: var(--cv-icon-button-icon-size);
+  block-size: var(--cv-icon-button-icon-size);
+  display: inline-grid;
+  place-items: center;
+  line-height: 0;
+}
+
+.cv-icon-button__icon .cv-icon {
+  inline-size: 100%;
+  block-size: 100%;
+}

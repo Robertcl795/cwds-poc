@@ -18,10 +18,9 @@
 
 - tokens
 - styles
-- headless-core
-- primitives
-- composites
-- compat-m2
-- codemods
+- core
+- primitives-foundation
+- components
+- web-components
 - apps/storybook
-- apps/ux-showcase
+- apps/showcase
