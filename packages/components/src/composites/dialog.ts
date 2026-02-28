@@ -1,28 +1,49 @@
-import { createDialogController, trapTabWithin } from '@covalent-poc/core';
+import { createDialogController } from '@covalent-poc/core';
 import { createPrimitiveButton } from '../button/create-button';
+import { createOverlayController } from '../shared-overlay';
 
 export interface PrimitiveDialogOptions {
+  id?: string;
+  trigger?: HTMLElement | null;
   title: string;
   description: string;
   confirmLabel?: string;
   cancelLabel?: string;
+  closeOnEscape?: boolean;
+  closeOnOutsidePress?: boolean;
   onConfirm?: () => void;
 }
 
+let dialogSequence = 0;
+
+const nextDialogId = (): string => {
+  dialogSequence += 1;
+  return `cv-composite-dialog-${dialogSequence}`;
+};
+
 export const createCompositeDialog = (options: PrimitiveDialogOptions): HTMLDialogElement => {
+  const dialogId = options.id ?? nextDialogId();
+  const titleId = `${dialogId}-title`;
+  const descriptionId = `${dialogId}-description`;
+
   const dialog = document.createElement('dialog');
   dialog.className = 'cv-dialog';
-  dialog.setAttribute('aria-labelledby', 'cv-dialog-title');
-  dialog.setAttribute('aria-describedby', 'cv-dialog-description');
+  dialog.id = dialogId;
+  dialog.setAttribute('aria-labelledby', titleId);
+  dialog.setAttribute('aria-describedby', descriptionId);
 
   const controller = createDialogController();
+  const overlayController = createOverlayController({
+    overlay: dialog,
+    trigger: options.trigger ?? null
+  });
 
   const title = document.createElement('h2');
-  title.id = 'cv-dialog-title';
+  title.id = titleId;
   title.textContent = options.title;
 
   const description = document.createElement('p');
-  description.id = 'cv-dialog-description';
+  description.id = descriptionId;
   description.textContent = options.description;
 
   const actions = document.createElement('div');
@@ -53,11 +74,40 @@ export const createCompositeDialog = (options: PrimitiveDialogOptions): HTMLDial
 
   dialog.addEventListener('close', () => {
     controller.close('programmatic');
+    overlayController.close('programmatic');
     dialog.dataset.state = 'closed';
   });
 
-  dialog.addEventListener('keydown', (event) => {
-    trapTabWithin(dialog, event);
+  dialog.addEventListener('cancel', (event) => {
+    if (options.closeOnEscape === false) {
+      event.preventDefault();
+    }
+  });
+
+  if (options.closeOnOutsidePress === true) {
+    dialog.addEventListener('pointerdown', (event) => {
+      if (event.target === dialog) {
+        dialog.close('dismiss-outside');
+      }
+    });
+  }
+
+  const observer = new MutationObserver(() => {
+    if (dialog.hasAttribute('open')) {
+      controller.open('programmatic');
+      overlayController.open('programmatic');
+      dialog.dataset.state = 'open';
+      return;
+    }
+
+    controller.close('programmatic');
+    overlayController.close('programmatic');
+    dialog.dataset.state = 'closed';
+  });
+
+  observer.observe(dialog, {
+    attributes: true,
+    attributeFilter: ['open']
   });
 
   dialog.dataset.state = 'closed';

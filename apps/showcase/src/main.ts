@@ -12,6 +12,8 @@ import {
 import { renderPhase1Showcase } from './routes/phase1';
 import { renderPhase25HardeningShowcase } from './routes/phase2-hardening';
 import { renderPhase2Showcase } from './routes/phase2';
+import { renderPhase3Showcase } from './routes/phase3';
+import { renderPhase35HardeningShowcase } from './routes/phase3-hardening';
 
 import './foundation-demo.css';
 
@@ -65,6 +67,10 @@ if (globalThis.location.hash === '#phase1') {
   renderPhase25HardeningShowcase(app);
 } else if (globalThis.location.hash === '#phase2') {
   renderPhase2Showcase(app);
+} else if (globalThis.location.hash === '#phase3') {
+  renderPhase3Showcase(app);
+} else if (globalThis.location.hash === '#phase3-hardening') {
+  renderPhase35HardeningShowcase(app);
 } else {
   renderFoundation(app);
 }

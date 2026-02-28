@@ -1,3 +1,5 @@
+import { createIconNode } from '@covalent-poc/primitives-foundation';
+
 import { createPrimitiveLoadingIndicator, type LoadingDensity } from './loading';
 import type { PrimitiveTextInput } from './text-input';
 
@@ -42,7 +44,11 @@ const appendIcon = (
   icon.className = `cv-form-field__icon cv-form-field__icon--${position}`;
 
   if (typeof iconValue === 'string') {
-    icon.textContent = iconValue;
+    try {
+      icon.append(createIconNode(iconValue));
+    } catch {
+      icon.textContent = iconValue;
+    }
   } else {
     icon.append(iconValue);
   }
@@ -69,6 +75,7 @@ export const createPrimitiveFormField = (options: PrimitiveFormFieldOptions): Pr
     (options.outlined === true ? 'outlined' : options.outlined === false ? 'standard' : 'standard');
   const iconStart = options.iconStart ?? options.icon;
   const iconEnd = options.iconEnd ?? options.iconTrailing;
+  const resolvedIconEnd = options.loading ? undefined : iconEnd;
 
   const wrapper = document.createElement('div');
   wrapper.className = 'cv-form-field';
@@ -81,7 +88,7 @@ export const createPrimitiveFormField = (options: PrimitiveFormFieldOptions): Pr
   wrapper.dataset.focused = 'false';
   wrapper.dataset.filled = options.input.element.value.trim().length > 0 ? 'true' : 'false';
   wrapper.dataset.hasIconStart = iconStart ? 'true' : 'false';
-  wrapper.dataset.hasIconEnd = iconEnd ? 'true' : 'false';
+  wrapper.dataset.hasIconEnd = resolvedIconEnd ? 'true' : 'false';
   wrapper.dataset.hasPrefix = options.prefix ? 'true' : 'false';
   wrapper.dataset.hasSuffix = options.suffix ? 'true' : 'false';
   wrapper.dataset.dense = options.dense ? 'true' : 'false';
@@ -130,8 +137,8 @@ export const createPrimitiveFormField = (options: PrimitiveFormFieldOptions): Pr
     appendAffix(control, 'end', options.suffix);
   }
 
-  if (iconEnd) {
-    appendIcon(control, 'end', iconEnd);
+  if (resolvedIconEnd) {
+    appendIcon(control, 'end', resolvedIconEnd);
   }
 
   if (options.loading) {

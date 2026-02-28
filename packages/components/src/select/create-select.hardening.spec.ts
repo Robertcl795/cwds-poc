@@ -44,4 +44,31 @@ describe('select hardening', () => {
     select.selectElement.dispatchEvent(new Event('change'));
     expect(select.selectElement.value).toBe('manual');
   });
+
+  it('tracks open state for caret rotation reliably', async () => {
+    const select = createPrimitiveSelect({
+      id: 'phase35-open-state',
+      name: 'phase35-open-state',
+      label: 'Open state select',
+      options: [
+        { id: 'a', label: 'A', value: 'a' },
+        { id: 'b', label: 'B', value: 'b' }
+      ]
+    });
+
+    select.selectElement.dispatchEvent(new Event('pointerdown', { bubbles: true }));
+    await Promise.resolve();
+    expect(select.element.dataset.open).toBe('true');
+
+    select.selectElement.value = 'b';
+    select.selectElement.dispatchEvent(new Event('change', { bubbles: true }));
+    expect(select.element.dataset.open).toBe('false');
+
+    select.selectElement.dispatchEvent(new Event('pointerdown', { bubbles: true }));
+    await Promise.resolve();
+    expect(select.element.dataset.open).toBe('true');
+
+    select.selectElement.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    expect(select.element.dataset.open).toBe('false');
+  });
 });

@@ -14,5 +14,9 @@ export function attachOptionalRipple(
     return createNoopRippleController();
   }
 
-  return applyRipple(host, { enabled: true });
+  return applyRipple(host, {
+    enabled: true,
+    styleMutation: 'allow',
+    centeredOnKeyboard: true
+  });
 }

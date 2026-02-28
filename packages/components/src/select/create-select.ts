@@ -1,4 +1,5 @@
 import { createSelectController, type InputSource, type SelectControllerOptions } from '@covalent-poc/core';
+import { createIconNode } from '@covalent-poc/primitives-foundation';
 
 import { applyFieldLinkage, createFieldIds, resolveFieldMessages, syncFieldDataState } from '../shared-field';
 import { enhanceNativeSelect } from './enhance-select';
@@ -12,7 +13,11 @@ const appendIcon = (control: HTMLElement, iconValue: string | HTMLElement): void
   icon.setAttribute('aria-hidden', 'true');
 
   if (typeof iconValue === 'string') {
-    icon.textContent = iconValue;
+    try {
+      icon.append(createIconNode(iconValue));
+    } catch {
+      icon.textContent = iconValue;
+    }
   } else {
     icon.append(iconValue);
   }
@@ -94,6 +99,20 @@ export const createPrimitiveSelect = (options: PrimitiveSelectOptions): Primitiv
   helper.className = 'cv-select-field__helper';
   helper.id = ids.helpId;
   helper.textContent = messages.helperText;
+  let open = false;
+
+  const supportsSelectOpenSelector = (() => {
+    const css = globalThis.CSS;
+    if (!css || typeof css.supports !== 'function') {
+      return false;
+    }
+
+    try {
+      return css.supports('selector(select:open)');
+    } catch {
+      return false;
+    }
+  })();
 
   const syncValidation = (): boolean => {
     const isInvalid = options.required === true && select.value.trim().length === 0;
@@ -109,7 +128,37 @@ export const createPrimitiveSelect = (options: PrimitiveSelectOptions): Primitiv
 
   const syncState = (): void => {
     const invalid = syncValidation();
-    syncFieldDataState(wrapper, select, { invalid }, { enhanced: wrapper.dataset.enhanced === 'true' });
+    syncFieldDataState(wrapper, select, { invalid }, { enhanced: wrapper.dataset.enhanced === 'true', open });
+  };
+
+  const setOpen = (nextOpen: boolean): void => {
+    if (open === nextOpen) {
+      return;
+    }
+
+    open = nextOpen;
+    syncState();
+  };
+
+  const syncOpenFromSelector = (): boolean => {
+    if (!supportsSelectOpenSelector) {
+      return false;
+    }
+
+    try {
+      setOpen(select.matches(':open'));
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  const queueOpenSync = (fallbackOpen: boolean): void => {
+    queueMicrotask(() => {
+      if (!syncOpenFromSelector()) {
+        setOpen(fallbackOpen);
+      }
+    });
   };
 
   if (options.validateOnInitialRender) {
@@ -120,7 +169,7 @@ export const createPrimitiveSelect = (options: PrimitiveSelectOptions): Primitiv
       describedBy: options.describedBy,
       invalid: false
     });
-    syncFieldDataState(wrapper, select, { invalid: false });
+    syncFieldDataState(wrapper, select, { invalid: false }, { open: false });
   }
 
   const isEnhanced = enhanceNativeSelect(select, {
@@ -132,19 +181,34 @@ export const createPrimitiveSelect = (options: PrimitiveSelectOptions): Primitiv
 
   select.addEventListener('pointerdown', () => {
     pendingSource = 'pointer';
+    queueOpenSync(true);
   });
 
-  select.addEventListener('keydown', () => {
+  select.addEventListener('keydown', (event) => {
     pendingSource = 'keyboard';
+
+    if (event.key === 'Enter' || event.key === ' ' || event.key === 'ArrowDown' || event.key === 'ArrowUp' || event.key === 'F4') {
+      queueOpenSync(true);
+      return;
+    }
+
+    if (event.key === 'Escape') {
+      setOpen(false);
+    }
   });
 
-  select.addEventListener('focus', syncState);
-  select.addEventListener('blur', syncState);
+  select.addEventListener('focus', () => {
+    syncOpenFromSelector();
+    syncState();
+  });
+  select.addEventListener('blur', () => {
+    setOpen(false);
+  });
 
   select.addEventListener('change', () => {
     controller.selectByIndex(select.selectedIndex, pendingSource);
     pendingSource = 'programmatic';
-    syncState();
+    setOpen(false);
   });
 
   control.append(select);

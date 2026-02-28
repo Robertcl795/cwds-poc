@@ -90,7 +90,7 @@ export function attachRipple(host: HTMLElement, options: RippleOptions = {}): Ri
   const config: Required<RippleOptions> = {
     disabled: options.disabled ?? false,
     maxWaves: options.maxWaves ?? 2,
-    durationMs: options.durationMs ?? 180,
+    durationMs: options.durationMs ?? 450,
     styleMutation: options.styleMutation ?? 'forbid',
     centeredOnKeyboard: options.centeredOnKeyboard ?? true,
     respectReducedMotion: options.respectReducedMotion ?? true

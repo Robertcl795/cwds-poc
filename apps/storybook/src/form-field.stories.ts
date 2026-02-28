@@ -1,6 +1,26 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
 import { createPrimitiveTextField } from '@covalent-poc/components';
+import { registerIcons } from '@covalent-poc/primitives-foundation';
+
+const ensureIcons = (): void => {
+  try {
+    registerIcons({
+      add: { viewBox: '0 0 24 24', paths: ['M12 5v14', 'M5 12h14'] },
+      user: {
+        viewBox: '0 0 24 24',
+        paths: ['M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8', 'M4 20a8 8 0 0 1 16 0']
+      },
+      check: { viewBox: '0 0 24 24', paths: ['M4 12l5 5 11-11'] }
+    });
+  } catch (error) {
+    if (!(error instanceof Error) || !error.message.includes('Icon already registered')) {
+      throw error;
+    }
+  }
+};
+
+ensureIcons();
 
 type TextFieldArgs = {
   label: string;
@@ -185,7 +205,7 @@ export const States: Story = {
         label: 'Team id',
         helper: '3-32 chars',
         outlined: true,
-        icon: '#',
+        icon: 'user',
         charCounter: true,
         maxLength: 32
       }).element,
@@ -197,7 +217,7 @@ export const States: Story = {
         outlined: true,
         loading: true,
         loaderDensity: 'md',
-        iconTrailing: '✓'
+        iconTrailing: 'check'
       }).element
     );
 

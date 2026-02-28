@@ -22,7 +22,7 @@
 @property --cv-ripple-duration {
   syntax: '<time>';
   inherits: false;
-  initial-value: 180ms;
+  initial-value: 450ms;
 }
 }
 
@@ -117,7 +117,7 @@
   opacity: var(--cv-comp-ripple-opacity, 0.16);
   transform: scale(0);
   will-change: transform, opacity;
-  animation: cv-ripple-enter var(--cv-ripple-duration, 180ms) var(--cv-sys-motion-easing, ease-out) forwards;
+  animation: cv-ripple-enter var(--cv-ripple-duration, 450ms) var(--cv-sys-motion-easing, ease-out) forwards;
 }
 
 .cv-ripple-wave--centered {
