@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/html-vite';
 import { createPrimitiveAlert } from '@ds/primitives';
 
 const meta: Meta = {
-  title: 'Phase5/Alert',
+  title: 'Primitives/Alert',
   parameters: { a11y: { test: 'error' } }
 };
 

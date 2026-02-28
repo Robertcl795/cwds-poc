@@ -1,6 +1,7 @@
 import type { InputSource } from '@ds/headless';
 
 import { createPrimitiveButton } from '../button/create-button';
+import { createPrimitiveIconButton } from '../icon-button/create-icon-button';
 import { createContextMenu, type PrimitiveContextMenu } from '../menu';
 import { createDismissableController, createLiveRegion, type DismissReason, type FeedbackTone } from '../shared-feedback';
 import { partitionActions, type SurfaceAction } from '../shared-actions';
@@ -102,6 +103,7 @@ export const createActionRibbon = (options: PrimitiveActionRibbonOptions): Primi
       label: action.label,
       color: toButtonColor(action),
       shape: action.kind === 'primary' ? 'contained' : 'text',
+      ...(action.icon !== undefined ? { iconStart: action.icon } : {}),
       ...(options.dense !== undefined ? { dense: options.dense } : {}),
       ...(action.disabled !== undefined ? { disabled: action.disabled } : {}),
       onPress(source) {
@@ -118,18 +120,24 @@ export const createActionRibbon = (options: PrimitiveActionRibbonOptions): Primi
 
   if (partitioned.overflow.length > 0) {
     const overflowActionsById = new Map(partitioned.overflow.map((action) => [action.id, action] as const));
-    const overflowTrigger = createPrimitiveButton({
-      label: 'More',
-      shape: 'text',
-      color: 'secondary',
-      ...(options.dense !== undefined ? { dense: options.dense } : {})
+    const overflowIcon = document.createElement('span');
+    overflowIcon.textContent = '⋮';
+    overflowIcon.setAttribute('aria-hidden', 'true');
+
+    const overflowTrigger = createPrimitiveIconButton({
+      icon: overflowIcon,
+      ariaLabel: 'More actions',
+      variant: 'standard',
+      size: options.dense ? 'sm' : 'md'
     });
 
     overflowTrigger.dataset.ribbonOverflow = 'true';
+    overflowTrigger.classList.add('cv-action-ribbon__overflow-trigger');
     actions.append(overflowTrigger);
 
     overflowMenu = createContextMenu({
       target: overflowTrigger,
+      triggerMode: 'click',
       ariaLabel: 'Action ribbon overflow actions',
       items: partitioned.overflow.map((action) => ({
         ...{
@@ -137,6 +145,7 @@ export const createActionRibbon = (options: PrimitiveActionRibbonOptions): Primi
           label: action.label,
           kind: action.kind === 'danger' ? 'danger' : 'default'
         },
+        ...(action.icon !== undefined ? { iconStart: action.icon } : {}),
         ...(action.disabled !== undefined ? { disabled: action.disabled } : {}),
         ...(action.shortcut !== undefined ? { shortcut: action.shortcut } : {})
       })),

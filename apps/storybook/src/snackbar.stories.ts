@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/html-vite';
 import { createPrimitiveButton, createPrimitiveSnackbarHost } from '@ds/primitives';
 
 const meta: Meta = {
-  title: 'Phase5/Snackbar',
+  title: 'Primitives/Snackbar',
   parameters: { a11y: { test: 'error' } }
 };
 

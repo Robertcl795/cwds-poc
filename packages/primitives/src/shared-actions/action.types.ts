@@ -10,6 +10,7 @@ export interface SurfaceAction {
   kind?: SurfaceActionKind;
   shortcut?: string;
   group?: SurfaceActionGroup;
+  icon?: string | HTMLElement;
 }
 
 export interface SurfaceActionEventDetail {

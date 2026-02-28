@@ -13,7 +13,7 @@ type ComboboxArgs = {
 };
 
 const meta: Meta<ComboboxArgs> = {
-  title: 'Phase4/Combobox',
+  title: 'Adapters/Lit/Combobox',
   parameters: {
     a11y: { test: 'error' }
   },

@@ -6,7 +6,7 @@ import { defineCvWebComponents } from '@ds/lit';
 defineCvWebComponents();
 
 const meta: Meta = {
-  title: 'Phase4/Environment Matrix',
+  title: 'Hardening/Phase 4/Environment Matrix',
   parameters: {
     controls: { disable: true },
     a11y: { test: 'error' }

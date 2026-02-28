@@ -1015,10 +1015,51 @@
   max-inline-size: 36rem;
   inline-size: calc(100% - 2rem);
   padding: var(--cv-sys-space-lg);
+  opacity: 0;
+  transform: translateY(0.2rem) scale(0.98);
+  transform-origin: center top;
+}
+
+.cv-dialog[open] {
+  animation: cv-dialog-enter var(--cv-sys-motion-normal) var(--cv-sys-motion-easing) forwards;
 }
 
 .cv-dialog::backdrop {
   background: rgb(15 23 42 / 0.45);
+  opacity: 0;
+  animation: cv-dialog-backdrop-enter var(--cv-sys-motion-normal) var(--cv-sys-motion-easing) forwards;
+}
+
+@keyframes cv-dialog-enter {
+  from {
+    opacity: 0;
+    transform: translateY(0.2rem) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes cv-dialog-backdrop-enter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cv-dialog[open],
+  .cv-dialog::backdrop {
+    animation: none;
+  }
+
+  .cv-dialog {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .cv-select-field {
@@ -1388,4 +1429,3 @@
     forced-color-adjust: auto;
   }
 }
-

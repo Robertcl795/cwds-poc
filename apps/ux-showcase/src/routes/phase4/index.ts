@@ -1,4 +1,4 @@
-import { createContextMenu, createPrimitiveTooltip } from '@ds/primitives';
+import { createContextMenu, createPrimitiveButton, createPrimitiveIconButton, createPrimitiveTooltip } from '@ds/primitives';
 import { defineCvWebComponents } from '@ds/lit';
 
 import './phase4.css';
@@ -25,18 +25,18 @@ export function renderPhase4Showcase(container: HTMLElement): void {
   const tooltipTitle = document.createElement('h2');
   tooltipTitle.textContent = 'Tooltip (informational only)';
 
-  const tooltipButton = document.createElement('button');
-  tooltipButton.type = 'button';
-  tooltipButton.className = 'cv-button';
-  tooltipButton.textContent = 'Latency budget details';
+  const tooltipTrigger = createPrimitiveButton({
+    label: 'Latency budget details',
+    shape: 'text'
+  });
 
   createPrimitiveTooltip({
-    trigger: tooltipButton,
+    trigger: tooltipTrigger,
     content: 'Tooltip is supplemental help. Keep critical instructions in visible labels or helper text.',
     placement: 'top'
   });
 
-  tooltipCard.append(tooltipTitle, tooltipButton);
+  tooltipCard.append(tooltipTitle, tooltipTrigger);
 
   const contextCard = document.createElement('article');
   contextCard.className = 'phase4-card';
@@ -44,29 +44,49 @@ export function renderPhase4Showcase(container: HTMLElement): void {
   const contextTitle = document.createElement('h2');
   contextTitle.textContent = 'Context Menu';
 
-  const contextTarget = document.createElement('button');
-  contextTarget.type = 'button';
-  contextTarget.className = 'cv-button';
-  contextTarget.dataset.shape = 'outlined';
-  contextTarget.textContent = 'Right-click deployment row';
+  const contextRow = document.createElement('div');
+  contextRow.style.display = 'flex';
+  contextRow.style.alignItems = 'center';
+  contextRow.style.justifyContent = 'space-between';
+  contextRow.style.border = '1px solid var(--cv-sys-color-border)';
+  contextRow.style.borderRadius = '0.5rem';
+  contextRow.style.padding = '0.5rem 0.625rem';
+
+  const contextLabel = document.createElement('span');
+  contextLabel.textContent = 'Deployment row';
+
+  const menuIcon = document.createElement('span');
+  menuIcon.textContent = '⋮';
+  menuIcon.setAttribute('aria-hidden', 'true');
+
+  const contextTarget = createPrimitiveIconButton({
+    icon: menuIcon,
+    ariaLabel: 'Open deployment row actions',
+    variant: 'standard'
+  });
 
   const contextLog = document.createElement('p');
   contextLog.className = 'phase4-log';
-  contextLog.textContent = 'Use right-click or Shift+F10.';
+  contextLog.textContent = 'Open row actions from the three-dot trigger.';
 
   createContextMenu({
     target: contextTarget,
+    triggerMode: 'click',
     items: [
-      { id: 'inspect', label: 'Inspect run' },
-      { id: 'retry', label: 'Retry' },
-      { id: 'archive', label: 'Archive', disabled: true }
+      { id: 'inspect', label: 'Inspect run', iconStart: '↗' },
+      { id: 'retry', label: 'Retry', iconStart: '↻' },
+      { id: 'compact', label: 'Compact rows', control: 'checkbox', checked: true },
+      { id: 'alerts', label: 'Mute alerts', control: 'switch', checked: false },
+      { id: 'archive', label: 'Archive', iconStart: '🗄', disabled: true }
     ],
     onAction(item, source) {
-      contextLog.textContent = `Context action: ${item.id} (${source})`;
+      const state = item.control ? ` checked=${item.checked ? 'true' : 'false'}` : '';
+      contextLog.textContent = `Context action: ${item.id}${state} (${source})`;
     }
   });
 
-  contextCard.append(contextTitle, contextTarget, contextLog);
+  contextRow.append(contextLabel, contextTarget);
+  contextCard.append(contextTitle, contextRow, contextLog);
 
   const formCard = document.createElement('article');
   formCard.className = 'phase4-card';

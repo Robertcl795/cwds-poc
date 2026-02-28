@@ -12,7 +12,7 @@ type AdvancedSelectArgs = {
 };
 
 const meta: Meta<AdvancedSelectArgs> = {
-  title: 'Phase4/Advanced Select',
+  title: 'Adapters/Lit/Advanced Select',
   parameters: {
     a11y: { test: 'error' }
   },

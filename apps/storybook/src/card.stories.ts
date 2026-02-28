@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/html-vite';
 import { createPrimitiveCard } from '@ds/primitives';
 
 const meta: Meta = {
-  title: 'Phase5/Card',
+  title: 'Primitives/Card',
   parameters: { a11y: { test: 'error' } }
 };
 

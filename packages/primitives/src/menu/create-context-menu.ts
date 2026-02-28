@@ -3,6 +3,7 @@ import type { InputSource } from '@ds/headless';
 import { createAdvancedOverlayController } from '../shared-overlay-advanced';
 import type {
   ContextMenuActionItem,
+  ContextMenuControlType,
   ContextMenuItem,
   PrimitiveContextMenu,
   PrimitiveContextMenuOptions
@@ -25,6 +26,68 @@ const isContextMenuKey = (event: KeyboardEvent): boolean =>
 
 const isActionItem = (item: ContextMenuItem): item is ContextMenuActionItem => item.type === undefined || item.type === 'item';
 
+const resolveRole = (item: ContextMenuActionItem): 'menuitem' | 'menuitemcheckbox' | 'menuitemradio' => {
+  if (item.control === 'checkbox' || item.control === 'switch') {
+    return 'menuitemcheckbox';
+  }
+
+  if (item.control === 'radio') {
+    return 'menuitemradio';
+  }
+
+  return 'menuitem';
+};
+
+const createIcon = (value: string | HTMLElement, className: string): HTMLElement => {
+  const icon = document.createElement('span');
+  icon.className = className;
+  icon.setAttribute('aria-hidden', 'true');
+
+  if (typeof value === 'string') {
+    icon.textContent = value;
+  } else {
+    icon.append(value);
+  }
+
+  return icon;
+};
+
+type MenuItemState = {
+  item: ContextMenuActionItem;
+  control: ContextMenuControlType | null;
+  checked: boolean;
+  group: string | null;
+  indicator: HTMLElement | null;
+};
+
+const formatControlIndicator = (control: ContextMenuControlType, checked: boolean): string => {
+  if (control === 'radio') {
+    return checked ? '●' : '○';
+  }
+
+  if (control === 'switch') {
+    return checked ? 'On' : 'Off';
+  }
+
+  return checked ? '✓' : '';
+};
+
+const syncItemState = (button: HTMLButtonElement, state: MenuItemState): void => {
+  if (!state.control) {
+    return;
+  }
+
+  button.setAttribute('aria-checked', state.checked ? 'true' : 'false');
+  button.dataset.checked = state.checked ? 'true' : 'false';
+
+  if (!state.indicator) {
+    return;
+  }
+
+  state.indicator.textContent = formatControlIndicator(state.control, state.checked);
+  state.indicator.dataset.checked = state.checked ? 'true' : 'false';
+};
+
 const focusIndex = (items: HTMLButtonElement[], index: number): void => {
   const enabled = items.filter((button) => !button.disabled);
   if (enabled.length === 0) {
@@ -35,6 +98,9 @@ const focusIndex = (items: HTMLButtonElement[], index: number): void => {
 };
 
 export const createContextMenu = (options: PrimitiveContextMenuOptions): PrimitiveContextMenu => {
+  const triggerMode = options.triggerMode ?? 'contextmenu';
+  const closeOnSelect = options.closeOnSelect ?? true;
+
   const menu = document.createElement('div');
   menu.className = 'cv-context-menu';
   menu.id = options.id ?? nextContextMenuId();
@@ -42,13 +108,14 @@ export const createContextMenu = (options: PrimitiveContextMenuOptions): Primiti
   menu.tabIndex = -1;
   menu.hidden = true;
   menu.dataset.open = 'false';
+  menu.dataset.triggerMode = triggerMode;
 
   if (options.ariaLabel) {
     menu.setAttribute('aria-label', options.ariaLabel);
   }
 
   const actionButtons: HTMLButtonElement[] = [];
-  const itemsByButton = new Map<HTMLButtonElement, ContextMenuActionItem>();
+  const statesByButton = new Map<HTMLButtonElement, MenuItemState>();
 
   const focusFirstEnabled = (): void => {
     focusIndex(actionButtons, 0);
@@ -95,13 +162,45 @@ export const createContextMenu = (options: PrimitiveContextMenuOptions): Primiti
     }
   });
 
-  const activateItem = (item: ContextMenuActionItem, source: InputSource): void => {
-    if (item.disabled) {
+  const activateItem = (button: HTMLButtonElement, source: InputSource): void => {
+    const state = statesByButton.get(button);
+    if (!state || state.item.disabled) {
       return;
     }
 
-    options.onAction?.(item, source);
-    controller.close(source);
+    if (state.control === 'checkbox' || state.control === 'switch') {
+      state.checked = !state.checked;
+      syncItemState(button, state);
+    } else if (state.control === 'radio') {
+      if (!state.checked) {
+        for (const [candidateButton, candidateState] of statesByButton.entries()) {
+          if (candidateState.control !== 'radio') {
+            continue;
+          }
+
+          if (candidateState.group !== state.group) {
+            continue;
+          }
+
+          candidateState.checked = candidateButton === button;
+          syncItemState(candidateButton, candidateState);
+        }
+      }
+    }
+
+    const payload =
+      state.control === null
+        ? state.item
+        : {
+            ...state.item,
+            checked: state.checked
+          };
+
+    options.onAction?.(payload, source);
+
+    if (closeOnSelect) {
+      controller.close(source);
+    }
   };
 
   for (const item of options.items) {
@@ -125,32 +224,79 @@ export const createContextMenu = (options: PrimitiveContextMenuOptions): Primiti
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'cv-context-menu__item';
-    button.role = 'menuitem';
+    button.role = resolveRole(item);
     button.dataset.kind = item.kind ?? 'default';
+    button.dataset.control = item.control ?? 'none';
     button.disabled = item.disabled ?? false;
+
+    const leading = document.createElement('span');
+    leading.className = 'cv-context-menu__item-leading';
+
+    let indicator: HTMLElement | null = null;
+    if (item.control) {
+      indicator = document.createElement('span');
+      indicator.className = 'cv-context-menu__item-control';
+      indicator.setAttribute('aria-hidden', 'true');
+      indicator.dataset.control = item.control;
+      leading.append(indicator);
+    }
+
+    if (item.iconStart) {
+      leading.append(createIcon(item.iconStart, 'cv-context-menu__item-icon cv-context-menu__item-icon--start'));
+    }
+
+    if (leading.childElementCount > 0) {
+      button.append(leading);
+    }
 
     const label = document.createElement('span');
     label.className = 'cv-context-menu__item-label';
     label.textContent = item.label;
     button.append(label);
 
-    if (item.shortcut) {
-      const shortcut = document.createElement('span');
-      shortcut.className = 'cv-context-menu__item-shortcut';
-      shortcut.textContent = item.shortcut;
-      shortcut.setAttribute('aria-hidden', 'true');
-      button.append(shortcut);
-      button.setAttribute('aria-keyshortcuts', item.shortcut);
+    const trailing = document.createElement('span');
+    trailing.className = 'cv-context-menu__item-trailing';
+
+    if (item.shortcut || item.iconEnd) {
+      if (item.shortcut) {
+        const shortcut = document.createElement('span');
+        shortcut.className = 'cv-context-menu__item-shortcut';
+        shortcut.textContent = item.shortcut;
+        shortcut.setAttribute('aria-hidden', 'true');
+        trailing.append(shortcut);
+        button.setAttribute('aria-keyshortcuts', item.shortcut);
+      }
+
+      if (item.iconEnd) {
+        trailing.append(createIcon(item.iconEnd, 'cv-context-menu__item-icon cv-context-menu__item-icon--end'));
+      }
+
+      button.append(trailing);
+    }
+
+    const state: MenuItemState = {
+      item,
+      control: item.control ?? null,
+      checked: item.checked === true,
+      group: item.group ?? '__default__',
+      indicator
+    };
+    syncItemState(button, state);
+
+    if (item.control === 'radio' && !item.group) {
+      button.dataset.group = '__default__';
+    } else if (item.group) {
+      button.dataset.group = item.group;
     }
 
     button.addEventListener('click', () => {
-      activateItem(item, 'pointer');
+      activateItem(button, 'pointer');
     });
 
     button.addEventListener('keydown', (event) => {
       if (isActivationKey(event)) {
         event.preventDefault();
-        activateItem(item, 'keyboard');
+        activateItem(button, 'keyboard');
         return;
       }
 
@@ -171,31 +317,102 @@ export const createContextMenu = (options: PrimitiveContextMenuOptions): Primiti
     });
 
     actionButtons.push(button);
-    itemsByButton.set(button, item);
+    statesByButton.set(button, state);
     menu.append(button);
   }
 
   const openAt = (x: number, y: number, source: InputSource = 'programmatic'): void => {
+    const viewportWidth = document.documentElement.clientWidth || window.innerWidth;
+    const viewportHeight = document.documentElement.clientHeight || window.innerHeight;
+
+    const previousHidden = menu.hidden;
+    if (previousHidden) {
+      menu.hidden = false;
+      menu.style.visibility = 'hidden';
+    }
+
+    const rect = menu.getBoundingClientRect();
+    const width = Math.max(rect.width, 192);
+    const height = Math.max(rect.height, 48);
+
+    if (previousHidden) {
+      menu.hidden = true;
+      menu.style.removeProperty('visibility');
+    }
+
+    const clampedX = Math.min(Math.max(8, x), Math.max(8, viewportWidth - width - 8));
+    const clampedY = Math.min(Math.max(8, y), Math.max(8, viewportHeight - height - 8));
+
     menu.style.position = 'fixed';
-    menu.style.left = `${Math.round(x)}px`;
-    menu.style.top = `${Math.round(y)}px`;
+    menu.style.left = `${Math.round(clampedX)}px`;
+    menu.style.top = `${Math.round(clampedY)}px`;
 
     controller.open(source);
   };
 
-  const onContextMenu = (event: MouseEvent): void => {
-    event.preventDefault();
-    openAt(event.clientX, event.clientY, 'pointer');
+  const openNearTarget = (source: InputSource): void => {
+    const rect = options.target.getBoundingClientRect();
+    openAt(rect.left, rect.bottom, source);
   };
 
-  const onTargetKeyDown = (event: KeyboardEvent): void => {
-    if (!isContextMenuKey(event)) {
+  const onContextMenu = (event: MouseEvent): void => {
+    if (triggerMode !== 'contextmenu' && triggerMode !== 'both') {
       return;
     }
 
     event.preventDefault();
-    const rect = options.target.getBoundingClientRect();
-    openAt(rect.left, rect.bottom, 'keyboard');
+
+    if (controller.isOpen() && triggerMode === 'contextmenu') {
+      controller.close('pointer');
+      return;
+    }
+
+    openAt(event.clientX, event.clientY, 'pointer');
+  };
+
+  const onTargetClick = (event: MouseEvent): void => {
+    if (triggerMode !== 'click' && triggerMode !== 'both') {
+      return;
+    }
+
+    event.preventDefault();
+    if (controller.isOpen()) {
+      controller.close('pointer');
+      return;
+    }
+
+    openNearTarget('pointer');
+  };
+
+  const onTargetPointerDown = (event: PointerEvent): void => {
+    if (triggerMode !== 'contextmenu') {
+      return;
+    }
+
+    if (!controller.isOpen()) {
+      return;
+    }
+
+    if (event.button !== 0) {
+      return;
+    }
+
+    controller.close('pointer');
+  };
+
+  const onTargetKeyDown = (event: KeyboardEvent): void => {
+    const supportsKeyboardTrigger = triggerMode === 'contextmenu' || triggerMode === 'both' || triggerMode === 'click';
+    if (!supportsKeyboardTrigger || !isContextMenuKey(event)) {
+      return;
+    }
+
+    event.preventDefault();
+    if (controller.isOpen()) {
+      controller.close('keyboard');
+      return;
+    }
+
+    openNearTarget('keyboard');
   };
 
   const onMenuKeyDown = (event: KeyboardEvent): void => {
@@ -203,7 +420,7 @@ export const createContextMenu = (options: PrimitiveContextMenuOptions): Primiti
       return;
     }
 
-    if (!(event.target instanceof HTMLButtonElement) || !itemsByButton.has(event.target)) {
+    if (!(event.target instanceof HTMLButtonElement) || !statesByButton.has(event.target)) {
       if (event.key === 'Home') {
         focusBoundary(false);
       } else if (event.key === 'End') {
@@ -226,6 +443,8 @@ export const createContextMenu = (options: PrimitiveContextMenuOptions): Primiti
   };
 
   options.target.addEventListener('contextmenu', onContextMenu);
+  options.target.addEventListener('click', onTargetClick);
+  options.target.addEventListener('pointerdown', onTargetPointerDown);
   options.target.addEventListener('keydown', onTargetKeyDown);
   menu.addEventListener('keydown', onMenuKeyDown);
 
@@ -239,6 +458,8 @@ export const createContextMenu = (options: PrimitiveContextMenuOptions): Primiti
     },
     destroy(): void {
       options.target.removeEventListener('contextmenu', onContextMenu);
+      options.target.removeEventListener('click', onTargetClick);
+      options.target.removeEventListener('pointerdown', onTargetPointerDown);
       options.target.removeEventListener('keydown', onTargetKeyDown);
       menu.removeEventListener('keydown', onMenuKeyDown);
       controller.dispose();

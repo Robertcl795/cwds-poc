@@ -30,7 +30,7 @@ describe('createPrimitiveToolbar', () => {
     const overflowTrigger = toolbar.element.querySelector<HTMLButtonElement>('[data-toolbar-overflow="true"]');
     expect(overflowTrigger).toBeTruthy();
 
-    overflowTrigger?.dispatchEvent(new MouseEvent('contextmenu', { bubbles: true, cancelable: true, clientX: 20, clientY: 20 }));
+    overflowTrigger?.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
 
     const menuItem = toolbar.overflowMenu?.element.querySelector<HTMLButtonElement>('button');
     menuItem?.click();

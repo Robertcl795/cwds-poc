@@ -110,7 +110,7 @@ export const createPrimitiveTooltip = (options: PrimitiveTooltipOptions): Primit
     }
   });
 
-  const openDelayMs = clampDelay(options.openDelayMs ?? 300, 0, 2000);
+  const openDelayMs = clampDelay(options.openDelayMs ?? 180, 0, 2000);
   const closeDelayMs = clampDelay(options.closeDelayMs ?? 80, 0, 1000);
   const disableTouch = options.disableTouch ?? true;
 
@@ -171,6 +171,14 @@ export const createPrimitiveTooltip = (options: PrimitiveTooltipOptions): Primit
     scheduleClose('pointer');
   };
 
+  const onMouseEnter = (): void => {
+    scheduleOpen('pointer');
+  };
+
+  const onMouseLeave = (): void => {
+    scheduleClose('pointer');
+  };
+
   const onFocusIn = (): void => {
     scheduleOpen('keyboard');
   };
@@ -191,6 +199,8 @@ export const createPrimitiveTooltip = (options: PrimitiveTooltipOptions): Primit
 
   options.trigger.addEventListener('pointerenter', onPointerEnter);
   options.trigger.addEventListener('pointerleave', onPointerLeave);
+  options.trigger.addEventListener('mouseenter', onMouseEnter);
+  options.trigger.addEventListener('mouseleave', onMouseLeave);
   options.trigger.addEventListener('focusin', onFocusIn);
   options.trigger.addEventListener('focusout', onFocusOut);
   options.trigger.addEventListener('keydown', onTriggerKeyDown);
@@ -213,6 +223,8 @@ export const createPrimitiveTooltip = (options: PrimitiveTooltipOptions): Primit
 
       options.trigger.removeEventListener('pointerenter', onPointerEnter);
       options.trigger.removeEventListener('pointerleave', onPointerLeave);
+      options.trigger.removeEventListener('mouseenter', onMouseEnter);
+      options.trigger.removeEventListener('mouseleave', onMouseLeave);
       options.trigger.removeEventListener('focusin', onFocusIn);
       options.trigger.removeEventListener('focusout', onFocusOut);
       options.trigger.removeEventListener('keydown', onTriggerKeyDown);

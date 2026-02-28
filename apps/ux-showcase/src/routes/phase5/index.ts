@@ -5,6 +5,7 @@ import {
   createPrimitiveAlert,
   createPrimitiveButton,
   createPrimitiveCard,
+  createPrimitiveIconButton,
   createPrimitiveSnackbarHost,
   createPrimitiveToolbar,
   createPrimitiveTooltip
@@ -37,14 +38,25 @@ export function renderPhase5Showcase(container: HTMLElement): void {
   workflowLog.className = 'phase5-log';
   workflowLog.textContent = 'No workflow action yet.';
 
+  const toolbarNavIcon = document.createElement('span');
+  toolbarNavIcon.textContent = '☰';
+  toolbarNavIcon.setAttribute('aria-hidden', 'true');
+
+  const toolbarNavButton = createPrimitiveIconButton({
+    icon: toolbarNavIcon,
+    ariaLabel: 'Open navigation',
+    variant: 'standard'
+  });
+
   const toolbar = createPrimitiveToolbar({
     ariaLabel: 'Workflow toolbar',
     title: 'Release Workflow',
+    leading: [toolbarNavButton],
     actions: [
-      { id: 'refresh', label: 'Refresh' },
-      { id: 'validate', label: 'Validate' },
-      { id: 'deploy', label: 'Deploy', kind: 'primary' },
-      { id: 'archive', label: 'Archive', kind: 'danger' }
+      { id: 'refresh', label: 'Refresh', icon: '↻' },
+      { id: 'validate', label: 'Validate', icon: '✓' },
+      { id: 'deploy', label: 'Deploy', kind: 'primary', icon: '▲' },
+      { id: 'archive', label: 'Archive', kind: 'danger', icon: '🗑' }
     ],
     maxVisibleActions: 3,
     onAction(action, source) {
@@ -68,25 +80,48 @@ export function renderPhase5Showcase(container: HTMLElement): void {
     }
   });
 
-  const contextTarget = createPrimitiveButton({
-    label: 'Right-click deployment row',
-    shape: 'outlined'
+  const rowContextLabel = document.createElement('div');
+  rowContextLabel.style.display = 'flex';
+  rowContextLabel.style.alignItems = 'center';
+  rowContextLabel.style.justifyContent = 'space-between';
+  rowContextLabel.style.border = '1px solid var(--cv-sys-color-border)';
+  rowContextLabel.style.borderRadius = '0.5rem';
+  rowContextLabel.style.padding = '0.5rem 0.625rem';
+
+  const rowText = document.createElement('span');
+  rowText.textContent = 'Deployment row';
+
+  const rowMenuIcon = document.createElement('span');
+  rowMenuIcon.textContent = '⋮';
+  rowMenuIcon.setAttribute('aria-hidden', 'true');
+
+  const contextTarget = createPrimitiveIconButton({
+    icon: rowMenuIcon,
+    ariaLabel: 'Open deployment row actions',
+    variant: 'standard'
   });
   contextTarget.dataset.phase5ContextTarget = 'true';
 
   createContextMenu({
     target: contextTarget,
+    triggerMode: 'click',
     items: [
       { type: 'label', id: 'ctx-label', label: 'Deployment row' },
-      { id: 'inspect', label: 'Inspect run', shortcut: 'Alt+I' },
-      { id: 'retry', label: 'Retry', shortcut: 'Alt+R' },
+      { id: 'inspect', label: 'Inspect run', iconStart: '↗', shortcut: 'Alt+I' },
+      { id: 'retry', label: 'Retry', iconStart: '↻', shortcut: 'Alt+R' },
+      { id: 'compact', label: 'Compact rows', control: 'checkbox', checked: true },
+      { id: 'sort-recent', label: 'Sort by recent', control: 'radio', group: 'sort', checked: true },
+      { id: 'sort-name', label: 'Sort by name', control: 'radio', group: 'sort' },
       { type: 'separator', id: 'ctx-sep-1' },
-      { id: 'delete', label: 'Delete', kind: 'danger', shortcut: 'Del' }
+      { id: 'delete', label: 'Delete', iconStart: '🗑', kind: 'danger', shortcut: 'Del' }
     ],
     onAction(item, source) {
-      workflowLog.textContent = `Context action: ${item.id} (${source})`;
+      const state = item.control ? ` checked=${item.checked ? 'true' : 'false'}` : '';
+      workflowLog.textContent = `Context action: ${item.id}${state} (${source})`;
     }
   });
+
+  rowContextLabel.append(rowText, contextTarget);
 
   const tooltipButton = createPrimitiveButton({
     label: 'Latency budget details',
@@ -99,7 +134,7 @@ export function renderPhase5Showcase(container: HTMLElement): void {
     placement: 'top'
   });
 
-  workflowCard.element.append(toolbar.element, ribbon.element, contextTarget, tooltipButton, workflowLog);
+  workflowCard.element.append(toolbar.element, ribbon.element, rowContextLabel, tooltipButton, workflowLog);
 
   const feedbackCard = createPrimitiveCard({
     title: 'Feedback surfaces',

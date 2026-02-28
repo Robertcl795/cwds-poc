@@ -9,7 +9,7 @@ type TooltipArgs = {
 };
 
 const meta: Meta<TooltipArgs> = {
-  title: 'Phase4/Tooltip',
+  title: 'Primitives/Tooltip',
   parameters: {
     a11y: { test: 'error' }
   },
@@ -46,6 +46,32 @@ export const Docs: Story = {
       content: args.content,
       placement: args.placement,
       disabled: args.disabled
+    });
+
+    wrapper.append(button);
+    return wrapper;
+  }
+};
+
+export const Hardening: Story = {
+  render: () => {
+    const wrapper = document.createElement('div');
+    wrapper.style.minHeight = '8rem';
+    wrapper.style.display = 'grid';
+    wrapper.style.placeItems = 'center';
+
+    const button = document.createElement('button');
+    button.className = 'cv-button';
+    button.type = 'button';
+    button.textContent = 'Hover for hardened tooltip';
+
+    createPrimitiveTooltip({
+      trigger: button,
+      content: 'Tooltips remain supplemental and should not carry critical workflow instructions.',
+      placement: 'top',
+      openDelayMs: 200,
+      closeDelayMs: 80,
+      maxWidth: '24ch'
     });
 
     wrapper.append(button);

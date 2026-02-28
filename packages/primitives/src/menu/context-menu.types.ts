@@ -1,5 +1,8 @@
 import type { InputSource } from '@ds/headless';
 
+export type ContextMenuControlType = 'checkbox' | 'radio' | 'switch';
+export type ContextMenuTriggerMode = 'contextmenu' | 'click' | 'both';
+
 export interface ContextMenuActionItem {
   type?: 'item';
   id: string;
@@ -7,6 +10,11 @@ export interface ContextMenuActionItem {
   disabled?: boolean;
   shortcut?: string;
   kind?: 'default' | 'danger';
+  iconStart?: string | HTMLElement;
+  iconEnd?: string | HTMLElement;
+  control?: ContextMenuControlType;
+  checked?: boolean;
+  group?: string;
 }
 
 export interface ContextMenuSeparatorItem {
@@ -27,7 +35,9 @@ export interface PrimitiveContextMenuOptions {
   items: ContextMenuItem[];
   id?: string;
   ariaLabel?: string;
+  triggerMode?: ContextMenuTriggerMode;
   closeOnOutsidePress?: boolean;
+  closeOnSelect?: boolean;
   onAction?: (item: ContextMenuActionItem, source: InputSource) => void;
 }
 

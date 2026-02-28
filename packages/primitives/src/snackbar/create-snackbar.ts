@@ -115,6 +115,7 @@ export const createPrimitiveSnackbarHost = (options: PrimitiveSnackbarHostOption
       });
 
       actionButton.dataset.snackbarAction = action.id;
+      actionButton.classList.add('cv-snackbar__action');
       actions.append(actionButton);
     }
 

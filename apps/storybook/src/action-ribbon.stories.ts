@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/html-vite';
 import { createActionRibbon } from '@ds/primitives';
 
 const meta: Meta = {
-  title: 'Phase5/Action Ribbon',
+  title: 'Primitives/Action Ribbon',
   parameters: { a11y: { test: 'error' } }
 };
 
