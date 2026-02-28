@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-import { createPrimitiveChip, type PrimitiveChipOptions } from '@covalent-poc/components';
+import { createPrimitiveChip, type PrimitiveChipOptions } from '@ds/primitives';
 
 type ChipArgs = {
   variant: 'action' | 'filter';

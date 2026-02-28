@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@ds/headless": ["../headless/src/index.ts"],
+      "@ds/utils-a11y": ["../utils-a11y/src/index.ts"],
+      "@ds/utils-icons": ["../utils-icons/src/index.ts"]
+    }
+  },
+  "include": ["src/**/*.ts"]
+}

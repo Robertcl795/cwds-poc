@@ -1,14 +1,15 @@
 {
-  "name": "@covalent-poc/storybook",
+  "name": "@ds/storybook",
   "version": "0.0.0",
   "private": true,
   "type": "module",
   "dependencies": {
-    "@covalent-poc/components": "workspace:*",
-    "@covalent-poc/core": "workspace:*",
-    "@covalent-poc/primitives-foundation": "workspace:*",
-    "@covalent-poc/styles": "workspace:*",
-    "@covalent-poc/tokens": "workspace:*"
+    "@ds/primitives": "workspace:*",
+    "@ds/utils-a11y": "workspace:*",
+    "@ds/utils-icons": "workspace:*",
+    "@ds/lit": "workspace:*",
+    "@ds/styles": "workspace:*",
+    "@ds/tokens": "workspace:*"
   },
   "scripts": {
     "storybook": "storybook dev -p 6006 -c .storybook --ci --no-open --exact-port --disable-telemetry --no-version-updates",

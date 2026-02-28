@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-import { createPrimitiveSelect, type PrimitiveSelectOption } from '@covalent-poc/components';
+import { createPrimitiveSelect, type PrimitiveSelectOption } from '@ds/primitives';
 
 type SelectArgs = {
   label: string;

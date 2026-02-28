@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": "dist",
+    "rootDir": "src",
+    "paths": {
+      "@ds/headless": ["../headless/dist/index.d.ts"],
+      "@ds/utils-a11y": ["../utils-a11y/dist/index.d.ts"],
+      "@ds/utils-icons": ["../utils-icons/dist/index.d.ts"]
+    }
+  },
+  "include": ["src/**/*.ts"]
+}

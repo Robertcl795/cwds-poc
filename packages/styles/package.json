@@ -1,10 +1,12 @@
 {
-  "name": "@covalent-poc/styles",
+  "name": "@ds/styles",
   "version": "0.0.0",
   "private": true,
   "type": "module",
   "exports": {
-    "./index.css": "./src/index.css"
+    "./index.css": "./src/index.css",
+    "./foundation.css": "./src/foundation/index.css",
+    "./components.css": "./src/components/index.css"
   },
   "files": [
     "dist",

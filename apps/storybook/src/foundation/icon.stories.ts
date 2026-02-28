@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-import { clearIconRegistry, createIconNode, registerIcons } from '@covalent-poc/primitives-foundation';
+import { clearIconRegistry, createIconNode, registerIcons } from '@ds/utils-icons';
 
 const meta: Meta = {
   title: 'Foundation/Icon'

@@ -1,0 +1,20 @@
+{
+  "name": "@ds/ux-showcase",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@ds/primitives": "workspace:*",
+    "@ds/utils-a11y": "workspace:*",
+    "@ds/utils-icons": "workspace:*",
+    "@ds/lit": "workspace:*",
+    "@ds/styles": "workspace:*",
+    "@ds/tokens": "workspace:*"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4174",
+    "test:e2e": "playwright test"
+  }
+}

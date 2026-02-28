@@ -1,16 +1,2 @@
-@media (prefers-reduced-motion: no-preference) {
-  .cv-motion-fade {
-    animation: cv-fade var(--cv-sys-motion-normal) var(--cv-sys-motion-easing) both;
-  }
-}
-
-@keyframes cv-fade {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* Compatibility shim: canonical file moved to ./foundation/motion.css */
+@import './foundation/motion.css';

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-import { createPrimitiveChip } from '@covalent-poc/components';
+import { createPrimitiveChip } from '@ds/primitives';
 
 const meta: Meta = {
   title: 'Primitives/Phase2 Hardening/Chip State Matrix',

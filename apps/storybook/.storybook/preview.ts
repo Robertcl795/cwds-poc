@@ -1,5 +1,5 @@
-import '@covalent-poc/tokens/tokens.css';
-import '@covalent-poc/styles/index.css';
+import '@ds/tokens/tokens.css';
+import '@ds/styles/index.css';
 
 const preview = {
   parameters: {

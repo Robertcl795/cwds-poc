@@ -12,9 +12,10 @@
     "format:fix": "prettier --write .",
     "typecheck": "pnpm -r --if-present typecheck",
     "test": "pnpm -r --if-present test",
-    "storybook": "pnpm --filter @covalent-poc/storybook storybook",
-    "storybook:build": "pnpm --filter @covalent-poc/storybook build-storybook",
-    "test:e2e": "pnpm --filter @covalent-poc/showcase test:e2e",
+    "storybook": "pnpm --filter @ds/storybook storybook",
+    "storybook:build": "pnpm --filter @ds/storybook build-storybook",
+    "test:visual": "pnpm dlx chromatic --exit-once-uploaded",
+    "test:e2e": "pnpm --filter @ds/ux-showcase test:e2e",
     "changeset": "changeset",
     "version-packages": "changeset version"
   },

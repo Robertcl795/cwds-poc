@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-import { createPrimitiveChip, createPrimitiveSelect, createPrimitiveSlider, createPrimitiveTextField } from '@covalent-poc/components';
+import { createPrimitiveChip, createPrimitiveSelect, createPrimitiveSlider, createPrimitiveTextField } from '@ds/primitives';
 
 const meta: Meta = {
   title: 'Primitives/Phase2 Hardening/Environment Matrix',

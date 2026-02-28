@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-import { createPrimitiveSwitch } from '@covalent-poc/components';
+import { createPrimitiveSwitch } from '@ds/primitives';
 
 const meta: Meta = {
   title: 'Primitives/Switch',

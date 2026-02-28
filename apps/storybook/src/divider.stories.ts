@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-import { createPrimitiveDivider, type PrimitiveDividerOptions } from '@covalent-poc/components';
+import { createPrimitiveDivider, type PrimitiveDividerOptions } from '@ds/primitives';
 
 type DividerArgs = Required<PrimitiveDividerOptions>;
 

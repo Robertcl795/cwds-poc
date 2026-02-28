@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@ds/angular": ["../adapters/angular/src/index.ts"],
+      "@ds/lit": ["../adapters/lit/src/index.ts"],
+      "@ds/primitives": ["../primitives/src/index.ts"]
+    }
+  },
+  "include": ["src/**/*.ts"]
+}

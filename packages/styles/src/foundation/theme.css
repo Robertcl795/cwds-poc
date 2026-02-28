@@ -1,0 +1,15 @@
+:root {
+  font-family: var(--cv-ref-font-family-sans);
+  color: var(--cv-sys-color-text);
+  background: linear-gradient(180deg, #fbfcfe 0%, #f7fafc 100%);
+}
+
+:focus-visible {
+  outline: 2px solid var(--cv-sys-color-primary);
+  outline-offset: 2px;
+}
+
+[data-disabled='true'] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

@@ -1,6 +1,2 @@
-@import './foundation.css';
-@import './reset.css' layer(base);
-@import './theme.css' layer(base);
-@import './motion.css' layer(variants);
-@import './components.css' layer(components);
-@import './components-phase3.css' layer(components);
+@import './foundation/index.css';
+@import './components/index.css' layer(components);

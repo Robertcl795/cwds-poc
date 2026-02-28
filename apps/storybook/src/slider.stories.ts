@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-import { createPrimitiveSlider } from '@covalent-poc/components';
+import { createPrimitiveSlider } from '@ds/primitives';
 
 type SliderArgs = {
   label: string;

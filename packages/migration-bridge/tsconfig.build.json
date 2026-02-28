@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": "dist",
+    "rootDir": "src",
+    "paths": {
+      "@ds/angular": ["../adapters/angular/src/index.ts"],
+      "@ds/lit": ["../adapters/lit/dist/index.d.ts"],
+      "@ds/primitives": ["../primitives/dist/index.d.ts"]
+    }
+  },
+  "include": ["src/**/*.ts"]
+}

@@ -5,7 +5,7 @@ import {
   createPrimitiveCheckbox,
   createPrimitiveFormField,
   createPrimitiveTextInput
-} from '@covalent-poc/components';
+} from '@ds/primitives';
 
 const meta: Meta = {
   title: 'Primitives/A11y Checks',

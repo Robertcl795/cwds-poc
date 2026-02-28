@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-import { createPrimitiveRadio } from '@covalent-poc/components';
+import { createPrimitiveRadio } from '@ds/primitives';
 
 const meta: Meta = {
   title: 'Primitives/Radio',

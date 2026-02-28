@@ -1,0 +1,12 @@
+{
+  "extends": "../../../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@ds/headless": ["../../headless/src/index.ts"],
+      "@ds/primitives": ["../../primitives/src/index.ts"]
+    }
+  },
+  "include": ["src/**/*.ts"]
+}

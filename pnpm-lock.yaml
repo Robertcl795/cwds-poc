@@ -81,64 +81,109 @@ importers:
         specifier: ^3.0.9
         version: 3.2.4(@types/node@22.19.12)(jsdom@26.1.0)
 
-  apps/showcase:
-    dependencies:
-      '@covalent-poc/components':
-        specifier: workspace:*
-        version: link:../../packages/components
-      '@covalent-poc/core':
-        specifier: workspace:*
-        version: link:../../packages/core
-      '@covalent-poc/primitives-foundation':
-        specifier: workspace:*
-        version: link:../../packages/primitives-foundation
-      '@covalent-poc/styles':
-        specifier: workspace:*
-        version: link:../../packages/styles
-      '@covalent-poc/tokens':
-        specifier: workspace:*
-        version: link:../../packages/tokens
-
   apps/storybook:
     dependencies:
-      '@covalent-poc/components':
+      '@ds/lit':
         specifier: workspace:*
-        version: link:../../packages/components
-      '@covalent-poc/core':
+        version: link:../../packages/adapters/lit
+      '@ds/primitives':
         specifier: workspace:*
-        version: link:../../packages/core
-      '@covalent-poc/primitives-foundation':
-        specifier: workspace:*
-        version: link:../../packages/primitives-foundation
-      '@covalent-poc/styles':
+        version: link:../../packages/primitives
+      '@ds/styles':
         specifier: workspace:*
         version: link:../../packages/styles
-      '@covalent-poc/tokens':
+      '@ds/tokens':
         specifier: workspace:*
         version: link:../../packages/tokens
+      '@ds/utils-a11y':
+        specifier: workspace:*
+        version: link:../../packages/utils-a11y
+      '@ds/utils-icons':
+        specifier: workspace:*
+        version: link:../../packages/utils-icons
 
-  packages/components:
+  apps/ux-showcase:
     dependencies:
-      '@covalent-poc/core':
+      '@ds/lit':
         specifier: workspace:*
-        version: link:../core
-      '@covalent-poc/primitives-foundation':
+        version: link:../../packages/adapters/lit
+      '@ds/primitives':
         specifier: workspace:*
-        version: link:../primitives-foundation
+        version: link:../../packages/primitives
+      '@ds/styles':
+        specifier: workspace:*
+        version: link:../../packages/styles
+      '@ds/tokens':
+        specifier: workspace:*
+        version: link:../../packages/tokens
+      '@ds/utils-a11y':
+        specifier: workspace:*
+        version: link:../../packages/utils-a11y
+      '@ds/utils-icons':
+        specifier: workspace:*
+        version: link:../../packages/utils-icons
 
-  packages/core: {}
-
-  packages/primitives-foundation:
+  packages/adapters/angular:
     dependencies:
-      '@covalent-poc/core':
+      '@ds/headless':
         specifier: workspace:*
-        version: link:../core
+        version: link:../../headless
+      '@ds/primitives':
+        specifier: workspace:*
+        version: link:../../primitives
+
+  packages/adapters/lit:
+    dependencies:
+      '@ds/headless':
+        specifier: workspace:*
+        version: link:../../headless
+      '@ds/primitives':
+        specifier: workspace:*
+        version: link:../../primitives
+
+  packages/headless: {}
+
+  packages/migration-bridge:
+    dependencies:
+      '@ds/angular':
+        specifier: workspace:*
+        version: link:../adapters/angular
+      '@ds/lit':
+        specifier: workspace:*
+        version: link:../adapters/lit
+      '@ds/primitives':
+        specifier: workspace:*
+        version: link:../primitives
+
+  packages/primitives:
+    dependencies:
+      '@ds/headless':
+        specifier: workspace:*
+        version: link:../headless
+      '@ds/utils-a11y':
+        specifier: workspace:*
+        version: link:../utils-a11y
+      '@ds/utils-icons':
+        specifier: workspace:*
+        version: link:../utils-icons
 
   packages/styles: {}
 
   packages/tokens: {}
 
-  packages/web-components: {}
+  packages/utils-a11y:
+    dependencies:
+      '@ds/headless':
+        specifier: workspace:*
+        version: link:../headless
+
+  packages/utils-icons: {}
+
+  packages/utils-overlay:
+    dependencies:
+      '@ds/headless':
+        specifier: workspace:*
+        version: link:../headless
 
 packages:
 

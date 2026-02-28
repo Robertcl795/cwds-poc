@@ -4,14 +4,15 @@ Phase 1 scaffolds a framework-agnostic monorepo for semantic/headless UI migrati
 
 ## Workspace packages
 
-- `@covalent-poc/tokens`
-- `@covalent-poc/styles`
-- `@covalent-poc/core`
-- `@covalent-poc/primitives-foundation`
-- `@covalent-poc/components`
-- `@covalent-poc/web-components`
-- `@covalent-poc/storybook`
-- `@covalent-poc/showcase`
+- `@ds/tokens`
+- `@ds/styles`
+- `@ds/headless`
+- `@ds/utils-a11y`
+- `@ds/primitives`
+- `@ds/angular`
+- `@ds/lit`
+- `@ds/storybook`
+- `@ds/ux-showcase`
 
 ## Commands
 
@@ -25,8 +26,11 @@ Phase 1 scaffolds a framework-agnostic monorepo for semantic/headless UI migrati
 
 - If `pnpm storybook` cannot use port `6006`, it now exits immediately instead of hanging.
 - Run Storybook on another port with:
-  - `pnpm --filter @covalent-poc/storybook exec storybook dev -p 7007 -c .storybook --ci --no-open --exact-port --disable-telemetry --no-version-updates`
+  - `pnpm --filter @ds/storybook exec storybook dev -p 7007 -c .storybook --ci --no-open --exact-port --disable-telemetry --no-version-updates`
 
 ## Guides
 
-- Platform-native phased migration guide: `docs/architecture/GUIDE_PHASED.md`
+- Documentation entrypoint: `docs/README.md`
+- Track A (Architecture & Vision): `docs/architecture-vision/README.md`
+- Track B (Package Reference): `docs/package-reference/README.md`
+- Executive summary (Tasks 1-5): `docs/architecture-vision/executive-summary-tasks1-5.md`

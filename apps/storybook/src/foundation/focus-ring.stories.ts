@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-import { applyFocusRing } from '@covalent-poc/primitives-foundation';
+import { applyFocusRing } from '@ds/utils-a11y';
 
 const meta: Meta = {
   title: 'Foundation/Focus Ring'

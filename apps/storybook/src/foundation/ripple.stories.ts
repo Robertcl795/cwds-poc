@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-import { applyRipple } from '@covalent-poc/primitives-foundation';
+import { applyRipple } from '@ds/utils-a11y';
 
 const meta: Meta = {
   title: 'Foundation/Ripple'

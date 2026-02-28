@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-import { createPrimitiveTextField } from '@covalent-poc/components';
+import { createPrimitiveTextField } from '@ds/primitives';
 
 const meta: Meta = {
   title: 'Primitives/Phase2 Hardening/Text Field State Matrix',

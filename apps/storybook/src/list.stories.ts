@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-import { createPrimitiveList, type PrimitiveListVariant } from '@covalent-poc/components';
+import { createPrimitiveList, type PrimitiveListVariant } from '@ds/primitives';
 
 type ListArgs = {
   variant: PrimitiveListVariant;

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-import { createPrimitiveProgress } from '@covalent-poc/components';
+import { createPrimitiveProgress } from '@ds/primitives';
 
 const meta: Meta = {
   title: 'Primitives/Progress',

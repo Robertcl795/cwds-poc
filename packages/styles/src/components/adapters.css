@@ -1,0 +1,11 @@
+/* Adapters: host-element theming hooks */
+
+cv-combobox,
+cv-advanced-select {
+  --cv-composite-popup-z-index: 1200;
+  --cv-composite-field-radius: var(--cv-sys-radius-control);
+  --cv-composite-field-border: var(--cv-sys-color-border);
+  --cv-composite-field-focus: var(--cv-sys-color-primary);
+  --cv-composite-popup-bg: var(--cv-sys-color-surface);
+  --cv-composite-popup-border: color-mix(in oklab, var(--cv-sys-color-border) 86%, transparent);
+}

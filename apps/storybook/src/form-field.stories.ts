@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-import { createPrimitiveTextField } from '@covalent-poc/components';
-import { registerIcons } from '@covalent-poc/primitives-foundation';
+import { createPrimitiveTextField } from '@ds/primitives';
+import { registerIcons } from '@ds/utils-icons';
 
 const ensureIcons = (): void => {
   try {

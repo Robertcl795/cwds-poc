@@ -20,14 +20,16 @@ const config: StorybookConfig = {
         ...existingConfig.resolve,
         alias: {
           ...(existingConfig.resolve?.alias ?? {}),
-          '@covalent-poc/tokens': resolve(workspaceRoot, 'packages/tokens/src'),
-          '@covalent-poc/styles': resolve(workspaceRoot, 'packages/styles/src'),
-          '@covalent-poc/core': resolve(workspaceRoot, 'packages/core/src/index.ts'),
-          '@covalent-poc/primitives-foundation': resolve(
-            workspaceRoot,
-            'packages/primitives-foundation/src/index.ts'
-          ),
-          '@covalent-poc/components': resolve(workspaceRoot, 'packages/components/src/index.ts')
+          '@ds/tokens': resolve(workspaceRoot, 'packages/tokens/src'),
+          '@ds/styles': resolve(workspaceRoot, 'packages/styles/src'),
+          '@ds/headless': resolve(workspaceRoot, 'packages/headless/src/index.ts'),
+          '@ds/utils-a11y': resolve(workspaceRoot, 'packages/utils-a11y/src/index.ts'),
+          '@ds/utils-icons': resolve(workspaceRoot, 'packages/utils-icons/src/index.ts'),
+          '@ds/primitives': resolve(workspaceRoot, 'packages/primitives/src/index.ts'),
+          '@ds/lit': resolve(workspaceRoot, 'packages/adapters/lit/src/index.ts'),
+          '@ds/angular': resolve(workspaceRoot, 'packages/adapters/angular/src/index.ts'),
+          '@ds/utils-overlay': resolve(workspaceRoot, 'packages/utils-overlay/src/index.ts'),
+          '@ds/migration-bridge': resolve(workspaceRoot, 'packages/migration-bridge/src/index.ts')
         }
       }
     };
