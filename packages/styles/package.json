@@ -5,8 +5,8 @@
   "type": "module",
   "exports": {
     "./index.css": "./src/index.css",
-    "./foundation.css": "./src/foundation/index.css",
-    "./components.css": "./src/components/index.css"
+    "./foundation.css": "./src/foundation.css",
+    "./components.css": "./src/components.css"
   },
   "files": [
     "dist",
