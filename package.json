@@ -16,6 +16,12 @@
     "storybook:build": "pnpm --filter @ds/storybook build-storybook",
     "test:visual": "pnpm dlx chromatic --exit-once-uploaded",
     "test:e2e": "pnpm --filter @ds/ux-showcase test:e2e",
+    "audit:inventory": "node tools/audit/inventory.mjs",
+    "audit:imports": "node tools/audit/import-graph.mjs",
+    "audit:duplicates": "node tools/audit/duplicate-files.mjs",
+    "audit:boundaries": "node tools/audit/check-boundaries.mjs --warn",
+    "audit:tokens": "node tools/audit/check-token-governance.mjs",
+    "audit:foundation": "pnpm audit:inventory && pnpm audit:imports && pnpm audit:duplicates && pnpm audit:boundaries && pnpm audit:tokens",
     "changeset": "changeset",
     "version-packages": "changeset version"
   },

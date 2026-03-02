@@ -1,5 +1,5 @@
 import { createContextMenu, createPrimitiveButton, createPrimitiveIconButton, createPrimitiveTooltip } from '@ds/primitives';
-import { defineCvWebComponents } from '@ds/lit';
+import { defineCvWebComponents } from '@ds/web-components';
 
 import './phase4.css';
 

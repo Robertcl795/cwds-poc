@@ -7,7 +7,7 @@
     "@ds/primitives": "workspace:*",
     "@ds/utils-a11y": "workspace:*",
     "@ds/utils-icons": "workspace:*",
-    "@ds/lit": "workspace:*",
+    "@ds/web-components": "workspace:*",
     "@ds/styles": "workspace:*",
     "@ds/tokens": "workspace:*"
   },

@@ -2,13 +2,13 @@
 
 ## Contract boundaries
 
-- `@ds/headless`: interaction state, keyboard logic, environment guards.
+- `@ds/core`: interaction state, keyboard logic, environment guards.
 - `@ds/primitives`: semantic DOM composition and stable creation APIs.
-- Adapters (`@ds/angular`, `@ds/lit`): framework ergonomics over stable primitives.
+- Adapters (`@ds/angular`, `@ds/web-components`): framework ergonomics over stable primitives.
 
 ## Rules
 
-1. `@ds/headless` must not import from styles, adapters, or framework packages.
+1. `@ds/core` must not import from styles, adapters, or framework packages.
 2. Adapters must not fork behavior; they compose primitives/headless contracts.
 3. `@ds/primitives` is the canonical public API for non-framework consumers.
 

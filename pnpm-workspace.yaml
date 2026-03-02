@@ -1,4 +1,4 @@
 packages:
-  - "packages/*"
-  - "packages/adapters/*"
+  - "packages/design-core/*"
+  - "packages/ui-system/*"
   - "apps/*"

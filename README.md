@@ -6,11 +6,11 @@ Phase 1 scaffolds a framework-agnostic monorepo for semantic/headless UI migrati
 
 - `@ds/tokens`
 - `@ds/styles`
-- `@ds/headless`
+- `@ds/core`
 - `@ds/utils-a11y`
 - `@ds/primitives`
 - `@ds/angular`
-- `@ds/lit`
+- `@ds/web-components`
 - `@ds/storybook`
 - `@ds/ux-showcase`
 
@@ -21,6 +21,7 @@ Phase 1 scaffolds a framework-agnostic monorepo for semantic/headless UI migrati
 - `pnpm test`
 - `pnpm lint`
 - `pnpm storybook`
+- `pnpm audit:foundation`
 
 ### Storybook troubleshooting
 
@@ -31,6 +32,7 @@ Phase 1 scaffolds a framework-agnostic monorepo for semantic/headless UI migrati
 ## Guides
 
 - Documentation entrypoint: `docs/README.md`
+- Governance rules source: `rules/README.md`
 - Track A (Architecture & Vision): `docs/architecture-vision/README.md`
 - Track B (Package Reference): `docs/package-reference/README.md`
-- Executive summary (Tasks 1-5): `docs/architecture-vision/executive-summary-tasks1-5.md`
+- Current status and priorities: `docs/architecture-vision/current-state-and-priorities.md`

@@ -1,4 +1,4 @@
-# @ds/headless
+# @ds/core
 
 ## Purpose and boundary
 
@@ -15,12 +15,12 @@ Must stay independent from styles and framework adapters.
 
 Vanilla:
 ```ts
-import { createDialogController } from '@ds/headless';
+import { createDialogController } from '@ds/core';
 ```
 
 Angular 19+:
 ```ts
-import { createDialogController } from '@ds/headless';
+import { createDialogController } from '@ds/core';
 // Use inside adapter/service, not directly in templates.
 ```
 

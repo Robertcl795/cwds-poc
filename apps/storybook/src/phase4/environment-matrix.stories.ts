@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
 import { createPrimitiveTooltip } from '@ds/primitives';
-import { defineCvWebComponents } from '@ds/lit';
+import { defineCvWebComponents } from '@ds/web-components';
 
 defineCvWebComponents();
 

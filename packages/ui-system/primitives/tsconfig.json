@@ -1,0 +1,13 @@
+{
+  "extends": "../../../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@ds/core": ["../../design-core/core/src/index.ts"],
+      "@ds/utils-a11y": ["../../design-core/utils-a11y/src/index.ts"],
+      "@ds/utils-icons": ["../../design-core/utils-icons/src/index.ts"]
+    }
+  },
+  "include": ["src/**/*.ts"]
+}

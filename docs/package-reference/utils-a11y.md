@@ -24,10 +24,10 @@ Angular 19+:
 
 ## Known POC limitations
 
-- Depends on `@ds/headless` for some behavior paths.
+- Depends on `@ds/core` for some behavior paths.
 - API stability policy not formally defined.
 
 ## Future extension points
 
-- Either fold headless-dependent utilities into `@ds/headless` or formalize this layer.
+- Either fold headless-dependent utilities into `@ds/core` or formalize this layer.
 - Mark utility APIs as `@internal` in generated docs.

@@ -1,4 +1,4 @@
-# @ds/lit
+# @ds/web-components
 
 ## Purpose and boundary
 
@@ -14,7 +14,7 @@ Wraps primitives without redefining behavior contracts.
 
 Vanilla:
 ```ts
-import { defineCvWebComponents } from '@ds/lit';
+import { defineCvWebComponents } from '@ds/web-components';
 defineCvWebComponents();
 ```
 
