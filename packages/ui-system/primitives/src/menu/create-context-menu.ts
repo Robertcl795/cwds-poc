@@ -1,4 +1,7 @@
 import type { InputSource } from '@ds/core';
+import { ariaBoolean, definedAttribute } from '@ds/core/lit';
+import { LitElement, html, nothing, type TemplateResult } from 'lit';
+import { ref } from 'lit/directives/ref.js';
 
 import { createAdvancedOverlayController } from '../shared-overlay-advanced';
 import type {
@@ -38,26 +41,11 @@ const resolveRole = (item: ContextMenuActionItem): 'menuitem' | 'menuitemcheckbo
   return 'menuitem';
 };
 
-const createIcon = (value: string | HTMLElement, className: string): HTMLElement => {
-  const icon = document.createElement('span');
-  icon.className = className;
-  icon.setAttribute('aria-hidden', 'true');
-
-  if (typeof value === 'string') {
-    icon.textContent = value;
-  } else {
-    icon.append(value);
-  }
-
-  return icon;
-};
-
 type MenuItemState = {
   item: ContextMenuActionItem;
   control: ContextMenuControlType | null;
   checked: boolean;
   group: string | null;
-  indicator: HTMLElement | null;
 };
 
 const formatControlIndicator = (control: ContextMenuControlType, checked: boolean): string => {
@@ -72,57 +60,91 @@ const formatControlIndicator = (control: ContextMenuControlType, checked: boolea
   return checked ? '✓' : '';
 };
 
-const syncItemState = (button: HTMLButtonElement, state: MenuItemState): void => {
-  if (!state.control) {
-    return;
-  }
+const INTERNAL_CONTEXT_MENU_TAG = 'cv-internal-context-menu';
 
-  button.setAttribute('aria-checked', state.checked ? 'true' : 'false');
-  button.dataset.checked = state.checked ? 'true' : 'false';
-
-  if (!state.indicator) {
-    return;
-  }
-
-  state.indicator.textContent = formatControlIndicator(state.control, state.checked);
-  state.indicator.dataset.checked = state.checked ? 'true' : 'false';
-};
-
-const focusIndex = (items: HTMLButtonElement[], index: number): void => {
-  const enabled = items.filter((button) => !button.disabled);
-  if (enabled.length === 0) {
-    return;
-  }
-
-  enabled[index]?.focus();
-};
-
-export const createContextMenu = (options: PrimitiveContextMenuOptions): PrimitiveContextMenu => {
-  const triggerMode = options.triggerMode ?? 'contextmenu';
-  const closeOnSelect = options.closeOnSelect ?? true;
-
-  const menu = document.createElement('div');
-  menu.className = 'cv-context-menu';
-  menu.id = options.id ?? nextContextMenuId();
-  menu.role = 'menu';
-  menu.tabIndex = -1;
-  menu.hidden = true;
-  menu.dataset.open = 'false';
-  menu.dataset.triggerMode = triggerMode;
-
-  if (options.ariaLabel) {
-    menu.setAttribute('aria-label', options.ariaLabel);
-  }
-
-  const actionButtons: HTMLButtonElement[] = [];
-  const statesByButton = new Map<HTMLButtonElement, MenuItemState>();
-
-  const focusFirstEnabled = (): void => {
-    focusIndex(actionButtons, 0);
+class CvInternalContextMenu extends LitElement {
+  static properties = {
+    ariaLabel: { attribute: false },
+    items: { attribute: false },
+    open: { type: Boolean, attribute: false }
   };
 
-  const focusByOffset = (offset: number): void => {
-    const enabled = actionButtons.filter((button) => !button.disabled);
+  declare ariaLabel: string;
+  declare items: ContextMenuItem[];
+  declare open: boolean;
+
+  private readonly statesById = new Map<string, MenuItemState>();
+
+  constructor() {
+    super();
+    this.ariaLabel = '';
+    this.items = [];
+    this.open = false;
+  }
+
+  createRenderRoot(): this {
+    return this;
+  }
+
+  connectedCallback(): void {
+    super.connectedCallback();
+    this.className = 'cv-context-menu';
+    this.role = 'menu';
+    this.tabIndex = -1;
+    this.hidden = true;
+    this.dataset.open = 'false';
+    this.addEventListener('keydown', this.onMenuKeyDown);
+  }
+
+  disconnectedCallback(): void {
+    this.removeEventListener('keydown', this.onMenuKeyDown);
+    super.disconnectedCallback();
+  }
+
+  setMenuItems(items: ContextMenuItem[]): void {
+    this.items = items;
+    this.statesById.clear();
+
+    for (const item of items) {
+      if (!isActionItem(item)) {
+        continue;
+      }
+
+      this.statesById.set(item.id, {
+        item,
+        control: item.control ?? null,
+        checked: item.checked === true,
+        group: item.group ?? '__default__'
+      });
+    }
+
+    this.syncRender();
+  }
+
+  focusFirstEnabled(): void {
+    this.focusIndex(0);
+  }
+
+  syncRender(): void {
+    this.requestUpdate();
+    this.performUpdate();
+  }
+
+  private get actionButtons(): HTMLButtonElement[] {
+    return Array.from(this.querySelectorAll<HTMLButtonElement>('button.cv-context-menu__item'));
+  }
+
+  private focusIndex(index: number): void {
+    const enabled = this.actionButtons.filter((button) => !button.disabled);
+    if (enabled.length === 0) {
+      return;
+    }
+
+    enabled[index]?.focus();
+  }
+
+  private focusByOffset(offset: number): void {
+    const enabled = this.actionButtons.filter((button) => !button.disabled);
     if (enabled.length === 0) {
       return;
     }
@@ -131,16 +153,212 @@ export const createContextMenu = (options: PrimitiveContextMenuOptions): Primiti
     const currentIndex = current instanceof HTMLButtonElement ? enabled.indexOf(current) : -1;
     const nextIndex = ((currentIndex + offset) % enabled.length + enabled.length) % enabled.length;
     enabled[nextIndex]?.focus();
-  };
+  }
 
-  const focusBoundary = (toEnd: boolean): void => {
-    const enabled = actionButtons.filter((button) => !button.disabled);
+  private focusBoundary(toEnd: boolean): void {
+    const enabled = this.actionButtons.filter((button) => !button.disabled);
     if (enabled.length === 0) {
       return;
     }
 
     enabled[toEnd ? enabled.length - 1 : 0]?.focus();
+  }
+
+  private activateItem(itemId: string, source: InputSource): void {
+    const state = this.statesById.get(itemId);
+    if (!state || state.item.disabled) {
+      return;
+    }
+
+    if (state.control === 'checkbox' || state.control === 'switch') {
+      state.checked = !state.checked;
+    } else if (state.control === 'radio' && !state.checked) {
+      for (const candidate of this.statesById.values()) {
+        if (candidate.control !== 'radio' || candidate.group !== state.group) {
+          continue;
+        }
+
+        candidate.checked = candidate.item.id === itemId;
+      }
+    }
+
+    this.syncRender();
+
+    const payload =
+      state.control === null
+        ? state.item
+        : {
+            ...state.item,
+            checked: state.checked
+          };
+
+    this.dispatchEvent(
+      new CustomEvent('cv-menu-action', {
+        detail: {
+          item: payload,
+          source
+        }
+      })
+    );
+  }
+
+  private renderIcon(value: string | HTMLElement | undefined, className: string): TemplateResult | typeof nothing {
+    if (!value) {
+      return nothing;
+    }
+
+    if (typeof value === 'string') {
+      return html`<span class=${className} aria-hidden="true">${value}</span>`;
+    }
+
+    return html`<span
+      class=${className}
+      aria-hidden="true"
+      ${ref((element) => {
+        if (!(element instanceof HTMLSpanElement)) {
+          return;
+        }
+
+        element.replaceChildren(value.cloneNode(true));
+      })}
+    ></span>`;
+  }
+
+  private renderActionItem(item: ContextMenuActionItem): TemplateResult {
+    const state = this.statesById.get(item.id) ?? {
+      item,
+      control: item.control ?? null,
+      checked: item.checked === true,
+      group: item.group ?? '__default__'
+    };
+    const leadingParts = [
+      state.control
+        ? html`<span
+            class="cv-context-menu__item-control"
+            aria-hidden="true"
+            data-control=${state.control}
+            data-checked=${state.checked ? 'true' : 'false'}
+            >${formatControlIndicator(state.control, state.checked)}</span
+          >`
+        : nothing,
+      this.renderIcon(item.iconStart, 'cv-context-menu__item-icon cv-context-menu__item-icon--start')
+    ];
+    const hasLeading = leadingParts.some((part) => part !== nothing);
+    const hasTrailing = Boolean(item.shortcut || item.iconEnd);
+
+    return html`<button
+      type="button"
+      class="cv-context-menu__item"
+      role=${resolveRole(item)}
+      data-item-id=${item.id}
+      data-kind=${item.kind ?? 'default'}
+      data-control=${item.control ?? 'none'}
+      data-group=${definedAttribute(item.group ?? (item.control === 'radio' ? '__default__' : undefined))}
+      data-checked=${state.control ? (state.checked ? 'true' : 'false') : nothing}
+      ?disabled=${item.disabled ?? false}
+      aria-checked=${state.control ? ariaBoolean(state.checked) : nothing}
+      aria-keyshortcuts=${definedAttribute(item.shortcut)}
+      @click=${() => {
+        this.activateItem(item.id, 'pointer');
+      }}
+      @keydown=${(event: KeyboardEvent) => {
+        if (isActivationKey(event)) {
+          event.preventDefault();
+          this.activateItem(item.id, 'keyboard');
+          return;
+        }
+
+        if (!isNavigationKey(event)) {
+          return;
+        }
+
+        event.preventDefault();
+        if (event.key === 'ArrowDown') {
+          this.focusByOffset(1);
+        } else if (event.key === 'ArrowUp') {
+          this.focusByOffset(-1);
+        } else if (event.key === 'Home') {
+          this.focusBoundary(false);
+        } else if (event.key === 'End') {
+          this.focusBoundary(true);
+        }
+      }}
+    >${hasLeading ? html`<span class="cv-context-menu__item-leading">${leadingParts}</span>` : nothing}<span
+        class="cv-context-menu__item-label"
+        >${item.label}</span
+      >${hasTrailing
+        ? html`<span class="cv-context-menu__item-trailing"
+            >${item.shortcut
+              ? html`<span class="cv-context-menu__item-shortcut" aria-hidden="true">${item.shortcut}</span>`
+              : nothing}${this.renderIcon(item.iconEnd, 'cv-context-menu__item-icon cv-context-menu__item-icon--end')}</span
+          >`
+        : nothing}</button>`;
+  }
+
+  private readonly onMenuKeyDown = (event: KeyboardEvent): void => {
+    if (!isNavigationKey(event)) {
+      return;
+    }
+
+    if (!(event.target instanceof HTMLButtonElement) || !event.target.classList.contains('cv-context-menu__item')) {
+      if (event.key === 'Home') {
+        this.focusBoundary(false);
+      } else if (event.key === 'End') {
+        this.focusBoundary(true);
+      }
+      return;
+    }
+
+    event.preventDefault();
+
+    if (event.key === 'ArrowDown') {
+      this.focusByOffset(1);
+    } else if (event.key === 'ArrowUp') {
+      this.focusByOffset(-1);
+    } else if (event.key === 'Home') {
+      this.focusBoundary(false);
+    } else if (event.key === 'End') {
+      this.focusBoundary(true);
+    }
   };
+
+  render(): TemplateResult {
+    if (this.ariaLabel) {
+      this.setAttribute('aria-label', this.ariaLabel);
+    } else {
+      this.removeAttribute('aria-label');
+    }
+
+    return html`${this.items.map((item) => {
+      if (!isActionItem(item)) {
+        if (item.type === 'separator') {
+          return html`<div class="cv-context-menu__separator" role="separator" data-menu-item-type="separator"></div>`;
+        }
+
+        return html`<div class="cv-context-menu__label" data-menu-item-type="label">${item.label}</div>`;
+      }
+
+      return this.renderActionItem(item);
+    })}`;
+  }
+}
+
+const defineInternalContextMenu = (): void => {
+  if (!customElements.get(INTERNAL_CONTEXT_MENU_TAG)) {
+    customElements.define(INTERNAL_CONTEXT_MENU_TAG, CvInternalContextMenu);
+  }
+};
+
+export const createContextMenu = (options: PrimitiveContextMenuOptions): PrimitiveContextMenu => {
+  defineInternalContextMenu();
+
+  const triggerMode = options.triggerMode ?? 'contextmenu';
+  const closeOnSelect = options.closeOnSelect ?? true;
+
+  const menu = document.createElement(INTERNAL_CONTEXT_MENU_TAG) as CvInternalContextMenu;
+  menu.id = options.id ?? nextContextMenuId();
+  menu.ariaLabel = options.ariaLabel ?? '';
+  menu.setMenuItems(options.items);
 
   const controller = createAdvancedOverlayController({
     overlay: menu,
@@ -153,179 +371,33 @@ export const createContextMenu = (options: PrimitiveContextMenuOptions): Primiti
       closeOnFocusOutside: true
     },
     onOpenChange(open) {
+      menu.open = open;
       menu.hidden = !open;
       menu.dataset.open = open ? 'true' : 'false';
+      menu.syncRender();
 
       if (open) {
-        focusFirstEnabled();
+        menu.focusFirstEnabled();
       }
     }
   });
 
-  const activateItem = (button: HTMLButtonElement, source: InputSource): void => {
-    const state = statesByButton.get(button);
-    if (!state || state.item.disabled) {
-      return;
-    }
-
-    if (state.control === 'checkbox' || state.control === 'switch') {
-      state.checked = !state.checked;
-      syncItemState(button, state);
-    } else if (state.control === 'radio') {
-      if (!state.checked) {
-        for (const [candidateButton, candidateState] of statesByButton.entries()) {
-          if (candidateState.control !== 'radio') {
-            continue;
-          }
-
-          if (candidateState.group !== state.group) {
-            continue;
-          }
-
-          candidateState.checked = candidateButton === button;
-          syncItemState(candidateButton, candidateState);
-        }
-      }
-    }
-
-    const payload =
-      state.control === null
-        ? state.item
-        : {
-            ...state.item,
-            checked: state.checked
-          };
-
-    options.onAction?.(payload, source);
+  menu.addEventListener('cv-menu-action', (event) => {
+    const detail = (event as CustomEvent<{ item: ContextMenuActionItem; source: InputSource }>).detail;
+    options.onAction?.(detail.item, detail.source);
 
     if (closeOnSelect) {
-      controller.close(source);
+      controller.close(detail.source);
     }
-  };
-
-  for (const item of options.items) {
-    if (!isActionItem(item)) {
-      if (item.type === 'separator') {
-        const separator = document.createElement('div');
-        separator.className = 'cv-context-menu__separator';
-        separator.setAttribute('role', 'separator');
-        separator.dataset.menuItemType = 'separator';
-        menu.append(separator);
-      } else {
-        const label = document.createElement('div');
-        label.className = 'cv-context-menu__label';
-        label.dataset.menuItemType = 'label';
-        label.textContent = item.label;
-        menu.append(label);
-      }
-      continue;
-    }
-
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'cv-context-menu__item';
-    button.role = resolveRole(item);
-    button.dataset.kind = item.kind ?? 'default';
-    button.dataset.control = item.control ?? 'none';
-    button.disabled = item.disabled ?? false;
-
-    const leading = document.createElement('span');
-    leading.className = 'cv-context-menu__item-leading';
-
-    let indicator: HTMLElement | null = null;
-    if (item.control) {
-      indicator = document.createElement('span');
-      indicator.className = 'cv-context-menu__item-control';
-      indicator.setAttribute('aria-hidden', 'true');
-      indicator.dataset.control = item.control;
-      leading.append(indicator);
-    }
-
-    if (item.iconStart) {
-      leading.append(createIcon(item.iconStart, 'cv-context-menu__item-icon cv-context-menu__item-icon--start'));
-    }
-
-    if (leading.childElementCount > 0) {
-      button.append(leading);
-    }
-
-    const label = document.createElement('span');
-    label.className = 'cv-context-menu__item-label';
-    label.textContent = item.label;
-    button.append(label);
-
-    const trailing = document.createElement('span');
-    trailing.className = 'cv-context-menu__item-trailing';
-
-    if (item.shortcut || item.iconEnd) {
-      if (item.shortcut) {
-        const shortcut = document.createElement('span');
-        shortcut.className = 'cv-context-menu__item-shortcut';
-        shortcut.textContent = item.shortcut;
-        shortcut.setAttribute('aria-hidden', 'true');
-        trailing.append(shortcut);
-        button.setAttribute('aria-keyshortcuts', item.shortcut);
-      }
-
-      if (item.iconEnd) {
-        trailing.append(createIcon(item.iconEnd, 'cv-context-menu__item-icon cv-context-menu__item-icon--end'));
-      }
-
-      button.append(trailing);
-    }
-
-    const state: MenuItemState = {
-      item,
-      control: item.control ?? null,
-      checked: item.checked === true,
-      group: item.group ?? '__default__',
-      indicator
-    };
-    syncItemState(button, state);
-
-    if (item.control === 'radio' && !item.group) {
-      button.dataset.group = '__default__';
-    } else if (item.group) {
-      button.dataset.group = item.group;
-    }
-
-    button.addEventListener('click', () => {
-      activateItem(button, 'pointer');
-    });
-
-    button.addEventListener('keydown', (event) => {
-      if (isActivationKey(event)) {
-        event.preventDefault();
-        activateItem(button, 'keyboard');
-        return;
-      }
-
-      if (!isNavigationKey(event)) {
-        return;
-      }
-
-      event.preventDefault();
-      if (event.key === 'ArrowDown') {
-        focusByOffset(1);
-      } else if (event.key === 'ArrowUp') {
-        focusByOffset(-1);
-      } else if (event.key === 'Home') {
-        focusBoundary(false);
-      } else if (event.key === 'End') {
-        focusBoundary(true);
-      }
-    });
-
-    actionButtons.push(button);
-    statesByButton.set(button, state);
-    menu.append(button);
-  }
+  });
 
   const openAt = (x: number, y: number, source: InputSource = 'programmatic'): void => {
     const viewportWidth = document.documentElement.clientWidth || window.innerWidth;
     const viewportHeight = document.documentElement.clientHeight || window.innerHeight;
 
     const previousHidden = menu.hidden;
+    menu.syncRender();
+
     if (previousHidden) {
       menu.hidden = false;
       menu.style.visibility = 'hidden';
@@ -361,12 +433,6 @@ export const createContextMenu = (options: PrimitiveContextMenuOptions): Primiti
     }
 
     event.preventDefault();
-
-    if (controller.isOpen() && triggerMode === 'contextmenu') {
-      controller.close('pointer');
-      return;
-    }
-
     openAt(event.clientX, event.clientY, 'pointer');
   };
 
@@ -376,6 +442,7 @@ export const createContextMenu = (options: PrimitiveContextMenuOptions): Primiti
     }
 
     event.preventDefault();
+
     if (controller.isOpen()) {
       controller.close('pointer');
       return;
@@ -385,19 +452,17 @@ export const createContextMenu = (options: PrimitiveContextMenuOptions): Primiti
   };
 
   const onTargetPointerDown = (event: PointerEvent): void => {
-    if (triggerMode !== 'contextmenu') {
-      return;
-    }
-
     if (!controller.isOpen()) {
       return;
     }
 
-    if (event.button !== 0) {
+    if (event.button !== 0 && event.button !== 2) {
       return;
     }
 
-    controller.close('pointer');
+    if (triggerMode === 'contextmenu' || triggerMode === 'both') {
+      return;
+    }
   };
 
   const onTargetKeyDown = (event: KeyboardEvent): void => {
@@ -415,40 +480,13 @@ export const createContextMenu = (options: PrimitiveContextMenuOptions): Primiti
     openNearTarget('keyboard');
   };
 
-  const onMenuKeyDown = (event: KeyboardEvent): void => {
-    if (!isNavigationKey(event)) {
-      return;
-    }
-
-    if (!(event.target instanceof HTMLButtonElement) || !statesByButton.has(event.target)) {
-      if (event.key === 'Home') {
-        focusBoundary(false);
-      } else if (event.key === 'End') {
-        focusBoundary(true);
-      }
-      return;
-    }
-
-    event.preventDefault();
-
-    if (event.key === 'ArrowDown') {
-      focusByOffset(1);
-    } else if (event.key === 'ArrowUp') {
-      focusByOffset(-1);
-    } else if (event.key === 'Home') {
-      focusBoundary(false);
-    } else if (event.key === 'End') {
-      focusBoundary(true);
-    }
-  };
-
   options.target.addEventListener('contextmenu', onContextMenu);
   options.target.addEventListener('click', onTargetClick);
   options.target.addEventListener('pointerdown', onTargetPointerDown);
   options.target.addEventListener('keydown', onTargetKeyDown);
-  menu.addEventListener('keydown', onMenuKeyDown);
 
   document.body.append(menu);
+  menu.syncRender();
 
   return {
     element: menu,
@@ -461,7 +499,6 @@ export const createContextMenu = (options: PrimitiveContextMenuOptions): Primiti
       options.target.removeEventListener('click', onTargetClick);
       options.target.removeEventListener('pointerdown', onTargetPointerDown);
       options.target.removeEventListener('keydown', onTargetKeyDown);
-      menu.removeEventListener('keydown', onMenuKeyDown);
       controller.dispose();
       menu.remove();
     }

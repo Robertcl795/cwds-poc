@@ -1,5 +1,4 @@
-import { createSelectController, type InputSource, type SelectControllerOptions } from '@ds/core';
-import { createIconNode } from '@ds/utils-icons';
+import { createIconNode, createSelectController, type InputSource, type SelectControllerOptions } from '@ds/core';
 
 import { applyFieldLinkage, createFieldIds, resolveFieldMessages, syncFieldDataState } from '../shared-field';
 import { enhanceNativeSelect } from './enhance-select';

@@ -9,7 +9,7 @@ const workspaceRoot = resolve(packageRoot, '..', '..', '..');
 export default defineConfig({
   resolve: {
     alias: {
-      '@ds/core': resolve(workspaceRoot, 'packages/design-core/core/src/index.ts'),
+      '@ds/core': resolve(workspaceRoot, 'packages/design-core/src/index.ts'),
       '@ds/primitives': resolve(workspaceRoot, 'packages/ui-system/primitives/src/index.ts')
     }
   },

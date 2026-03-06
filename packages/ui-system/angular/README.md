@@ -17,7 +17,7 @@ import { provideCvAngularAdapter } from '@ds/angular';
 ```
 
 Styling note:
-- Angular consumers still use `@ds/tokens` and `@ds/styles` for visual output.
+- Angular consumers use `@ds/styles/tokens.css` and `@ds/styles/index.css` for visual output.
 - Consumers must provide `@angular/core` and `@angular/forms` as peer dependencies.
 
 Migration note:

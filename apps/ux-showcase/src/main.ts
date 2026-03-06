@@ -1,16 +1,14 @@
-import '@ds/tokens/tokens.css';
+import '@ds/styles/tokens.css';
 import '@ds/styles/index.css';
 
 import {
   applyFocusRing,
   applyRipple,
-  setElevation
-} from '@ds/utils-a11y';
-import {
   clearIconRegistry,
   createIconNode,
-  registerIcons
-} from '@ds/utils-icons';
+  registerIcons,
+  setElevation
+} from '@ds/core';
 import { renderPhase1Showcase } from './routes/phase1';
 import { renderPhase25HardeningShowcase } from './routes/phase2-hardening';
 import { renderPhase2Showcase } from './routes/phase2';

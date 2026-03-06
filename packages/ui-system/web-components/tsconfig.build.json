@@ -5,7 +5,7 @@
     "outDir": "dist",
     "rootDir": "src",
     "paths": {
-      "@ds/core": ["../../design-core/core/dist/index.d.ts"],
+      "@ds/core": ["../../design-core/dist/index.d.ts"],
       "@ds/primitives": ["../primitives/dist/index.d.ts"]
     }
   },

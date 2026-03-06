@@ -1,5 +1,4 @@
-import { createDisposalBin, listen, type InputSource } from '@ds/core';
-import { applyFocusRing } from '@ds/utils-a11y';
+import { applyFocusRing, createDisposalBin, listen, type InputSource } from '@ds/core';
 
 import { createRovingTabIndex } from '../shared-navigation';
 import type { PrimitiveTabs, PrimitiveTabsOptions } from './tabs.types';

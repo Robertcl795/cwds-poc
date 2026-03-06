@@ -5,9 +5,8 @@
     "outDir": "dist",
     "rootDir": "src",
     "paths": {
-      "@ds/core": ["../../design-core/core/dist/index.d.ts"],
-      "@ds/utils-a11y": ["../../design-core/utils-a11y/dist/index.d.ts"],
-      "@ds/utils-icons": ["../../design-core/utils-icons/dist/index.d.ts"]
+      "@ds/core": ["../../design-core/dist/index.d.ts"],
+      "@ds/core/lit": ["../../design-core/dist/lit/index.d.ts"]
     }
   },
   "include": ["src/**/*.ts"],

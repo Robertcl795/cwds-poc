@@ -4,12 +4,10 @@
   "private": true,
   "type": "module",
   "dependencies": {
+    "@ds/core": "workspace:*",
     "@ds/primitives": "workspace:*",
-    "@ds/utils-a11y": "workspace:*",
-    "@ds/utils-icons": "workspace:*",
     "@ds/web-components": "workspace:*",
-    "@ds/styles": "workspace:*",
-    "@ds/tokens": "workspace:*"
+    "@ds/styles": "workspace:*"
   },
   "scripts": {
     "storybook": "storybook dev -p 6006 -c .storybook --ci --no-open --exact-port --disable-telemetry --no-version-updates",

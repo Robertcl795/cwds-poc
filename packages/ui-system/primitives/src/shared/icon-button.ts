@@ -1,4 +1,4 @@
-import { createIconNode } from '@ds/utils-icons';
+import { createIconNode } from '@ds/core';
 
 export type IconButtonContentOptions = {
   icon: string | HTMLElement;

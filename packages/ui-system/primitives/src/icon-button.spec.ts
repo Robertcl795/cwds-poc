@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { clearIconRegistry, registerIcons } from '@ds/utils-icons';
+import { clearIconRegistry, registerIcons } from '@ds/core';
 
 import { createPrimitiveIconButton } from './icon-button/create-icon-button';
 

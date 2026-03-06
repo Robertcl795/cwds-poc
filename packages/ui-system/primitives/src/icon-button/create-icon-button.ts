@@ -1,4 +1,4 @@
-import { applyFocusRing } from '@ds/utils-a11y';
+import { applyFocusRing } from '@ds/core';
 
 import { resolveDisabledState, writeDisabledState } from '../shared/disabled';
 import { buildIconButtonContent } from '../shared/icon-button';

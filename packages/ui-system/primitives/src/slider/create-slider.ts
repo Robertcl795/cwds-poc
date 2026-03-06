@@ -1,4 +1,4 @@
-import { applyFocusRing } from '@ds/utils-a11y';
+import { applyFocusRing } from '@ds/core';
 
 import { applyFieldLinkage, createFieldIds, resolveFieldMessages, syncFieldDataState } from '../shared-field';
 import type { PrimitiveSlider, PrimitiveSliderInputSource, PrimitiveSliderOptions } from './slider.types';

@@ -1,5 +1,5 @@
 import type { InputSource } from '@ds/core';
-import { applyFocusRing, applyRipple } from '@ds/utils-a11y';
+import { applyFocusRing, applyRipple } from '@ds/core';
 
 import { createRovingTabIndex } from '../shared-navigation';
 import type { PrimitiveList, PrimitiveListItem, PrimitiveListOptions } from './list.types';

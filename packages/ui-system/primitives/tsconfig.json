@@ -4,9 +4,8 @@
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
-      "@ds/core": ["../../design-core/core/src/index.ts"],
-      "@ds/utils-a11y": ["../../design-core/utils-a11y/src/index.ts"],
-      "@ds/utils-icons": ["../../design-core/utils-icons/src/index.ts"]
+      "@ds/core": ["../../design-core/src/index.ts"],
+      "@ds/core/lit": ["../../design-core/src/lit/index.ts"]
     }
   },
   "include": ["src/**/*.ts"]

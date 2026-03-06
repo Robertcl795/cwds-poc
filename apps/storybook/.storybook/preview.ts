@@ -1,4 +1,4 @@
-import '@ds/tokens/tokens.css';
+import '@ds/styles/tokens.css';
 import '@ds/styles/index.css';
 
 const preview = {

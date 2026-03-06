@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { clearIconRegistry, registerIcons } from '@ds/utils-icons';
+import { clearIconRegistry, registerIcons } from '@ds/core';
 
 import { createPrimitiveTextField } from './create-text-field';
 

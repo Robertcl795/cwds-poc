@@ -1,5 +1,4 @@
-import { createNoopRippleController, type RippleController } from '@ds/core';
-import { applyRipple } from '@ds/utils-a11y';
+import { applyRipple, createNoopRippleController, type RippleController } from '@ds/core';
 
 export type OptionalRippleOptions = {
   enabled?: boolean;

@@ -1,4 +1,4 @@
-import { applyFocusRing } from '@ds/utils-a11y';
+import { applyFocusRing } from '@ds/core';
 
 import { enhancePressable } from '../shared/interaction';
 import type {

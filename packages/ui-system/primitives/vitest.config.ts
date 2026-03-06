@@ -9,9 +9,8 @@ const workspaceRoot = resolve(packageRoot, '..', '..', '..');
 export default defineConfig({
   resolve: {
     alias: {
-      '@ds/core': resolve(workspaceRoot, 'packages/design-core/core/src/index.ts'),
-      '@ds/utils-a11y': resolve(workspaceRoot, 'packages/design-core/utils-a11y/src/index.ts'),
-      '@ds/utils-icons': resolve(workspaceRoot, 'packages/design-core/utils-icons/src/index.ts')
+      '@ds/core/lit': resolve(workspaceRoot, 'packages/design-core/src/lit/index.ts'),
+      '@ds/core': resolve(workspaceRoot, 'packages/design-core/src/index.ts')
     }
   },
   test: {

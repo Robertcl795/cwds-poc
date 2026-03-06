@@ -1,18 +1,25 @@
-# Covalent CSS-First Design System POC
+# Covalent Design System POC
 
-This repository is a native-first, headless/primitive design system proof of concept with a CSS-driven foundation and minimal adapter runtime.
+This workspace is organized around two foundation packages:
 
-## Workspace packages
+- `@ds/core`: shared runtime helpers, controllers, a11y contracts, icon helpers, and small Lit-oriented composition utilities
+- `@ds/styles`: tokens, layers, shared CSS primitives, and component/adaptor styling
 
-- `@ds/tokens`
-- `@ds/styles`
-- `@ds/core`
-- `@ds/utils-a11y`
+The public consumer surface remains:
+
 - `@ds/primitives`
-- `@ds/angular` (experimental adapter stub)
 - `@ds/web-components`
+- `@ds/angular` (experimental)
 - `@ds/storybook`
 - `@ds/ux-showcase`
+
+## Package model
+
+`@ds/core` owns runtime behavior only. It should stay small and focused on reusable interaction logic.
+
+`@ds/styles` owns all CSS concerns: tokens, reset/theme/motion, shared utilities, component styling, and CSS QA.
+
+`@ds/primitives` and `@ds/web-components` are the compatibility surface exercised by Storybook. Existing stories are the usage contract for this repo.
 
 ## Commands
 
@@ -21,18 +28,5 @@ This repository is a native-first, headless/primitive design system proof of con
 - `pnpm test`
 - `pnpm lint`
 - `pnpm storybook`
+- `pnpm storybook:build`
 - `pnpm audit:foundation`
-
-### Storybook troubleshooting
-
-- If `pnpm storybook` cannot use port `6006`, it now exits immediately instead of hanging.
-- Run Storybook on another port with:
-  - `pnpm --filter @ds/storybook exec storybook dev -p 7007 -c .storybook --ci --no-open --exact-port --disable-telemetry --no-version-updates`
-
-## Guides
-
-- Documentation entrypoint: `docs/README.md`
-- Governance rules source: `rules/README.md`
-- Track A (Architecture & Vision): `docs/architecture-vision/README.md`
-- Track B (Package Reference): `docs/package-reference/README.md`
-- Current status and priorities: `docs/architecture-vision/current-state-and-priorities.md`

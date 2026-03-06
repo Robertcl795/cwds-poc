@@ -1,6 +1,0 @@
-@layer tokens, base, foundation, components, adapters, overrides;
-
-@import './reference.css' layer(tokens);
-@import './semantic.css' layer(tokens);
-@import './components.css' layer(tokens);
-@import './theme.css' layer(tokens);

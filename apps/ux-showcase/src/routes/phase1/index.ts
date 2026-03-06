@@ -7,7 +7,7 @@ import {
   createPrimitiveRadio,
   createPrimitiveSwitch
 } from '@ds/primitives';
-import { clearIconRegistry, registerIcons } from '@ds/utils-icons';
+import { clearIconRegistry, registerIcons } from '@ds/core';
 
 import './phase1.css';
 

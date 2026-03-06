@@ -1,4 +1,4 @@
-import { createIconNode } from '@ds/utils-icons';
+import { createIconNode } from '@ds/core';
 
 import { createPrimitiveLoadingIndicator, type LoadingDensity } from './loading';
 import type { PrimitiveTextInput } from './text-input';
