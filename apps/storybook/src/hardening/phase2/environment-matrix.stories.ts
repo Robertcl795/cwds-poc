@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-import { createPrimitiveChip, createPrimitiveSelect, createPrimitiveSlider, createPrimitiveTextField } from '@ds/primitives';
+import { createPrimitiveChip, createPrimitiveSelect, createPrimitiveSlider, createPrimitiveTextField } from '@ds/components';
 
 const meta: Meta = {
   title: 'Verification/Input Surfaces/Environment Matrix',

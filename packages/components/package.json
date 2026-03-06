@@ -1,0 +1,35 @@
+{
+  "name": "@ds/components",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "designSystem": {
+    "stability": "stable",
+    "surface": "public"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./web-components": {
+      "types": "./dist/web-components/index.d.ts",
+      "default": "./dist/web-components/index.js"
+    },
+    "./index.css": "./dist/index.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@ds/core": "workspace:*",
+    "@ds/tokens": "workspace:*",
+    "lit": "^3.3.1"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && mkdir -p dist/styles && cp src/index.css dist/index.css && cp src/styles/*.css dist/styles/",
+    "typecheck": "tsc -p tsconfig.json",
+    "lint": "eslint \"src/**/*.ts\"",
+    "test": "vitest run --environment jsdom"
+  }
+}

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-import { createPrimitiveTooltip } from '@ds/primitives';
+import { createPrimitiveTooltip } from '@ds/components';
 
 type TooltipArgs = {
   content: string;

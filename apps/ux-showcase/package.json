@@ -5,9 +5,8 @@
   "type": "module",
   "dependencies": {
     "@ds/core": "workspace:*",
-    "@ds/primitives": "workspace:*",
-    "@ds/web-components": "workspace:*",
-    "@ds/styles": "workspace:*"
+    "@ds/components": "workspace:*",
+    "@ds/tokens": "workspace:*"
   },
   "scripts": {
     "dev": "vite",

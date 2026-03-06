@@ -1,0 +1,34 @@
+.workflows-page {
+  display: grid;
+  gap: 1rem;
+  padding: 2rem;
+  max-inline-size: 74rem;
+  margin-inline: auto;
+}
+
+.workflows-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+.workflows-log {
+  margin: 0;
+  color: var(--cv-sys-color-text-muted);
+  font-size: 0.85rem;
+}
+
+.workflows-tone-audit {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.workflows-tone-audit h3 {
+  margin: 0;
+}
+
+.workflows-tone-stack {
+  display: grid;
+  gap: 0.75rem;
+}

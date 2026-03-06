@@ -5,7 +5,7 @@ import {
   createPrimitiveCheckbox,
   createPrimitiveFormField,
   createPrimitiveTextInput
-} from '@ds/primitives';
+} from '@ds/components';
 
 const meta: Meta = {
   title: 'Primitives/A11y Checks',

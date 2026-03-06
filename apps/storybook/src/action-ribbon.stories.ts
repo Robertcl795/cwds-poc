@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-import { createActionRibbon } from '@ds/primitives';
+import { createActionRibbon } from '@ds/components';
 
 const meta: Meta = {
   title: 'Primitives/Action Ribbon',

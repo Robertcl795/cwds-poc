@@ -1,0 +1,41 @@
+.verification-navigation-page {
+  display: grid;
+  gap: 1rem;
+  padding: 2rem;
+  max-inline-size: 72rem;
+  margin-inline: auto;
+}
+
+.verification-navigation-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+}
+
+.verification-navigation-card {
+  border: 1px solid var(--cv-sys-color-border);
+  border-radius: var(--cv-sys-radius-panel);
+  background: var(--cv-sys-color-surface);
+  padding: 1rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.verification-navigation-card > h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.verification-navigation-log {
+  margin: 0;
+  color: var(--cv-sys-color-text-muted);
+  font-size: 0.85rem;
+}
+
+.verification-navigation-note {
+  border-inline-start: 3px solid var(--cv-sys-color-border);
+  padding-inline-start: 0.75rem;
+  color: var(--cv-sys-color-text-muted);
+  font-size: 0.9rem;
+  margin: 0;
+}

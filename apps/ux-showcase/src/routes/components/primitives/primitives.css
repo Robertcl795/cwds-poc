@@ -1,0 +1,23 @@
+.primitives-page {
+  max-inline-size: 52rem;
+  margin: 2rem auto;
+  padding: 1rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.primitives-card {
+  border: 1px solid var(--cv-sys-color-border);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  display: grid;
+  gap: 0.75rem;
+  background: var(--cv-sys-color-surface);
+}
+
+.primitives-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}

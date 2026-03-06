@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { readdirSync, readFileSync } from 'node:fs';
+import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, relative } from 'node:path';
 
@@ -9,48 +9,40 @@ const PACKAGES_ROOT = join(ROOT, 'packages');
 
 const findings = [];
 
-const packageDirs = readdirSync(PACKAGES_ROOT, { withFileTypes: true })
-  .filter((entry) => entry.isDirectory())
-  .flatMap((scopeDir) => {
-    const scopeRoot = join(PACKAGES_ROOT, scopeDir.name);
-    return readdirSync(scopeRoot, { withFileTypes: true })
-      .filter((entry) => entry.isDirectory())
-      .map((entry) => join(scopeRoot, entry.name));
-  });
+const collectPackageDirs = (dir) => {
+  const out = [];
+  for (const entry of readdirSync(dir)) {
+    const next = join(dir, entry);
+    if (!statSync(next).isDirectory()) continue;
+
+    const manifest = join(next, 'package.json');
+    try {
+      JSON.parse(readFileSync(manifest, 'utf8'));
+      out.push(next);
+      continue;
+    } catch {}
+
+    out.push(...collectPackageDirs(next));
+  }
+  return out;
+};
 
 const collectExportTargets = (value) => {
-  if (typeof value === 'string') {
-    return [value];
-  }
-
-  if (!value || typeof value !== 'object') {
-    return [];
-  }
-
+  if (typeof value === 'string') return [value];
+  if (!value || typeof value !== 'object') return [];
   return Object.values(value).flatMap((entry) => collectExportTargets(entry));
 };
 
-for (const packageDir of packageDirs) {
+for (const packageDir of collectPackageDirs(PACKAGES_ROOT)) {
   const packageJsonPath = join(packageDir, 'package.json');
-  let packageJson;
+  const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'));
 
-  try {
-    packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'));
-  } catch {
+  if ((packageJson.designSystem?.stability ?? 'unspecified') === 'experimental') {
     continue;
   }
 
-  const stability = packageJson.designSystem?.stability ?? 'unspecified';
-  if (stability === 'experimental') {
-    continue;
-  }
-
-  const exportTargets = collectExportTargets(packageJson.exports);
-  for (const target of exportTargets) {
-    if (typeof target !== 'string') {
-      continue;
-    }
-
+  for (const target of collectExportTargets(packageJson.exports)) {
+    if (typeof target !== 'string') continue;
     if (target.includes('/src/')) {
       findings.push({
         package: packageJson.name,

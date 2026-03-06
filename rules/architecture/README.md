@@ -1,28 +1,14 @@
 # Architecture Rules
 
-## Package groups (target taxonomy)
+## Package groups
 
-- `design-core`: visual language and foundational runtime mechanics.
-- `ui-system`: native-first primitives, composed components, framework adapters.
-- `rules`: governance and process.
-
-Current physical layout:
-- `packages/design-core/*`
-- `packages/ui-system/*`
+- `design-system`: `@ds/tokens`, `@ds/core`, and `@ds/components`
+- `apps`: Storybook and showcase integration surfaces
+- `rules`: governance and process
 
 ## Dependency constraints
 
-- `design-core` must not depend on `ui-system`.
-- `ui-system` may depend on `design-core`.
+- `@ds/tokens` must not import from other design-system packages.
+- `@ds/core` must not import from `@ds/components`.
+- `@ds/components` may depend only on `@ds/core` and `@ds/tokens`.
 - Runtime code must not import from `rules`.
-
-## Naming note
-
-The monorepo avoids the term `pillar` in package organization. Use group names:
-- `design-core`
-- `ui-system`
-- `rules`
-
-Alternative names for `ui-system`:
-- `interaction-system`
-- `component-system`

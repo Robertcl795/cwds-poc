@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-import { createContextMenu, createPrimitiveIconButton } from '@ds/primitives';
+import { createContextMenu, createPrimitiveIconButton } from '@ds/components';
 
 type ContextMenuArgs = {
   disabledArchive: boolean;

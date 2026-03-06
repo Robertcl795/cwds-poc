@@ -1,25 +1,29 @@
 # Covalent Design System POC
 
-This workspace is organized around two foundation packages:
+This workspace is organized around three design-system packages:
 
-- `@ds/core`: shared runtime helpers, controllers, a11y contracts, icon helpers, and small Lit-oriented composition utilities
-- `@ds/styles`: tokens, layers, shared CSS primitives, and component/adaptor styling
+- `@ds/tokens`: CSS-only primitive and semantic token source of truth
+- `@ds/core`: nonvisual runtime helpers, a11y contracts, infrastructure, and base CSS
+- `@ds/components`: reusable visual component APIs and component CSS
 
-The public consumer surface remains:
+The main integration surfaces are:
 
-- `@ds/primitives`
-- `@ds/web-components`
-- `@ds/angular` (experimental)
 - `@ds/storybook`
 - `@ds/ux-showcase`
 
 ## Package model
 
-`@ds/core` owns runtime behavior only. It should stay small and focused on reusable interaction logic.
+`@ds/tokens` owns token definitions and theme-level token overrides only.
 
-`@ds/styles` owns all CSS concerns: tokens, reset/theme/motion, shared utilities, component styling, and CSS QA.
+`@ds/core` owns nonvisual runtime behavior and cross-cutting base CSS only.
 
-`@ds/primitives` and `@ds/web-components` are the compatibility surface exercised by Storybook. Existing stories are the usage contract for this repo.
+`@ds/components` owns the reusable visual surface, including the DOM-factory APIs and the `@ds/components/web-components` entry point.
+
+Dependency direction:
+
+- `@ds/tokens` has no design-system runtime dependency
+- `@ds/core` must not import from `@ds/components`
+- `@ds/components` may depend on `@ds/core` and `@ds/tokens`
 
 ## Commands
 

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-import { createPrimitiveSwitch } from '@ds/primitives';
+import { createPrimitiveSwitch } from '@ds/components';
 
 const meta: Meta = {
   title: 'Primitives/Switch',

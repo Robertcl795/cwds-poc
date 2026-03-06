@@ -1,0 +1,47 @@
+:root {
+  font-family: var(--cv-sys-font-family);
+  color: var(--cv-sys-color-text);
+  accent-color: var(--cv-sys-color-primary);
+  background:
+    radial-gradient(circle at top left, color-mix(in oklab, var(--cv-sys-color-primary) 12%, transparent), transparent 32%),
+    radial-gradient(circle at top right, color-mix(in oklab, var(--cv-sys-color-emphasis) 10%, transparent), transparent 28%),
+    linear-gradient(180deg, var(--cv-sys-color-surface-accent) 0%, var(--cv-sys-color-surface) 22%);
+}
+
+html {
+  color-scheme: light dark;
+  background: var(--cv-sys-color-surface);
+}
+
+body {
+  min-block-size: 100svh;
+  color: var(--cv-sys-color-text);
+  background: transparent;
+}
+
+:where(h1, h2, h3, .cv-card__title, .cv-toolbar__title-text, .cv-alert__title) {
+  text-wrap: balance;
+  letter-spacing: -0.02em;
+}
+
+:where(p, li, dd, figcaption) {
+  text-wrap: pretty;
+}
+
+:where(dialog, .cv-card, .cv-toolbar, .cv-alert, .cv-snackbar, .cv-action-ribbon, .cv-form-field, .cv-select-field) {
+  container-type: inline-size;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--cv-sys-color-primary) 24%, transparent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--cv-comp-focus-ring-color);
+  outline-offset: 2px;
+}
+
+[data-disabled='true'] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

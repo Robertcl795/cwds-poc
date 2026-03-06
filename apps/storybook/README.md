@@ -17,7 +17,7 @@ pnpm storybook
 ```
 
 Styling note:
-- stories should consume `@ds/styles/tokens.css` and `@ds/styles/index.css`, not ad hoc component styling.
+- stories should consume `@ds/tokens/index.css`, `@ds/core/index.css`, and `@ds/components/index.css`, not ad hoc component styling.
 
 Migration note:
 - deprecated Material-era or migration-era stories should be removed once the supported DS API is in place.

@@ -9,17 +9,14 @@ const REPORTS_DIR = join(ROOT, 'reports');
 mkdirSync(REPORTS_DIR, { recursive: true });
 
 const strict = process.argv.includes('--strict');
-const tokenDir = join(ROOT, 'packages/design-core/tokens/src');
+const tokenDir = join(ROOT, 'packages/tokens/src');
 
 const readCssFiles = (dir) => {
-  const entries = readdirSync(dir).sort();
   const files = [];
-
-  for (const entry of entries) {
+  for (const entry of readdirSync(dir).sort()) {
     const next = join(dir, entry);
-    const stat = statSync(next);
-
-    if (stat.isDirectory()) {
+    const stats = statSync(next);
+    if (stats.isDirectory()) {
       files.push(...readCssFiles(next));
       continue;
     }
@@ -28,7 +25,6 @@ const readCssFiles = (dir) => {
       files.push(next);
     }
   }
-
   return files;
 };
 
@@ -97,9 +93,9 @@ const requiredProps = [
 
 const findings = [];
 
-for (const prop of requiredProps) {
-  if (!content.includes(prop)) {
-    findings.push({ rule: 'missing-token', token: prop });
+for (const token of requiredProps) {
+  if (!content.includes(token)) {
+    findings.push({ rule: 'missing-token', token });
   }
 }
 
@@ -128,3 +124,4 @@ if (strict) {
 }
 
 console.error('Non-strict mode; exiting 0');
+process.exit(0);

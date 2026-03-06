@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-import { createPrimitiveCard } from '@ds/primitives';
+import { createPrimitiveCard } from '@ds/components';
 
 const meta: Meta = {
   title: 'Primitives/Card',

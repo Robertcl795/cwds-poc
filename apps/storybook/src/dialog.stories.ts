@@ -6,7 +6,7 @@ import {
   createConfirmDialog,
   createDestructiveConfirmDialog,
   createPrimitiveButton
-} from '@ds/primitives';
+} from '@ds/components';
 
 const meta: Meta = {
   title: 'Primitives/Dialog',

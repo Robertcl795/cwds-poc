@@ -1,0 +1,25 @@
+{
+  "name": "@ds/tokens",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "designSystem": {
+    "stability": "stable",
+    "surface": "public"
+  },
+  "exports": {
+    "./index.css": "./dist/index.css",
+    "./themes/color-scheme.css": "./dist/themes/color-scheme.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "stylelint": "^17.4.0",
+    "stylelint-config-standard": "^40.0.0"
+  },
+  "scripts": {
+    "build": "mkdir -p dist/primitive dist/semantic dist/themes && cp src/index.css dist/index.css && cp src/primitive/*.css dist/primitive/ && cp src/semantic/*.css dist/semantic/ && cp src/themes/*.css dist/themes/",
+    "lint": "stylelint \"src/**/*.css\""
+  }
+}

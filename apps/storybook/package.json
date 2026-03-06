@@ -5,12 +5,11 @@
   "type": "module",
   "dependencies": {
     "@ds/core": "workspace:*",
-    "@ds/primitives": "workspace:*",
-    "@ds/web-components": "workspace:*",
-    "@ds/styles": "workspace:*"
+    "@ds/components": "workspace:*",
+    "@ds/tokens": "workspace:*"
   },
   "scripts": {
-    "storybook": "storybook dev -p 6006 -c .storybook --ci --no-open --exact-port --disable-telemetry --no-version-updates",
+    "storybook": "storybook dev -p 6006 -c .storybook --host 127.0.0.1 --ci --no-open --exact-port --disable-telemetry --no-version-updates",
     "build-storybook": "storybook build -c .storybook --disable-telemetry"
   }
 }

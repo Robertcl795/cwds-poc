@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-import { setElevation } from '@ds/utils-a11y';
+import { setElevation } from '@ds/core';
 
 const meta: Meta = {
   title: 'Foundation/Elevation'

@@ -6,31 +6,26 @@ const ROOT = process.cwd();
 const REPORTS_DIR = join(ROOT, 'reports');
 mkdirSync(REPORTS_DIR, { recursive: true });
 
-const packageGroup = new Map([
-  ['@ds/tokens', 'design-core'],
-  ['@ds/styles', 'design-core'],
-  ['@ds/core', 'design-core'],
-  ['@ds/utils-a11y', 'design-core'],
-  ['@ds/utils-icons', 'design-core'],
-  ['@ds/primitives', 'ui-system'],
-  ['@ds/web-components', 'ui-system'],
-  ['@ds/angular', 'ui-system']
-]);
+const groupFor = (name) => {
+  if (name === '@ds/tokens' || name === '@ds/core' || name === '@ds/components') {
+    return 'design-system';
+  }
+
+  if (name === '@ds/storybook' || name === '@ds/ux-showcase') {
+    return 'app';
+  }
+
+  return 'unknown';
+};
 
 const rows = [];
 
-const collectPackageDirs = (baseDir, maxDepth = 2) => {
+const collectPackageDirs = (baseDir) => {
   const out = [];
-  const walk = (dir, depth) => {
-    if (depth > maxDepth) {
-      return;
-    }
-
+  const walk = (dir) => {
     for (const entry of readdirSync(dir)) {
       const next = join(dir, entry);
-      if (!statSync(next).isDirectory()) {
-        continue;
-      }
+      if (!statSync(next).isDirectory()) continue;
 
       const manifest = join(next, 'package.json');
       try {
@@ -42,24 +37,24 @@ const collectPackageDirs = (baseDir, maxDepth = 2) => {
         continue;
       } catch {}
 
-      walk(next, depth + 1);
+      walk(next);
     }
   };
 
-  walk(join(ROOT, baseDir), 1);
+  walk(join(ROOT, baseDir));
   return out;
 };
 
-for (const pkg of collectPackageDirs('packages', 3)) {
+for (const pkg of collectPackageDirs('packages')) {
   rows.push({
     kind: 'package',
     path: pkg.path,
     name: pkg.name,
-    group: packageGroup.get(pkg.name) ?? 'unknown'
+    group: groupFor(pkg.name)
   });
 }
 
-for (const app of collectPackageDirs('apps', 2)) {
+for (const app of collectPackageDirs('apps')) {
   rows.push({
     kind: 'app',
     path: app.path,
@@ -67,15 +62,16 @@ for (const app of collectPackageDirs('apps', 2)) {
     group: 'app'
   });
 }
-rows.push({ kind: 'rules', path: 'rules', name: null, group: 'rules' });
-rows.push({ kind: 'docs', path: 'docs', name: null, group: 'rules' });
+
+if (statSync(join(ROOT, 'rules'), { throwIfNoEntry: false })) {
+  rows.push({ kind: 'rules', path: 'rules', name: null, group: 'rules' });
+}
 
 writeFileSync(join(REPORTS_DIR, 'inventory.json'), `${JSON.stringify(rows, null, 2)}\n`);
 
-const summary = rows.reduce((acc, row) => {
-  const key = row.group;
-  acc[key] = (acc[key] ?? 0) + 1;
-  return acc;
+const summary = rows.reduce((accumulator, row) => {
+  accumulator[row.group] = (accumulator[row.group] ?? 0) + 1;
+  return accumulator;
 }, {});
 
 writeFileSync(join(REPORTS_DIR, 'inventory-summary.json'), `${JSON.stringify(summary, null, 2)}\n`);

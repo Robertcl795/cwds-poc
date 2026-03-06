@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-import { createPrimitiveTabs, type PrimitiveTabsOrientation } from '@ds/primitives';
+import { createPrimitiveTabs, type PrimitiveTabsOrientation } from '@ds/components';
 
 type TabsArgs = {
   orientation: PrimitiveTabsOrientation;

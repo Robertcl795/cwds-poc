@@ -1,0 +1,30 @@
+{
+  "name": "@ds/core",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "designSystem": {
+    "stability": "stable",
+    "surface": "public"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./index.css": "./dist/index.css",
+    "./icons": {
+      "types": "./dist/icons.d.ts",
+      "default": "./dist/icons.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && mkdir -p dist/css && cp src/index.css dist/index.css && cp src/css/*.css dist/css/",
+    "typecheck": "tsc -p tsconfig.json",
+    "lint": "eslint \"src/**/*.ts\"",
+    "test": "vitest run --environment jsdom"
+  }
+}

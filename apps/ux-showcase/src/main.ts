@@ -1,23 +1,15 @@
-import '@ds/styles/tokens.css';
-import '@ds/styles/index.css';
+import '@ds/tokens/index.css';
+import '@ds/core/index.css';
+import '@ds/components/index.css';
 
-import {
-  applyFocusRing,
-  applyRipple,
-  clearIconRegistry,
-  createIconNode,
-  registerIcons,
-  setElevation
-} from '@ds/core';
-import { renderPhase1Showcase } from './routes/phase1';
-import { renderPhase25HardeningShowcase } from './routes/phase2-hardening';
-import { renderPhase2Showcase } from './routes/phase2';
-import { renderPhase3Showcase } from './routes/phase3';
-import { renderPhase35HardeningShowcase } from './routes/phase3-hardening';
-import { renderPhase4Showcase } from './routes/phase4';
-import { renderPhase5Showcase } from './routes/phase5';
-
-import './foundation-demo.css';
+import { renderFormComponentsShowcase } from './routes/components/forms';
+import { renderNavigationComponentsShowcase } from './routes/components/navigation';
+import { renderOverlayComponentsShowcase } from './routes/components/overlays';
+import { renderPrimitiveComponentsShowcase } from './routes/components/primitives';
+import { renderWorkflowComponentsShowcase } from './routes/components/workflows';
+import { renderFoundationShowcase } from './routes/foundation';
+import { renderFormVerificationShowcase } from './routes/verification/forms';
+import { renderNavigationVerificationShowcase } from './routes/verification/navigation';
 
 const app = document.querySelector<HTMLDivElement>('#app');
 
@@ -25,58 +17,27 @@ if (!app) {
   throw new Error('Missing #app');
 }
 
-const renderFoundation = (container: HTMLElement): void => {
-  clearIconRegistry();
-  registerIcons({
-    check: {
-      viewBox: '0 0 24 24',
-      paths: ['M4 12l5 5 11-11']
-    }
-  });
+type ShowcaseRenderer = (container: HTMLElement) => void;
 
-  const page = document.createElement('main');
-  page.className = 'foundation-page';
+const routeRenderers = new Map<string, ShowcaseRenderer>([
+  ['foundation', renderFoundationShowcase],
+  ['components-primitives', renderPrimitiveComponentsShowcase],
+  ['components-forms', renderFormComponentsShowcase],
+  ['verification-forms', renderFormVerificationShowcase],
+  ['components-navigation', renderNavigationComponentsShowcase],
+  ['verification-navigation', renderNavigationVerificationShowcase],
+  ['components-overlays', renderOverlayComponentsShowcase],
+  ['components-workflows', renderWorkflowComponentsShowcase],
+  ['phase1', renderPrimitiveComponentsShowcase],
+  ['phase2', renderFormComponentsShowcase],
+  ['phase2-hardening', renderFormVerificationShowcase],
+  ['phase3', renderNavigationComponentsShowcase],
+  ['phase3-hardening', renderNavigationVerificationShowcase],
+  ['phase4', renderOverlayComponentsShowcase],
+  ['phase5', renderWorkflowComponentsShowcase]
+]);
 
-  const card = document.createElement('section');
-  card.className = 'foundation-card';
-  setElevation(card, 2);
+const routeId = globalThis.location.hash.replace(/^#/, '');
+const renderRoute = routeRenderers.get(routeId) ?? renderFoundationShowcase;
 
-  const heading = document.createElement('h1');
-  heading.textContent = 'Phase 0 Foundation Demo';
-
-  const row = document.createElement('div');
-  row.className = 'foundation-row';
-
-  const button = document.createElement('button');
-  button.className = 'cv-button';
-  button.textContent = 'Interactive button';
-  button.id = 'foundation-button';
-  applyFocusRing(button, 'auto');
-  applyRipple(button, { styleMutation: 'allow' });
-
-  const icon = createIconNode('check');
-  icon.setAttribute('data-size', 'lg');
-
-  row.append(button, icon);
-  card.append(heading, row);
-  page.append(card);
-  container.replaceChildren(page);
-};
-
-if (globalThis.location.hash === '#phase1') {
-  renderPhase1Showcase(app);
-} else if (globalThis.location.hash === '#phase2-hardening') {
-  renderPhase25HardeningShowcase(app);
-} else if (globalThis.location.hash === '#phase2') {
-  renderPhase2Showcase(app);
-} else if (globalThis.location.hash === '#phase3') {
-  renderPhase3Showcase(app);
-} else if (globalThis.location.hash === '#phase3-hardening') {
-  renderPhase35HardeningShowcase(app);
-} else if (globalThis.location.hash === '#phase4') {
-  renderPhase4Showcase(app);
-} else if (globalThis.location.hash === '#phase5') {
-  renderPhase5Showcase(app);
-} else {
-  renderFoundation(app);
-}
+renderRoute(app);

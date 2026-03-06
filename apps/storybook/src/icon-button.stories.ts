@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-import { createPrimitiveIconButton, type PrimitiveIconButtonSize, type PrimitiveIconButtonVariant } from '@ds/primitives';
-import { registerIcons } from '@ds/utils-icons';
+import { createPrimitiveIconButton, type PrimitiveIconButtonSize, type PrimitiveIconButtonVariant } from '@ds/components';
+import { registerIcons } from '@ds/core';
 
 const ensureIcons = (): void => {
   try {

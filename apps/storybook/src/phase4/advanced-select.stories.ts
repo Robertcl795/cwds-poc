@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-import { defineCvWebComponents } from '@ds/web-components';
+import { defineCvWebComponents } from '@ds/components/web-components';
 
 defineCvWebComponents();
 

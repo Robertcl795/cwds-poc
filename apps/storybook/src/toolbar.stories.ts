@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-import { createPrimitiveIconButton, createPrimitiveToolbar } from '@ds/primitives';
+import { createPrimitiveIconButton, createPrimitiveToolbar } from '@ds/components';
 
 const meta: Meta = {
   title: 'Primitives/Toolbar',

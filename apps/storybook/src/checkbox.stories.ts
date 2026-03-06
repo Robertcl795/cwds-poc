@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-import { createPrimitiveCheckbox } from '@ds/primitives';
+import { createPrimitiveCheckbox } from '@ds/components';
 
 type CheckboxArgs = {
   label: string;

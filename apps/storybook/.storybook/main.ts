@@ -20,17 +20,15 @@ const config: StorybookConfig = {
       ...existingConfig,
       resolve: {
         ...existingConfig.resolve,
-        alias: {
-          ...existingConfig.resolve?.alias,
-          '@ds/core/lit': resolve(workspaceRoot, 'packages/design-core/src/lit/index.ts'),
-          '@ds/core': resolve(workspaceRoot, 'packages/design-core/src/index.ts'),
-          '@ds/primitives': resolve(workspaceRoot, 'packages/ui-system/primitives/src/index.ts'),
-          '@ds/utils-a11y': resolve(workspaceRoot, 'packages/design-core/src/index.ts'),
-          '@ds/utils-icons': resolve(workspaceRoot, 'packages/design-core/src/index.ts'),
-          '@ds/web-components': resolve(workspaceRoot, 'packages/ui-system/web-components/src/index.ts'),
-          '@ds/styles/tokens.css': resolve(workspaceRoot, 'packages/styles/src/tokens.css'),
-          '@ds/styles/index.css': resolve(workspaceRoot, 'packages/styles/src/index.css')
-        }
+        alias: [
+          { find: '@ds/components/web-components', replacement: resolve(workspaceRoot, 'packages/components/src/web-components/index.ts') },
+          { find: '@ds/components/index.css', replacement: resolve(workspaceRoot, 'packages/components/src/index.css') },
+          { find: '@ds/core/index.css', replacement: resolve(workspaceRoot, 'packages/core/src/index.css') },
+          { find: '@ds/tokens/index.css', replacement: resolve(workspaceRoot, 'packages/tokens/src/index.css') },
+          { find: '@ds/components', replacement: resolve(workspaceRoot, 'packages/components/src/index.ts') },
+          { find: '@ds/core', replacement: resolve(workspaceRoot, 'packages/core/src/index.ts') },
+          ...(Array.isArray(existingConfig.resolve?.alias) ? existingConfig.resolve.alias : [])
+        ]
       },
       build: {
         ...existingConfig.build,

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-import { createPrimitiveLoadingIndicator } from '@ds/primitives';
+import { createPrimitiveLoadingIndicator } from '@ds/components';
 
 const meta: Meta = {
   title: 'Primitives/Loading',

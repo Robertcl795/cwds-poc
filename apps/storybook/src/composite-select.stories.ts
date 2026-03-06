@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-import { createCompositeSelect } from '@ds/primitives';
+import { createCompositeSelect } from '@ds/components';
 
 type CompositeSelectArgs = {
   value: '' | 'active' | 'pending' | 'archived';

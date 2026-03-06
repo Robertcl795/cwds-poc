@@ -89,41 +89,43 @@ importers:
 
   apps/storybook:
     dependencies:
+      '@ds/components':
+        specifier: workspace:*
+        version: link:../../packages/components
       '@ds/core':
         specifier: workspace:*
-        version: link:../../packages/design-core
-      '@ds/primitives':
+        version: link:../../packages/core
+      '@ds/tokens':
         specifier: workspace:*
-        version: link:../../packages/ui-system/primitives
-      '@ds/styles':
-        specifier: workspace:*
-        version: link:../../packages/styles
-      '@ds/web-components':
-        specifier: workspace:*
-        version: link:../../packages/ui-system/web-components
+        version: link:../../packages/tokens
 
   apps/ux-showcase:
     dependencies:
+      '@ds/components':
+        specifier: workspace:*
+        version: link:../../packages/components
       '@ds/core':
         specifier: workspace:*
-        version: link:../../packages/design-core
-      '@ds/primitives':
+        version: link:../../packages/core
+      '@ds/tokens':
         specifier: workspace:*
-        version: link:../../packages/ui-system/primitives
-      '@ds/styles':
-        specifier: workspace:*
-        version: link:../../packages/styles
-      '@ds/web-components':
-        specifier: workspace:*
-        version: link:../../packages/ui-system/web-components
+        version: link:../../packages/tokens
 
-  packages/design-core:
+  packages/components:
     dependencies:
+      '@ds/core':
+        specifier: workspace:*
+        version: link:../core
+      '@ds/tokens':
+        specifier: workspace:*
+        version: link:../tokens
       lit:
         specifier: ^3.3.1
         version: 3.3.2
 
-  packages/styles:
+  packages/core: {}
+
+  packages/tokens:
     devDependencies:
       stylelint:
         specifier: ^17.4.0
@@ -132,83 +134,10 @@ importers:
         specifier: ^40.0.0
         version: 40.0.0(stylelint@17.4.0(typescript@5.9.3))
 
-  packages/ui-system/angular:
-    dependencies:
-      '@angular/core':
-        specifier: ^19.0.0 || ^20.0.0
-        version: 20.3.17(rxjs@7.8.2)
-      '@angular/forms':
-        specifier: ^19.0.0 || ^20.0.0
-        version: 20.3.17(@angular/common@20.3.17(@angular/core@20.3.17(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.17(rxjs@7.8.2))(@angular/platform-browser@20.3.17(@angular/common@20.3.17(@angular/core@20.3.17(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.17(rxjs@7.8.2)))(rxjs@7.8.2)
-      '@ds/core':
-        specifier: workspace:*
-        version: link:../../design-core
-      '@ds/primitives':
-        specifier: workspace:*
-        version: link:../primitives
-
-  packages/ui-system/primitives:
-    dependencies:
-      '@ds/core':
-        specifier: workspace:*
-        version: link:../../design-core
-      lit:
-        specifier: ^3.3.1
-        version: 3.3.2
-
-  packages/ui-system/web-components:
-    dependencies:
-      '@ds/core':
-        specifier: workspace:*
-        version: link:../../design-core
-      '@ds/primitives':
-        specifier: workspace:*
-        version: link:../primitives
-
 packages:
 
   '@adobe/css-tools@4.4.4':
     resolution: {integrity: sha512-Elp+iwUx5rN5+Y8xLt5/GRoG20WGoDCQ/1Fb+1LiGtvwbDavuSk0jhD/eZdckHAuzcDzccnkv+rEjyWfRx18gg==}
-
-  '@angular/common@20.3.17':
-    resolution: {integrity: sha512-Dqd8f8o9MehszTZIB7o7jrERlwLOSK64gNngK14DCQazz5lpIhAF6hBjx7zjHpa7L9eAYPK1TaxQUXypjzj18Q==}
-    engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0}
-    peerDependencies:
-      '@angular/core': 20.3.17
-      rxjs: ^6.5.3 || ^7.4.0
-
-  '@angular/core@20.3.17':
-    resolution: {integrity: sha512-YlQqxMeHI9XJw7I7oM3hYFQd4lQbK37IdlD9ztROIw5FjX6i6lmLU7+X1MQGSRi2r+X9l3IZtl33hRTNvkoUBw==}
-    engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0}
-    peerDependencies:
-      '@angular/compiler': 20.3.17
-      rxjs: ^6.5.3 || ^7.4.0
-      zone.js: ~0.15.0
-    peerDependenciesMeta:
-      '@angular/compiler':
-        optional: true
-      zone.js:
-        optional: true
-
-  '@angular/forms@20.3.17':
-    resolution: {integrity: sha512-iGS6NwzcyJzinbPMapsQtcN0ZJ62vr6hcul+FNa40CaK2ePC04S+C5n+DIphzwnwsFHDBIWuTQRfk/lNYdN1JA==}
-    engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0}
-    peerDependencies:
-      '@angular/common': 20.3.17
-      '@angular/core': 20.3.17
-      '@angular/platform-browser': 20.3.17
-      rxjs: ^6.5.3 || ^7.4.0
-
-  '@angular/platform-browser@20.3.17':
-    resolution: {integrity: sha512-GA8pK+0F2/KGdYn5LMpLBrPTkQUwGjQE8Q+qsivOa150cK3OuD0po5PvYK58l+niGIVvm0wB1xGKTHTOiX/+4A==}
-    engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0}
-    peerDependencies:
-      '@angular/animations': 20.3.17
-      '@angular/common': 20.3.17
-      '@angular/core': 20.3.17
-    peerDependenciesMeta:
-      '@angular/animations':
-        optional: true
 
   '@asamuzakjp/css-color@3.2.0':
     resolution: {integrity: sha512-K1A6z8tS3XsmCMM86xoWdn7Fkdn9m6RSVtocUrJYIwZnFVkng/PvkEoWtOWmP+Scc6saYWHWZYbndEEXxl24jw==}
@@ -2039,9 +1968,6 @@ packages:
   run-parallel@1.2.0:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
 
-  rxjs@7.8.2:
-    resolution: {integrity: sha512-dhKf903U/PQZY6boNNtAGdWbG85WAbjT/1xYoZIC7FAY0yWapOBQVsVrDl58W86//e1VpMNBtRV4MaXfdMySFA==}
-
   safer-buffer@2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
 
@@ -2431,31 +2357,6 @@ packages:
 snapshots:
 
   '@adobe/css-tools@4.4.4': {}
-
-  '@angular/common@20.3.17(@angular/core@20.3.17(rxjs@7.8.2))(rxjs@7.8.2)':
-    dependencies:
-      '@angular/core': 20.3.17(rxjs@7.8.2)
-      rxjs: 7.8.2
-      tslib: 2.8.1
-
-  '@angular/core@20.3.17(rxjs@7.8.2)':
-    dependencies:
-      rxjs: 7.8.2
-      tslib: 2.8.1
-
-  '@angular/forms@20.3.17(@angular/common@20.3.17(@angular/core@20.3.17(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.17(rxjs@7.8.2))(@angular/platform-browser@20.3.17(@angular/common@20.3.17(@angular/core@20.3.17(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.17(rxjs@7.8.2)))(rxjs@7.8.2)':
-    dependencies:
-      '@angular/common': 20.3.17(@angular/core@20.3.17(rxjs@7.8.2))(rxjs@7.8.2)
-      '@angular/core': 20.3.17(rxjs@7.8.2)
-      '@angular/platform-browser': 20.3.17(@angular/common@20.3.17(@angular/core@20.3.17(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.17(rxjs@7.8.2))
-      rxjs: 7.8.2
-      tslib: 2.8.1
-
-  '@angular/platform-browser@20.3.17(@angular/common@20.3.17(@angular/core@20.3.17(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.17(rxjs@7.8.2))':
-    dependencies:
-      '@angular/common': 20.3.17(@angular/core@20.3.17(rxjs@7.8.2))(rxjs@7.8.2)
-      '@angular/core': 20.3.17(rxjs@7.8.2)
-      tslib: 2.8.1
 
   '@asamuzakjp/css-color@3.2.0':
     dependencies:
@@ -4220,10 +4121,6 @@ snapshots:
   run-parallel@1.2.0:
     dependencies:
       queue-microtask: 1.2.3
-
-  rxjs@7.8.2:
-    dependencies:
-      tslib: 2.8.1
 
   safer-buffer@2.1.2: {}
 

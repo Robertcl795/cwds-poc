@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-import { createPrimitiveSelect } from '@ds/primitives';
+import { createPrimitiveSelect } from '@ds/components';
 
 const options = [
   { id: 'stable', label: 'Stable', value: 'stable' },

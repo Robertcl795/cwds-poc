@@ -1,0 +1,31 @@
+html,
+body,
+#storybook-root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--cv-sys-color-surface-muted);
+  color: var(--cv-sys-color-text);
+}
+
+.cv-storybook-shell {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 1.5rem;
+  background: var(--cv-sys-color-surface-muted);
+  color: var(--cv-sys-color-text);
+}
+
+.cv-storybook-shell[data-view-mode='story'] {
+  min-height: 100vh;
+}
+
+.cv-storybook-frame {
+  box-sizing: border-box;
+  display: grid;
+  gap: 1rem;
+  width: min(100%, var(--cv-storybook-max-width, 72rem));
+  margin-inline: auto;
+}

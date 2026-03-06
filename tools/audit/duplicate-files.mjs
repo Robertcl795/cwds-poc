@@ -7,7 +7,11 @@ const ROOT = process.cwd();
 const REPORTS_DIR = join(ROOT, 'reports');
 mkdirSync(REPORTS_DIR, { recursive: true });
 
-const shouldSkip = (path) => path.includes('/node_modules/') || path.includes('/dist/') || path.includes('/storybook-static/');
+const shouldSkip = (path) =>
+  path.includes('/node_modules/') ||
+  path.includes('/dist/') ||
+  path.endsWith('/dist') ||
+  path.includes('/storybook-static/');
 const exts = new Set(['.ts', '.tsx', '.css', '.md', '.json']);
 
 const walk = (dir, files) => {

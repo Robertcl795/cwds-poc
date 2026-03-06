@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-import { createPrimitiveTextField } from '@ds/primitives';
+import { createPrimitiveTextField } from '@ds/components';
 
 const meta: Meta = {
   title: 'Verification/Input Surfaces/Text Field State Matrix',

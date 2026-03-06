@@ -7,29 +7,18 @@ const REPORTS_DIR = join(ROOT, 'reports');
 mkdirSync(REPORTS_DIR, { recursive: true });
 const warnOnly = process.argv.includes('--warn');
 
-const groupByPackage = new Map([
-  ['@ds/tokens', 'design-core'],
-  ['@ds/styles', 'design-core'],
-  ['@ds/core', 'design-core'],
-  ['@ds/utils-a11y', 'design-core'],
-  ['@ds/utils-icons', 'design-core'],
-  ['@ds/primitives', 'ui-system'],
-  ['@ds/web-components', 'ui-system'],
-  ['@ds/angular', 'ui-system']
-]);
-
-const packageByPathPrefix = [
-  ['packages/ui-system/angular/', '@ds/angular'],
-  ['packages/ui-system/web-components/', '@ds/web-components'],
-  ['packages/design-core/core/', '@ds/core'],
-  ['packages/ui-system/primitives/', '@ds/primitives'],
-  ['packages/design-core/styles/', '@ds/styles'],
-  ['packages/design-core/tokens/', '@ds/tokens'],
-  ['packages/design-core/utils-a11y/', '@ds/utils-a11y'],
-  ['packages/design-core/utils-icons/', '@ds/utils-icons']
+const OWNER_PREFIXES = [
+  ['packages/tokens/', '@ds/tokens'],
+  ['packages/core/', '@ds/core'],
+  ['packages/components/', '@ds/components']
 ];
 
-const importPattern = /from\s+['\"](@ds\/[a-zA-Z0-9-]+)['\"]|import\s+['\"](@ds\/[a-zA-Z0-9-]+)['\"]/g;
+const importPattern = /from\s+['"](@ds\/[a-zA-Z0-9-]+(?:\/[a-zA-Z0-9-]+)?)['"]|import\s+['"](@ds\/[a-zA-Z0-9-]+(?:\/[a-zA-Z0-9-]+)?)['"]/g;
+const allowedDeps = new Map([
+  ['@ds/tokens', new Set(['@ds/tokens'])],
+  ['@ds/core', new Set(['@ds/core'])],
+  ['@ds/components', new Set(['@ds/components', '@ds/core', '@ds/tokens'])]
+]);
 const violations = [];
 
 const shouldSkip = (path) => path.includes('/node_modules/') || path.includes('/dist/');
@@ -37,8 +26,8 @@ const shouldSkip = (path) => path.includes('/node_modules/') || path.includes('/
 const walk = (dir, onFile) => {
   for (const entry of readdirSync(dir)) {
     const next = join(dir, entry);
-    const s = statSync(next);
-    if (s.isDirectory()) {
+    const stats = statSync(next);
+    if (stats.isDirectory()) {
       if (shouldSkip(next)) continue;
       walk(next, onFile);
     } else {
@@ -49,10 +38,17 @@ const walk = (dir, onFile) => {
 
 const ownerPackage = (filePath) => {
   const rel = relative(ROOT, filePath).replaceAll('\\', '/');
-  for (const [prefix, pkg] of packageByPathPrefix) {
-    if (rel.startsWith(prefix)) return pkg;
+  for (const [prefix, pkg] of OWNER_PREFIXES) {
+    if (rel.startsWith(prefix)) {
+      return pkg;
+    }
   }
   return null;
+};
+
+const rootPackageOf = (specifier) => {
+  const parts = specifier.split('/');
+  return parts.length >= 2 ? `${parts[0]}/${parts[1]}` : specifier;
 };
 
 walk(join(ROOT, 'packages'), (filePath) => {
@@ -60,23 +56,23 @@ walk(join(ROOT, 'packages'), (filePath) => {
 
   const owner = ownerPackage(filePath);
   if (!owner) return;
-  const ownerGroup = groupByPackage.get(owner);
-  if (!ownerGroup) return;
 
   const content = readFileSync(filePath, 'utf8');
+  const allowed = allowedDeps.get(owner) ?? new Set();
   for (const match of content.matchAll(importPattern)) {
     const dep = match[1] ?? match[2];
-    if (!dep || !groupByPackage.has(dep)) continue;
+    if (!dep) continue;
 
-    const depGroup = groupByPackage.get(dep);
-    if (ownerGroup === 'design-core' && depGroup === 'ui-system') {
-      violations.push({
-        file: relative(ROOT, filePath).replaceAll('\\', '/'),
-        owner,
-        dep,
-        rule: 'design-core must not import ui-system'
-      });
-    }
+    const depRoot = rootPackageOf(dep);
+    if (!depRoot.startsWith('@ds/')) continue;
+    if (allowed.has(depRoot)) continue;
+
+    violations.push({
+      file: relative(ROOT, filePath).replaceAll('\\', '/'),
+      owner,
+      dep,
+      rule: `${owner} must not import ${depRoot}`
+    });
   }
 });
 
@@ -88,8 +84,8 @@ if (violations.length === 0) {
 }
 
 console.error(`Boundary check found ${violations.length} violation(s)`);
-for (const v of violations) {
-  console.error(`- ${v.file}: ${v.owner} -> ${v.dep} (${v.rule})`);
+for (const violation of violations) {
+  console.error(`- ${violation.file}: ${violation.rule}`);
 }
 
 if (warnOnly) {

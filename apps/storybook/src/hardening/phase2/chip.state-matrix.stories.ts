@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-import { createPrimitiveChip } from '@ds/primitives';
+import { createPrimitiveChip } from '@ds/components';
 
 const meta: Meta = {
   title: 'Verification/Input Surfaces/Chip State Matrix',
