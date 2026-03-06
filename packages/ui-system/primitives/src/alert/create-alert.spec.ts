@@ -11,6 +11,7 @@ describe('createPrimitiveAlert', () => {
 
     expect(alert.element.getAttribute('role')).toBe('alert');
     expect(alert.element.getAttribute('aria-live')).toBe('assertive');
+    expect(alert.element.getAttribute('aria-atomic')).toBe('true');
   });
 
   it('dispatches action callbacks', () => {

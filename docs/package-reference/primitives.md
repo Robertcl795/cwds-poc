@@ -1,15 +1,18 @@
 # @ds/primitives
 
+Status: `stable`
+
 ## Purpose and boundary
 
 Expose semantic, native HTML-first primitive/composite creation APIs.
-Consumes headless contracts and internal utilities; this is the primary public JS API.
+Consumes framework-agnostic controllers and internal utilities; this is the primary public JS API for production-ready DOM primitives.
 
 ## Public API surface
 
 - Primitive factories: button, text-field, checkbox, switch, list, tabs, etc.
-- Composites: dialog, select, tooltip, menu, snackbar, card, toolbar, alert
+- Composites: dialog, select, tooltip, menu, snackbar, card, toolbar, alert, action-ribbon
 - Typed option/result contracts
+- Native HTML first: generated markup is plain semantic DOM styled by `@ds/styles`
 
 ## Usage examples
 
@@ -24,13 +27,3 @@ Angular 19+:
 import { CvButtonDirective } from '@ds/angular';
 // Prefer adapter directives/components over direct primitive calls.
 ```
-
-## Known POC limitations
-
-- Some internal `shared*` patterns are not yet fully hidden from future API churn.
-- Component maturity levels are not tagged.
-
-## Future extension points
-
-- Publish component stability map and deprecation policy.
-- Narrow exports to explicit component modules over wildcard exports.

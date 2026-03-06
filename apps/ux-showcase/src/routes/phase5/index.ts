@@ -33,6 +33,7 @@ export function renderPhase5Showcase(container: HTMLElement): void {
     variant: 'outlined',
     body: 'Use this surface for dense operational controls and status messaging.'
   });
+  workflowCard.element.dataset.phase5WorkflowCard = 'true';
 
   const workflowLog = document.createElement('p');
   workflowLog.className = 'phase5-log';
@@ -97,14 +98,15 @@ export function renderPhase5Showcase(container: HTMLElement): void {
 
   const contextTarget = createPrimitiveIconButton({
     icon: rowMenuIcon,
-    ariaLabel: 'Open deployment row actions',
+    ariaLabel: 'Deployment row actions',
     variant: 'standard'
   });
   contextTarget.dataset.phase5ContextTarget = 'true';
 
   createContextMenu({
     target: contextTarget,
-    triggerMode: 'click',
+    triggerMode: 'contextmenu',
+    ariaLabel: 'Deployment row actions',
     items: [
       { type: 'label', id: 'ctx-label', label: 'Deployment row' },
       { id: 'inspect', label: 'Inspect run', iconStart: '↗', shortcut: 'Alt+I' },
@@ -141,6 +143,7 @@ export function renderPhase5Showcase(container: HTMLElement): void {
     supportingText: 'Alert + Snackbar + dialog variant',
     variant: 'filled'
   });
+  feedbackCard.element.dataset.phase5FeedbackCard = 'true';
 
   const alert = createPrimitiveAlert({
     tone: 'info',
@@ -153,6 +156,38 @@ export function renderPhase5Showcase(container: HTMLElement): void {
       workflowLog.textContent = `Alert action: ${action.id}`;
     }
   });
+  alert.element.dataset.phase5PrimaryAlert = 'true';
+
+  const toneAudit = document.createElement('section');
+  toneAudit.className = 'phase5-tone-audit';
+  toneAudit.dataset.phase5ToneAudit = 'true';
+
+  const toneAuditTitle = document.createElement('h3');
+  toneAuditTitle.textContent = 'Tone audit';
+
+  const toneStack = document.createElement('div');
+  toneStack.className = 'phase5-tone-stack';
+
+  const toneConfigs = [
+    ['neutral', 'Neutral update', 'Queued changes are waiting for review.'],
+    ['info', 'Info update', 'Deployment details are still available for review.'],
+    ['success', 'Success update', 'The latest draft validated successfully.'],
+    ['warning', 'Warning update', 'A policy check still needs acknowledgement.'],
+    ['error', 'Error update', 'An approval failed and requires attention.']
+  ] as const;
+
+  for (const [tone, title, message] of toneConfigs) {
+    const toneAlert = createPrimitiveAlert({
+      tone,
+      variant: 'soft',
+      title,
+      message
+    });
+    toneAlert.element.dataset.phase5Tone = tone;
+    toneStack.append(toneAlert.element);
+  }
+
+  toneAudit.append(toneAuditTitle, toneStack);
 
   const snackbarHost = createPrimitiveSnackbarHost({
     defaultDurationMs: 3500
@@ -189,7 +224,7 @@ export function renderPhase5Showcase(container: HTMLElement): void {
     alertDialog.showModal();
   });
 
-  feedbackCard.element.append(alert.element, snackbarTrigger, dialogTrigger, alertDialog);
+  feedbackCard.element.append(alert.element, toneAudit, snackbarTrigger, dialogTrigger, alertDialog);
 
   grid.append(workflowCard.element, feedbackCard.element);
   page.append(heading, subtitle, grid);

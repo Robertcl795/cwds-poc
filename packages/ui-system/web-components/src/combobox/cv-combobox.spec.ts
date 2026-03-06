@@ -84,4 +84,22 @@ describe('CvCombobox', () => {
 
     expect(combobox.value).toBe('pending');
   });
+
+  it('participates in FormData with its configured name', async () => {
+    const form = document.createElement('form');
+    const combobox = document.createElement('cv-combobox') as CvCombobox;
+    combobox.name = 'status';
+    combobox.value = 'pending';
+    combobox.options = [
+      { value: 'active', label: 'Active' },
+      { value: 'pending', label: 'Pending' }
+    ];
+
+    form.append(combobox);
+    document.body.append(form);
+    await nextTick();
+
+    const formData = new FormData(form);
+    expect(formData.get('status')).toBe('pending');
+  });
 });

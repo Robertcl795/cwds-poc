@@ -10,6 +10,18 @@ describe('createActionRibbon', () => {
     });
 
     expect(ribbon.element.textContent).toContain('3 selected');
+    expect(ribbon.element.querySelector('.cv-action-ribbon__status')?.getAttribute('aria-live')).toBe('polite');
+    expect(ribbon.element.querySelector('.cv-action-ribbon__status')?.getAttribute('aria-atomic')).toBe('true');
+  });
+
+  it('switches live-region priority when tone changes to error', () => {
+    const ribbon = createActionRibbon({
+      message: 'Review changes'
+    });
+
+    ribbon.setTone('error');
+
+    expect(ribbon.element.querySelector('.cv-action-ribbon__status')?.getAttribute('aria-live')).toBe('assertive');
   });
 
   it('dispatches action callbacks', () => {

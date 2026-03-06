@@ -11,7 +11,7 @@ test('renders phase5 route and validates enterprise surfaces', async ({ page }) 
 
   const contextTarget = page.locator('[data-phase5-context-target="true"]');
   await contextTarget.click({ button: 'right' });
-  await expect(page.getByRole('menu')).toBeVisible();
+  await expect(page.getByRole('menu', { name: 'Deployment row actions' })).toBeVisible();
 
   await page.getByRole('menuitem', { name: 'Inspect run' }).click();
   await expect(page.locator('.phase5-log')).toContainText('inspect');

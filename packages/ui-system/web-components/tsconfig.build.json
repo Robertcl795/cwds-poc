@@ -9,5 +9,6 @@
       "@ds/primitives": ["../primitives/dist/index.d.ts"]
     }
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/**/*.spec.ts"]
 }

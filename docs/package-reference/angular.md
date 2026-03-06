@@ -1,9 +1,13 @@
 # @ds/angular
 
+Status: `experimental`
+
 ## Purpose and boundary
 
 Angular 19+ adapter layer that maps DS contracts to ergonomic Angular APIs.
 Must use signals, typed forms, `inject()`, and remain zoneless-ready.
+
+Status: experimental. This package is not part of the production-ready POC surface today.
 
 ## Public API surface
 
@@ -24,13 +28,3 @@ bootstrapApplication(AppComponent, {
   providers: [provideCvAngularAdapter({ zoneless: true })]
 });
 ```
-
-## Known POC limitations
-
-- Adapter coverage is narrow (button-focused baseline).
-- No adapter-level conformance suite across all primitives yet.
-
-## Future extension points
-
-- Add adapters for form-field, dialog, menu/listbox, and overlays.
-- Add typed reactive forms bridges and control-value access patterns.

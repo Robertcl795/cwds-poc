@@ -1,4 +1,4 @@
-@layer tokens, base, foundation, components, variants, overrides;
+@layer tokens, base, foundation, components, adapters, overrides;
 
 @layer base {
 @property --cv-ripple-size {

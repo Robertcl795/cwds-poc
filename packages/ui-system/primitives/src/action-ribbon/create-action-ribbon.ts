@@ -67,6 +67,7 @@ export const createActionRibbon = (options: PrimitiveActionRibbonOptions): Primi
   status.className = 'cv-action-ribbon__status';
   status.setAttribute('role', 'status');
   status.setAttribute('aria-live', options.tone === 'error' ? 'assertive' : 'polite');
+  status.setAttribute('aria-atomic', 'true');
 
   const statusText = document.createElement('p');
   statusText.className = 'cv-action-ribbon__status-text';

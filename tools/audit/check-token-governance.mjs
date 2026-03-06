@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 import { mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
-import { join, relative } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { dirname, join, relative } from 'node:path';
 
-const ROOT = process.cwd();
+const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
+const ROOT = join(SCRIPT_DIR, '..', '..');
 const REPORTS_DIR = join(ROOT, 'reports');
 mkdirSync(REPORTS_DIR, { recursive: true });
 const strict = process.argv.includes('--strict');

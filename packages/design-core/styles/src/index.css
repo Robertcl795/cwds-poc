@@ -1,2 +1,4 @@
+@layer tokens, base, foundation, components, adapters, overrides;
+
 @import './foundation/index.css';
-@import './components/index.css' layer(components);
+@import './components/index.css';

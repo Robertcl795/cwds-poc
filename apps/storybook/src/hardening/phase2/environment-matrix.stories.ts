@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/html-vite';
 import { createPrimitiveChip, createPrimitiveSelect, createPrimitiveSlider, createPrimitiveTextField } from '@ds/primitives';
 
 const meta: Meta = {
-  title: 'Hardening/Phase 2/Environment Matrix',
+  title: 'Verification/Input Surfaces/Environment Matrix',
   parameters: {
     a11y: { test: 'error' }
   }

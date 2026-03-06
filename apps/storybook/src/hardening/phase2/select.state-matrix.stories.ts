@@ -9,7 +9,7 @@ const options = [
 ];
 
 const meta: Meta = {
-  title: 'Hardening/Phase 2/Select Baseline vs Enhanced',
+  title: 'Verification/Input Surfaces/Select Baseline vs Enhanced',
   parameters: {
     a11y: { test: 'error' }
   }

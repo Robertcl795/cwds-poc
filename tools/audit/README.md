@@ -11,5 +11,6 @@ Scripts:
 - `duplicate-files.mjs`: duplicate content clusters (excluding `dist`/`node_modules`).
 - `check-boundaries.mjs`: dependency boundary checks for `design-core` vs `ui-system`.
 - `check-token-governance.mjs`: token/raw-value governance warnings (or strict fail).
+- `check-token-contract.mjs`: required token layer contract checks for palette, semantic, spacing, typography, motion, and z-index tokens.
 
 Outputs are written to `reports/`.

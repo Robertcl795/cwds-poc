@@ -11,7 +11,7 @@ type ButtonDocsArgs = {
   outlined: boolean;
   dense: boolean;
   disabled: boolean;
-  expanContent: boolean;
+  expandContent: boolean;
   fullWidth: boolean;
 };
 
@@ -27,7 +27,7 @@ const meta: Meta<ButtonDocsArgs> = {
     outlined: false,
     dense: false,
     disabled: false,
-    expanContent: false,
+    expandContent: false,
     fullWidth: false
   },
   argTypes: {
@@ -64,7 +64,7 @@ const meta: Meta<ButtonDocsArgs> = {
       control: 'boolean',
       description: 'Disables interaction'
     },
-    expanContent: {
+    expandContent: {
       control: 'boolean',
       description: 'Expands middle content area between label and trailing icon'
     },
@@ -170,8 +170,8 @@ export const Docs: Story = {
         raised: args.raised,
         dense: args.dense,
         fullWidth: args.fullWidth,
-        expandContent: args.expanContent,
-        content: args.expanContent ? '' : undefined
+        expandContent: args.expandContent,
+        content: args.expandContent ? '' : undefined
       })
     );
 

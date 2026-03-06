@@ -4,7 +4,7 @@
 
 - `@ds/core`: interaction state, keyboard logic, environment guards.
 - `@ds/primitives`: semantic DOM composition and stable creation APIs.
-- Adapters (`@ds/angular`, `@ds/web-components`): framework ergonomics over stable primitives.
+- Adapters (`@ds/web-components`, experimental `@ds/angular`): framework ergonomics over stable primitives.
 
 ## Rules
 

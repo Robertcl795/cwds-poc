@@ -8,8 +8,3 @@ export const defineCvWebComponents = (): void => {
   defineCvCombobox();
   defineCvAdvancedSelect();
 };
-
-/**
- * @deprecated Use `defineCvWebComponents` instead.
- */
-export const definePhase4WebComponents = defineCvWebComponents;

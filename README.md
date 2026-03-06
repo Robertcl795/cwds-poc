@@ -1,6 +1,6 @@
-# Covalent Web Design System POC
+# Covalent CSS-First Design System POC
 
-Phase 1 scaffolds a framework-agnostic monorepo for semantic/headless UI migration.
+This repository is a native-first, headless/primitive design system proof of concept with a CSS-driven foundation and minimal adapter runtime.
 
 ## Workspace packages
 
@@ -9,7 +9,7 @@ Phase 1 scaffolds a framework-agnostic monorepo for semantic/headless UI migrati
 - `@ds/core`
 - `@ds/utils-a11y`
 - `@ds/primitives`
-- `@ds/angular`
+- `@ds/angular` (experimental adapter stub)
 - `@ds/web-components`
 - `@ds/storybook`
 - `@ds/ux-showcase`

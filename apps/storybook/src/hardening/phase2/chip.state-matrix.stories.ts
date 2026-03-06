@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/html-vite';
 import { createPrimitiveChip } from '@ds/primitives';
 
 const meta: Meta = {
-  title: 'Hardening/Phase 2/Chip State Matrix',
+  title: 'Verification/Input Surfaces/Chip State Matrix',
   parameters: {
     a11y: { test: 'error' }
   }

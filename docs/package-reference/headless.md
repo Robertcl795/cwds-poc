@@ -1,5 +1,7 @@
 # @ds/core
 
+Status: `stable`
+
 ## Purpose and boundary
 
 Provide framework-agnostic interaction/state controllers and infrastructure.
@@ -10,6 +12,7 @@ Must stay independent from styles and framework adapters.
 - Controllers: button, checkbox, dialog, field, select
 - Infra: focus manager, keyboard, overlay stack
 - Utilities: feature/environment detection, ripple/focus helpers
+- No dependency on Material Web, Lit, or framework runtimes
 
 ## Usage examples
 
@@ -23,13 +26,3 @@ Angular 19+:
 import { createDialogController } from '@ds/core';
 // Use inside adapter/service, not directly in templates.
 ```
-
-## Known POC limitations
-
-- Some controller contracts are still broad (`export *` heavy index surface).
-- API stability labels (stable/experimental) are not documented yet.
-
-## Future extension points
-
-- Add explicit subpath exports and stability tiers.
-- Add contract tests per controller for adapter parity.

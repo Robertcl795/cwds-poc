@@ -24,6 +24,22 @@ describe('createPrimitiveSnackbarHost', () => {
     vi.useRealTimers();
   });
 
+  it('uses atomic live-region semantics for announced messages', () => {
+    const host = createPrimitiveSnackbarHost({
+      defaultDurationMs: 0,
+      closeAnimationMs: 0
+    });
+
+    host.enqueue({ message: 'Saved', tone: 'error' });
+
+    const snackbar = host.element.querySelector<HTMLElement>('.cv-snackbar');
+    expect(snackbar?.getAttribute('role')).toBe('alert');
+    expect(snackbar?.getAttribute('aria-live')).toBe('assertive');
+    expect(snackbar?.getAttribute('aria-atomic')).toBe('true');
+
+    host.destroy();
+  });
+
   it('supports queued messages in order', () => {
     vi.useFakeTimers();
 

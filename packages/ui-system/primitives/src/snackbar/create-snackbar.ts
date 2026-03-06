@@ -87,6 +87,7 @@ export const createPrimitiveSnackbarHost = (options: PrimitiveSnackbarHostOption
     const priority = next.priority ?? (next.tone === 'error' ? 'assertive' : 'polite');
     snackbar.setAttribute('role', priority === 'assertive' ? 'alert' : 'status');
     snackbar.setAttribute('aria-live', priority);
+    snackbar.setAttribute('aria-atomic', 'true');
 
     const message = document.createElement('p');
     message.className = 'cv-snackbar__message';

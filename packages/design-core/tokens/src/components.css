@@ -1,0 +1,175 @@
+:root {
+  --cv-comp-button-bg: var(--cv-sys-color-primary);
+  --cv-comp-button-bg-hover: var(--cv-sys-color-primary-hover);
+  --cv-comp-button-gap: var(--cv-sys-space-sm);
+  --cv-comp-button-icon-size: 1rem;
+  --cv-comp-button-min-height: 2.625rem;
+  --cv-comp-button-padding-block: 0.7rem;
+  --cv-comp-button-padding-inline: var(--cv-sys-space-lg);
+  --cv-comp-button-radius: calc(var(--cv-sys-radius-control) - 0.1rem);
+  --cv-comp-button-text: var(--cv-sys-color-on-primary);
+
+  --cv-comp-card-radius: var(--cv-sys-radius-panel);
+  --cv-comp-card-padding: var(--cv-sys-space-lg);
+  --cv-comp-card-border: var(--cv-sys-color-border);
+  --cv-comp-card-surface: var(--cv-sys-color-surface-raised);
+  --cv-comp-card-surface-filled: color-mix(in oklab, var(--cv-sys-color-surface-accent) 64%, var(--cv-sys-color-surface));
+  --cv-comp-card-shadow: var(--cv-sys-elevation-level-1);
+
+  --cv-comp-checkbox-border: var(--cv-sys-color-border);
+  --cv-comp-checkbox-checked-bg: var(--cv-sys-color-primary);
+  --cv-comp-checkbox-checkmark: var(--cv-ref-color-white);
+  --cv-comp-checkbox-hover-ring: color-mix(in oklab, var(--cv-sys-color-primary) 18%, transparent);
+  --cv-comp-checkbox-radius: 0.35rem;
+  --cv-comp-checkbox-size: 1.25rem;
+
+  --cv-comp-chip-bg: var(--cv-sys-color-surface);
+  --cv-comp-chip-border: var(--cv-sys-color-border);
+  --cv-comp-chip-height: 2rem;
+  --cv-comp-chip-label: var(--cv-sys-color-text);
+  --cv-comp-chip-radius: 999px;
+  --cv-comp-chip-selected-bg: color-mix(in oklab, var(--cv-sys-color-primary) 14%, var(--cv-sys-color-surface));
+
+  --cv-comp-dialog-radius: calc(var(--cv-sys-radius-panel) + 0.1rem);
+  --cv-comp-dialog-shadow: var(--cv-sys-elevation-popover);
+  --cv-comp-dialog-surface: var(--cv-sys-color-surface-raised);
+  --cv-comp-dialog-actions-gap: var(--cv-sys-space-sm);
+
+  --cv-comp-alert-radius: var(--cv-sys-radius-control);
+  --cv-comp-alert-padding: var(--cv-sys-space-md);
+  --cv-comp-alert-border: var(--cv-sys-color-border);
+  --cv-comp-alert-surface: color-mix(in oklab, var(--cv-sys-color-surface-accent) 55%, var(--cv-sys-color-surface));
+  --cv-comp-alert-surface-neutral: var(--cv-sys-color-neutral-surface);
+  --cv-comp-alert-surface-info: var(--cv-sys-color-info-surface);
+  --cv-comp-alert-surface-success: var(--cv-sys-color-success-surface);
+  --cv-comp-alert-surface-warning: var(--cv-sys-color-warning-surface);
+  --cv-comp-alert-surface-danger: var(--cv-sys-color-danger-surface);
+  --cv-comp-alert-border-neutral: var(--cv-sys-color-neutral-border);
+  --cv-comp-alert-border-info: var(--cv-sys-color-info-border);
+  --cv-comp-alert-border-success: var(--cv-sys-color-success-border);
+  --cv-comp-alert-border-warning: var(--cv-sys-color-warning-border);
+  --cv-comp-alert-border-danger: var(--cv-sys-color-danger-border);
+  --cv-comp-alert-text-neutral: var(--cv-sys-color-neutral-text);
+  --cv-comp-alert-text-info: var(--cv-sys-color-info-text);
+  --cv-comp-alert-text-success: var(--cv-sys-color-success-text);
+  --cv-comp-alert-text-warning: var(--cv-sys-color-warning-text);
+  --cv-comp-alert-text-danger: var(--cv-sys-color-danger-text);
+
+  --cv-comp-action-ribbon-radius: var(--cv-sys-radius-control);
+  --cv-comp-action-ribbon-padding: var(--cv-sys-space-sm);
+  --cv-comp-action-ribbon-surface: color-mix(
+    in oklab,
+    var(--cv-sys-color-surface-accent) 72%,
+    var(--cv-sys-color-surface)
+  );
+  --cv-comp-action-ribbon-border: var(--cv-sys-color-border);
+  --cv-comp-action-ribbon-sticky-top: 0px;
+  --cv-comp-action-ribbon-surface-neutral: var(--cv-sys-color-neutral-surface);
+  --cv-comp-action-ribbon-surface-info: var(--cv-sys-color-info-surface);
+  --cv-comp-action-ribbon-surface-success: var(--cv-sys-color-success-surface);
+  --cv-comp-action-ribbon-surface-warning: var(--cv-sys-color-warning-surface);
+  --cv-comp-action-ribbon-surface-danger: var(--cv-sys-color-danger-surface);
+  --cv-comp-action-ribbon-border-neutral: var(--cv-sys-color-neutral-border);
+  --cv-comp-action-ribbon-border-info: var(--cv-sys-color-info-border);
+  --cv-comp-action-ribbon-border-success: var(--cv-sys-color-success-border);
+  --cv-comp-action-ribbon-border-warning: var(--cv-sys-color-warning-border);
+  --cv-comp-action-ribbon-border-danger: var(--cv-sys-color-danger-border);
+  --cv-comp-action-ribbon-text-neutral: var(--cv-sys-color-neutral-text);
+  --cv-comp-action-ribbon-text-info: var(--cv-sys-color-info-text);
+  --cv-comp-action-ribbon-text-success: var(--cv-sys-color-success-text);
+  --cv-comp-action-ribbon-text-warning: var(--cv-sys-color-warning-text);
+  --cv-comp-action-ribbon-text-danger: var(--cv-sys-color-danger-text);
+
+  --cv-comp-divider-color: var(--cv-sys-color-border);
+  --cv-comp-divider-inset: var(--cv-sys-space-lg);
+  --cv-comp-elevation-level-1: var(--cv-sys-elevation-level-1);
+  --cv-comp-elevation-level-2: var(--cv-sys-elevation-level-2);
+  --cv-comp-elevation-level-3: var(--cv-sys-elevation-level-3);
+  --cv-comp-elevation-level-4: var(--cv-sys-elevation-level-4);
+  --cv-comp-elevation-level-5: var(--cv-sys-elevation-level-5);
+
+  --cv-comp-field-bg: color-mix(in oklab, var(--cv-sys-color-surface-raised) 88%, transparent);
+  --cv-comp-field-border: var(--cv-sys-color-border);
+  --cv-comp-field-border-danger: var(--cv-sys-color-danger);
+  --cv-comp-field-border-focus: var(--cv-sys-color-primary);
+  --cv-comp-field-padding-block: 0.7rem;
+  --cv-comp-field-padding-inline: var(--cv-sys-space-md);
+  --cv-comp-field-padding-inline-loading: calc(var(--cv-sys-space-md) + 1.5rem);
+  --cv-comp-field-radius: calc(var(--cv-sys-radius-control) - 0.06rem);
+  --cv-comp-field-text: var(--cv-sys-color-text);
+
+  --cv-comp-focus-ring-color: color-mix(in oklab, var(--cv-sys-color-primary) 78%, white);
+  --cv-comp-focus-ring-offset: 2px;
+  --cv-comp-focus-ring-width: 2px;
+
+  --cv-comp-icon-button-icon-size: 1.2rem;
+  --cv-comp-icon-button-size-lg: 2.9rem;
+  --cv-comp-icon-button-size-md: 2.55rem;
+  --cv-comp-icon-button-size-sm: 2.1rem;
+  --cv-comp-icon-size-lg: 1.25rem;
+  --cv-comp-icon-size-md: 1rem;
+  --cv-comp-icon-size-sm: 0.875rem;
+
+  --cv-comp-list-item-gap: var(--cv-sys-space-sm);
+  --cv-comp-list-item-min-height: 2.75rem;
+  --cv-comp-list-item-padding-block: 0.625rem;
+  --cv-comp-list-item-padding-inline: 0.8rem;
+  --cv-comp-list-item-radius: var(--cv-sys-radius-control);
+  --cv-comp-list-supporting-color: var(--cv-sys-color-text-muted);
+
+  --cv-comp-loading-size-lg: 1.25rem;
+  --cv-comp-loading-size-md: 1rem;
+  --cv-comp-loading-size-sm: 0.875rem;
+  --cv-comp-loading-stroke-width: 0.125rem;
+
+  --cv-comp-menu-container-color: var(--cv-sys-color-surface-raised);
+  --cv-comp-menu-radius: var(--cv-sys-radius-md);
+
+  --cv-comp-progress-height: 0.3rem;
+  --cv-comp-progress-track-color: color-mix(in oklab, currentColor 18%, transparent);
+  --cv-comp-progress-value-color: var(--cv-sys-color-primary);
+
+  --cv-comp-radio-border: var(--cv-sys-color-border);
+  --cv-comp-radio-checked-bg: var(--cv-sys-color-primary);
+  --cv-comp-radio-dot: var(--cv-ref-color-white);
+  --cv-comp-radio-size: 1.25rem;
+
+  --cv-comp-ripple-color: currentColor;
+  --cv-comp-ripple-duration: 450ms;
+  --cv-comp-ripple-opacity: 0.16;
+
+  --cv-comp-select-caret-size: 0.34rem;
+  --cv-comp-select-min-height: 2.875rem;
+  --cv-comp-select-option-min-height: 2.75rem;
+  --cv-comp-select-option-padding-block: 0.625rem;
+  --cv-comp-select-option-padding-inline: 0.75rem;
+
+  --cv-comp-snackbar-radius: var(--cv-sys-radius-control);
+  --cv-comp-snackbar-padding-block: var(--cv-sys-space-sm);
+  --cv-comp-snackbar-padding-inline: var(--cv-sys-space-md);
+  --cv-comp-snackbar-surface: light-dark(oklch(0.27 0.018 258), oklch(0.22 0.017 258));
+  --cv-comp-snackbar-label: var(--cv-ref-color-white);
+  --cv-comp-snackbar-shadow: var(--cv-sys-elevation-level-3);
+  --cv-comp-snackbar-surface-success: color-mix(in oklab, var(--cv-sys-color-success) 24%, var(--cv-comp-snackbar-surface));
+  --cv-comp-snackbar-surface-warning: color-mix(in oklab, var(--cv-sys-color-warning) 28%, var(--cv-comp-snackbar-surface));
+  --cv-comp-snackbar-surface-danger: color-mix(in oklab, var(--cv-sys-color-danger) 32%, var(--cv-comp-snackbar-surface));
+
+  --cv-comp-switch-track-bg: color-mix(in oklab, var(--cv-sys-color-border) 40%, transparent);
+  --cv-comp-switch-track-border: var(--cv-sys-color-border);
+  --cv-comp-switch-track-checked-bg: var(--cv-sys-color-primary);
+  --cv-comp-switch-track-height: 1.25rem;
+  --cv-comp-switch-track-width: 2.25rem;
+
+  --cv-comp-tabs-indicator-color: var(--cv-sys-color-primary);
+  --cv-comp-tabs-panel-padding-block: var(--cv-sys-space-sm);
+  --cv-comp-tabs-panel-padding-inline: var(--cv-sys-space-xs);
+  --cv-comp-tabs-tab-min-height: 2.625rem;
+  --cv-comp-tabs-tab-radius: calc(var(--cv-sys-radius-sm) * 0.9);
+
+  --cv-comp-toolbar-min-height: 3.125rem;
+  --cv-comp-toolbar-padding-inline: var(--cv-sys-space-sm);
+  --cv-comp-toolbar-gap: var(--cv-sys-space-sm);
+
+  --cv-comp-tooltip-container-color: light-dark(oklch(0.31 0.05 240), oklch(0.88 0.023 90));
+  --cv-comp-tooltip-label-color: light-dark(var(--cv-ref-color-white), var(--cv-ref-color-ink-950));
+}

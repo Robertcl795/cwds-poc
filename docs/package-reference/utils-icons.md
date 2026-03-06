@@ -1,5 +1,7 @@
 # @ds/utils-icons
 
+Status: `internal`
+
 ## Purpose and boundary
 
 Workspace-internal icon registry and DOM icon node factory.
@@ -21,13 +23,3 @@ Angular 19+:
 ```ts
 // Register via bootstrap initializer in adapter package later.
 ```
-
-## Known POC limitations
-
-- Global registry strategy is process-wide and simplistic.
-- No lazy icon loading strategy yet.
-
-## Future extension points
-
-- Add namespace support and async icon loaders.
-- Add trusted-source policy validation hooks.

@@ -38,6 +38,11 @@ export class CvAdvancedSelect extends HTMLElement {
 
   set name(value: string) {
     this._name = value;
+    if (value.length > 0) {
+      this.setAttribute('name', value);
+    } else {
+      this.removeAttribute('name');
+    }
     this.formAdapter.setName(value);
   }
 

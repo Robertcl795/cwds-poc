@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/html-vite';
 import { createPrimitiveSlider } from '@ds/primitives';
 
 const meta: Meta = {
-  title: 'Hardening/Phase 2/Slider State Matrix',
+  title: 'Verification/Input Surfaces/Slider State Matrix',
   parameters: {
     a11y: { test: 'error' }
   }

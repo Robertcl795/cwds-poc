@@ -27,7 +27,7 @@ export class CvButtonDirective {
   private readonly host = inject(ElementRef<HTMLButtonElement>);
 
   readonly cvColor = input<PrimitiveButtonColor>('primary');
-  readonly cvShape = input<PrimitiveButtonShape>('filled');
+  readonly cvShape = input<PrimitiveButtonShape>('contained');
   readonly cvDisabled = input<boolean>(false);
 
   readonly state = signal({

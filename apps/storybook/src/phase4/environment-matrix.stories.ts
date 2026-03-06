@@ -6,7 +6,7 @@ import { defineCvWebComponents } from '@ds/web-components';
 defineCvWebComponents();
 
 const meta: Meta = {
-  title: 'Hardening/Phase 4/Environment Matrix',
+  title: 'Verification/Web Components/Environment Matrix',
   parameters: {
     controls: { disable: true },
     a11y: { test: 'error' }

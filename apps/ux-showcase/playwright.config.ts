@@ -6,7 +6,7 @@ export default defineConfig({
     baseURL: 'http://127.0.0.1:4174'
   },
   webServer: {
-    command: 'pnpm --filter @ds/ux-showcase preview',
+    command: 'pnpm --filter @ds/ux-showcase build && pnpm --filter @ds/ux-showcase preview',
     port: 4174,
     reuseExistingServer: true,
     timeout: 120000

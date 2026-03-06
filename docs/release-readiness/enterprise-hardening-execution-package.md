@@ -78,7 +78,6 @@ Scope: action-ribbon, alert, dialog extensions, context menu extensions, toolbar
 | `docs/release-readiness/enterprise-hardening-execution-package.md` (add) | Tactical A-O hardening package | sprint scope | Main implementation plan and governance artifact.
 | `docs/release-readiness/enterprise-hardening-ci-gates.md` (add) | CI gate definitions and warn-only transitions | quality workflow | Makes pass criteria explicit and enforceable.
 | `docs/release-readiness/enterprise-hardening-report-template.md` (add) | Release-ready reporting template | above docs | Standardized signoff.
-| `docs/release-readiness/Presentation.md` (add) | Slide scaffold for enterprise hardening POC | execution package + report | Stakeholder communication artifact.
 | `docs/architecture-vision/framework-agnostic-contracts.md` (modify) | Add boundary note for enterprise hardening contracts | architecture docs | Captures non-breaking normalization decisions.
 
 ### Colocation note

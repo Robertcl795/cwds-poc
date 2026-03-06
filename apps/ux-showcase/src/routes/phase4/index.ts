@@ -14,7 +14,7 @@ export function renderPhase4Showcase(container: HTMLElement): void {
 
   const intro = document.createElement('p');
   intro.textContent =
-    'Advanced composites: native-first tooltip and context menu plus Lit combobox and advanced select baselines.';
+    'Advanced composites: native-first tooltip and context menu plus web-component combobox and advanced select baselines.';
 
   const grid = document.createElement('section');
   grid.className = 'phase4-grid';
@@ -61,9 +61,10 @@ export function renderPhase4Showcase(container: HTMLElement): void {
 
   const contextTarget = createPrimitiveIconButton({
     icon: menuIcon,
-    ariaLabel: 'Open deployment row actions',
+    ariaLabel: 'Deployment row actions',
     variant: 'standard'
   });
+  contextTarget.dataset.phase4ContextTarget = 'true';
 
   const contextLog = document.createElement('p');
   contextLog.className = 'phase4-log';
@@ -71,7 +72,8 @@ export function renderPhase4Showcase(container: HTMLElement): void {
 
   createContextMenu({
     target: contextTarget,
-    triggerMode: 'click',
+    triggerMode: 'contextmenu',
+    ariaLabel: 'Deployment row actions',
     items: [
       { id: 'inspect', label: 'Inspect run', iconStart: '↗' },
       { id: 'retry', label: 'Retry', iconStart: '↻' },
@@ -90,6 +92,7 @@ export function renderPhase4Showcase(container: HTMLElement): void {
 
   const formCard = document.createElement('article');
   formCard.className = 'phase4-card';
+  formCard.dataset.phase4AdapterAudit = 'true';
 
   const formTitle = document.createElement('h2');
   formTitle.textContent = 'Combobox + Advanced Select';
@@ -106,6 +109,7 @@ export function renderPhase4Showcase(container: HTMLElement): void {
   assignee.name = 'assignee';
   assignee.label = 'Assignee';
   assignee.placeholder = 'Search users';
+  assignee.dataset.phase4Adapter = 'combobox';
   assignee.options = [
     { value: 'amy', label: 'Amy Atlas' },
     { value: 'ben', label: 'Ben Burke' },
@@ -121,6 +125,7 @@ export function renderPhase4Showcase(container: HTMLElement): void {
   environment.name = 'environment';
   environment.label = 'Environment';
   environment.searchable = true;
+  environment.dataset.phase4Adapter = 'advanced-select';
   environment.options = [
     { value: 'prod', label: 'Production' },
     { value: 'staging', label: 'Staging' },

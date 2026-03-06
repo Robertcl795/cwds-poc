@@ -16,10 +16,11 @@ Anything outside these tracks is considered legacy implementation history and sh
 3. Read [Design-Core / UI-System Structure](./architecture-vision/design-core-ui-system-structure.md)
 4. Open [Package Reference Index](./package-reference/README.md)
 5. Read [Current State and Priorities](./architecture-vision/current-state-and-priorities.md)
-6. Review [Enterprise Hardening Execution Package](./release-readiness/enterprise-hardening-execution-package.md)
-7. Review [Enterprise Hardening CI Gates](./release-readiness/enterprise-hardening-ci-gates.md)
-8. Review [Enterprise Hardening Report Template](./release-readiness/enterprise-hardening-report-template.md)
-9. Review [Monorepo Foundation Refactor Plan](./release-readiness/monorepo-foundation-refactor-plan.md)
+6. Review [CSS-First Refactor Audit](./architecture-vision/css-first-refactor-audit.md)
+7. Review [Material Web Migration Guide](./architecture-vision/material-web-migration-guide.md)
+8. Review [Enterprise Hardening Execution Package](./release-readiness/enterprise-hardening-execution-package.md)
+9. Review [Enterprise Hardening CI Gates](./release-readiness/enterprise-hardening-ci-gates.md)
+10. Review [Enterprise Hardening Report Template](./release-readiness/enterprise-hardening-report-template.md)
 
 ## Legacy Docs
 

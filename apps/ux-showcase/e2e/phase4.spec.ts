@@ -9,14 +9,14 @@ test('renders phase4 route and validates core interactions', async ({ page }) =>
   await tooltipTrigger.hover();
   await expect(page.getByRole('tooltip')).toBeVisible();
 
-  const contextTarget = page.getByRole('button', { name: 'Right-click deployment row' });
+  const contextTarget = page.locator('[data-phase4-context-target="true"]');
   await contextTarget.click({ button: 'right' });
-  await expect(page.getByRole('menu')).toBeVisible();
+  await expect(page.getByRole('menu', { name: 'Deployment row actions' })).toBeVisible();
 
   await page.getByRole('menuitem', { name: 'Inspect run' }).click();
   await expect(page.locator('.phase4-log')).toContainText('inspect');
 
-  await page.locator('cv-combobox').evaluate((node) => {
+  await page.locator('[data-phase4-adapter="combobox"]').evaluate((node) => {
     const element = node as HTMLElement & { value: string };
     element.value = 'amy';
     element.dispatchEvent(
@@ -31,7 +31,7 @@ test('renders phase4 route and validates core interactions', async ({ page }) =>
     );
   });
 
-  await page.locator('cv-advanced-select').evaluate((node) => {
+  await page.locator('[data-phase4-adapter="advanced-select"]').evaluate((node) => {
     const element = node as HTMLElement & { value: string };
     element.value = 'prod';
     element.dispatchEvent(

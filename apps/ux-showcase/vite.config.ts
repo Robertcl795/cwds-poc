@@ -3,7 +3,8 @@ import { fileURLToPath } from 'node:url';
 
 import { defineConfig } from 'vite';
 
-const workspaceRoot = resolve(fileURLToPath(new URL('../..', import.meta.url)));
+const appRoot = resolve(fileURLToPath(new URL('.', import.meta.url)));
+const workspaceRoot = resolve(appRoot, '..', '..');
 
 export default defineConfig({
   resolve: {
@@ -13,8 +14,8 @@ export default defineConfig({
       '@ds/utils-a11y': resolve(workspaceRoot, 'packages/design-core/utils-a11y/src/index.ts'),
       '@ds/utils-icons': resolve(workspaceRoot, 'packages/design-core/utils-icons/src/index.ts'),
       '@ds/web-components': resolve(workspaceRoot, 'packages/ui-system/web-components/src/index.ts'),
-      '@ds/styles': resolve(workspaceRoot, 'packages/design-core/styles/src'),
-      '@ds/tokens': resolve(workspaceRoot, 'packages/design-core/tokens/src')
+      '@ds/tokens/tokens.css': resolve(workspaceRoot, 'packages/design-core/tokens/src/tokens.css'),
+      '@ds/styles/index.css': resolve(workspaceRoot, 'packages/design-core/styles/src/index.css')
     }
   },
   server: {

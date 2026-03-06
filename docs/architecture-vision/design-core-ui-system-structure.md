@@ -9,7 +9,7 @@ This repo adopts a three-group foundation naming model:
    - Current mapped packages: `@ds/tokens`, `@ds/styles`, `@ds/core`, `@ds/utils-a11y`, `@ds/utils-icons`.
 2. `ui-system`
    - Native-first primitives, composed UI APIs, framework adapters.
-   - Current mapped packages: `@ds/primitives`, `@ds/web-components`, `@ds/angular`.
+   - Current mapped packages: `@ds/primitives`, `@ds/web-components`, `@ds/angular` (experimental).
 3. `rules`
    - Architecture rules, authoring standards, testing rules, release governance.
    - Source-of-truth lives under `/rules`.

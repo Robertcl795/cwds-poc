@@ -1,5 +1,7 @@
 # @ds/utils-a11y
 
+Status: `internal`
+
 ## Purpose and boundary
 
 Workspace-internal accessibility utility package for primitives/adapters.
@@ -21,13 +23,3 @@ Angular 19+:
 ```ts
 // Use through adapters/primitives; avoid app-level direct imports.
 ```
-
-## Known POC limitations
-
-- Depends on `@ds/core` for some behavior paths.
-- API stability policy not formally defined.
-
-## Future extension points
-
-- Either fold headless-dependent utilities into `@ds/core` or formalize this layer.
-- Mark utility APIs as `@internal` in generated docs.

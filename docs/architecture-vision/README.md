@@ -9,3 +9,5 @@ Task-history and execution transcripts were removed to keep this track concise a
 - [Framework-Agnostic Contracts](./framework-agnostic-contracts.md)
 - [Design-Core / UI-System Structure](./design-core-ui-system-structure.md)
 - [Current State and Priorities](./current-state-and-priorities.md)
+- [CSS-First Refactor Audit](./css-first-refactor-audit.md)
+- [Material Web Migration Guide](./material-web-migration-guide.md)

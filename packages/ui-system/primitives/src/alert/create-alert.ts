@@ -62,6 +62,7 @@ export const createPrimitiveAlert = (options: PrimitiveAlertOptions): PrimitiveA
   element.dataset.dense = options.dense ? 'true' : 'false';
   element.dataset.dismissed = 'false';
   element.setAttribute('aria-live', priority);
+  element.setAttribute('aria-atomic', 'true');
   element.setAttribute('role', resolveRole(tone, priority));
 
   if (options.id) {

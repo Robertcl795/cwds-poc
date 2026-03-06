@@ -1,22 +1,24 @@
-# Angular Adapter (`@ds/angular`)
+# @ds/angular
 
-Angular 19+ adapter package for the headless/primitive system.
+Status: `experimental`
 
-## Scope
+Purpose: experimental Angular adapter layer over the design-system primitives.
 
-- Standalone directives/components over the primitive DOM contracts.
-- Signals-first API model (`input()`, `signal()`, `effect()`).
-- Typed reactive forms compatibility via `FormControl<T>` contracts.
-- Zoneless-ready usage by avoiding reliance on `ngZone`.
+What belongs here:
+- Angular-specific directives and providers
+- typed Angular ergonomics over stable primitive contracts
 
-## Initial Surface
+Public entry point:
+- `@ds/angular`
 
-- `provideCvAngularAdapter(config)`
-- `CV_ANGULAR_ADAPTER_CONFIG`
-- `CvButtonDirective`
-- `CvTypedControl<T>`
+Usage:
+```ts
+import { provideCvAngularAdapter } from '@ds/angular';
+```
 
-## Adoption Rules
+Styling note:
+- Angular consumers still use `@ds/tokens` and `@ds/styles` for visual output.
+- Consumers must provide `@angular/core` and `@angular/forms` as peer dependencies.
 
-- Angular apps should consume `@ds/angular` instead of importing primitive internals directly.
-- This package owns Angular-specific ergonomics and migration facades.
+Migration note:
+- this package does not replace Material Web in the production-ready POC today; it remains experimental, peer-dependent on Angular, and outside the hardened stable runtime baseline.

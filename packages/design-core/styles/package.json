@@ -3,17 +3,28 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "designSystem": {
+    "stability": "stable",
+    "surface": "public"
+  },
   "exports": {
-    "./index.css": "./src/index.css",
-    "./foundation.css": "./src/foundation.css",
-    "./components.css": "./src/components.css"
+    "./index.css": "./dist/index.css",
+    "./foundation.css": "./dist/foundation.css",
+    "./components.css": "./dist/components.css",
+    "./foundation/index.css": "./dist/foundation/index.css",
+    "./foundation/reset.css": "./dist/foundation/reset.css",
+    "./foundation/theme.css": "./dist/foundation/theme.css",
+    "./foundation/motion.css": "./dist/foundation/motion.css",
+    "./components/index.css": "./dist/components/index.css",
+    "./components/primitives.css": "./dist/components/primitives.css",
+    "./components/composites.css": "./dist/components/composites.css",
+    "./components/adapters.css": "./dist/components/adapters.css"
   },
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "scripts": {
     "build": "mkdir -p dist && cp -R src/* dist/",
-    "lint": "echo 'No CSS linter configured yet'"
+    "lint": "node ../../../tools/audit/check-token-governance.mjs --strict"
   }
 }

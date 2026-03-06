@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
 const meta: Meta = {
-  title: 'Foundations/Colors'
+  title: 'Foundations/Color Semantics'
 };
 
 export default meta;

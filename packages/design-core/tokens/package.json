@@ -3,16 +3,24 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "designSystem": {
+    "stability": "stable",
+    "surface": "public"
+  },
   "exports": {
-    "./tokens.css": "./src/tokens.css"
+    "./tokens.css": "./dist/tokens.css",
+    "./reference.css": "./dist/reference.css",
+    "./semantic.css": "./dist/semantic.css",
+    "./components.css": "./dist/components.css",
+    "./theme.css": "./dist/theme.css"
   },
   "files": [
-    "src/tokens.css"
+    "dist"
   ],
   "scripts": {
-    "build": "mkdir -p dist && cp src/tokens.css dist/tokens.css",
+    "build": "mkdir -p dist && cp src/*.css dist/",
     "typecheck": "echo 'tokens package is css-only'",
-    "lint": "echo 'tokens package is css-only'",
+    "lint": "node ../../../tools/audit/check-token-contract.mjs --strict",
     "test": "echo 'tokens package is css-only'"
   }
 }

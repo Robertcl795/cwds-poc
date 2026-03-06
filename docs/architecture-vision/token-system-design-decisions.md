@@ -16,4 +16,4 @@
 
 - No automated token linting gate yet.
 - Figma-to-token synchronization is not yet defined.
-- Dark/high-contrast token parity is partial.
+- Light/dark semantic parity is present, but a dedicated high-contrast token pack is not yet defined.

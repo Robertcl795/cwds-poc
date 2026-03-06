@@ -3,6 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "designSystem": {
+    "stability": "experimental",
+    "surface": "public"
+  },
   "exports": {
     ".": {
       "types": "./src/index.ts",
@@ -12,6 +16,10 @@
   "files": [
     "src"
   ],
+  "peerDependencies": {
+    "@angular/core": "^19.0.0 || ^20.0.0",
+    "@angular/forms": "^19.0.0 || ^20.0.0"
+  },
   "dependencies": {
     "@ds/primitives": "workspace:*",
     "@ds/core": "workspace:*"

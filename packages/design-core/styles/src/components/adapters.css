@@ -2,7 +2,7 @@
 
 cv-combobox,
 cv-advanced-select {
-  --cv-composite-popup-z-index: 1200;
+  --cv-composite-popup-z-index: var(--cv-sys-z-index-popover);
   --cv-composite-field-radius: var(--cv-sys-radius-control);
   --cv-composite-field-border: var(--cv-sys-color-border);
   --cv-composite-field-focus: var(--cv-sys-color-primary);

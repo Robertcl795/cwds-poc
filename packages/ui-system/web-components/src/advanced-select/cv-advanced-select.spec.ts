@@ -92,4 +92,22 @@ describe('CvAdvancedSelect', () => {
     const inner = element.shadowRoot?.querySelector('cv-combobox');
     expect(inner?.hasAttribute('readonly')).toBe(true);
   });
+
+  it('participates in FormData with its configured name', async () => {
+    const form = document.createElement('form');
+    const element = document.createElement('cv-advanced-select') as AdvancedSelectElement;
+    element.name = 'environment';
+    element.value = 'pending';
+    element.options = [
+      { value: 'active', label: 'Active' },
+      { value: 'pending', label: 'Pending' }
+    ];
+
+    form.append(element);
+    document.body.append(form);
+    await nextTick();
+
+    const formData = new FormData(form);
+    expect(formData.get('environment')).toBe('pending');
+  });
 });
