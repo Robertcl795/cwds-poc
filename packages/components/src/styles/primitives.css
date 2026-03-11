@@ -157,8 +157,7 @@
 }
 
 .cv-button[data-loading='true'],
-.cv-button:disabled,
-.cv-button[data-disabled='true'] {
+.cv-button:disabled {
   opacity: 0.72;
   cursor: not-allowed;
   box-shadow: none;
@@ -625,7 +624,7 @@
     transform var(--cv-sys-motion-fast) var(--cv-sys-motion-easing);
 }
 
-.cv-checkbox:not([data-disabled='true']):hover .cv-checkbox__icon::after {
+.cv-checkbox:not(:has(.cv-checkbox__control:disabled)):hover .cv-checkbox__icon::after {
   opacity: 1;
   transform: translate(-50%, -50%) scale(1);
 }
@@ -671,11 +670,11 @@
   animation: cv-checkbox-ripple 360ms var(--cv-sys-motion-easing);
 }
 
-.cv-checkbox[data-disabled='true'] {
+.cv-checkbox:has(.cv-checkbox__control:disabled) {
   cursor: not-allowed;
 }
 
-.cv-checkbox[data-disabled='true'] .cv-checkbox__icon {
+.cv-checkbox:has(.cv-checkbox__control:disabled) .cv-checkbox__icon {
   opacity: 0.65;
 }
 
@@ -760,11 +759,11 @@
   transform: scale(1);
 }
 
-.cv-radio[data-disabled='true'] {
+.cv-radio:has(.cv-radio__control:disabled) {
   cursor: not-allowed;
 }
 
-.cv-radio[data-disabled='true'] .cv-radio__icon {
+.cv-radio:has(.cv-radio__control:disabled) .cv-radio__icon {
   opacity: 0.65;
 }
 
@@ -823,11 +822,11 @@
   background: var(--cv-sys-color-on-primary);
 }
 
-.cv-switch[data-disabled='true'] {
+.cv-switch:has(.cv-switch__control:disabled) {
   cursor: not-allowed;
 }
 
-.cv-switch[data-disabled='true'] .cv-switch__track {
+.cv-switch:has(.cv-switch__control:disabled) .cv-switch__track {
   opacity: 0.65;
 }
 
@@ -897,8 +896,7 @@
   opacity: var(--cv-sys-state-interaction-pressed-opacity);
 }
 
-.cv-icon-button:disabled,
-.cv-icon-button[data-disabled='true'] {
+.cv-icon-button:disabled {
   opacity: 0.52;
   cursor: not-allowed;
 }
@@ -1364,45 +1362,18 @@
 }
 
 .cv-slider-field__control {
-  display: grid;
-  gap: var(--cv-sys-space-xs);
+  display: flex;
+  align-items: center;
+  gap: var(--cv-sys-space-sm);
 }
 
 .cv-slider {
+  flex: 1 1 auto;
+  min-inline-size: 0;
   inline-size: 100%;
   min-block-size: 2rem;
   accent-color: var(--cv-sys-color-primary);
   cursor: pointer;
-}
-
-.cv-slider::-webkit-slider-runnable-track {
-  block-size: var(--cv-comp-slider-track-height);
-  border-radius: 999px;
-  background: var(--cv-comp-slider-track-bg);
-}
-
-.cv-slider::-webkit-slider-thumb {
-  appearance: none;
-  inline-size: var(--cv-comp-slider-thumb-size);
-  block-size: var(--cv-comp-slider-thumb-size);
-  margin-block-start: calc((var(--cv-comp-slider-track-height) - var(--cv-comp-slider-thumb-size)) / 2);
-  border-radius: 50%;
-  border: 2px solid var(--cv-sys-color-primary);
-  background: var(--cv-sys-color-surface);
-}
-
-.cv-slider::-moz-range-track {
-  block-size: var(--cv-comp-slider-track-height);
-  border-radius: 999px;
-  background: var(--cv-comp-slider-track-bg);
-}
-
-.cv-slider::-moz-range-thumb {
-  inline-size: var(--cv-comp-slider-thumb-size);
-  block-size: var(--cv-comp-slider-thumb-size);
-  border-radius: 50%;
-  border: 2px solid var(--cv-sys-color-primary);
-  background: var(--cv-sys-color-surface);
 }
 
 .cv-slider-field[data-disabled='true'] .cv-slider {
@@ -1423,8 +1394,55 @@
 }
 
 .cv-slider-field__value {
-  justify-self: start;
+  flex: 0 0 auto;
   font-size: 0.8rem;
+  color: var(--cv-sys-color-text-muted);
+  min-inline-size: 3ch;
+}
+
+.cv-meter-field {
+  display: grid;
+  gap: var(--cv-sys-space-xs);
+}
+
+.cv-meter-field__label {
+  color: var(--cv-sys-color-text-muted);
+  font-size: var(--cv-sys-typescale-label);
+  font-weight: var(--cv-sys-font-weight-medium);
+}
+
+.cv-meter-field__control {
+  display: flex;
+  align-items: center;
+  gap: var(--cv-sys-space-sm);
+}
+
+.cv-meter {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  inline-size: 100%;
+  block-size: 0.8rem;
+}
+
+.cv-meter[data-size='sm'] {
+  block-size: 0.55rem;
+}
+
+.cv-meter[data-size='lg'] {
+  block-size: 1rem;
+}
+
+.cv-meter-field__value {
+  flex: 0 0 auto;
+  font-size: 0.8rem;
+  color: var(--cv-sys-color-text-muted);
+  min-inline-size: 4ch;
+}
+
+.cv-meter-field__helper {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.2;
   color: var(--cv-sys-color-text-muted);
 }
 

@@ -72,7 +72,7 @@ export function renderOverlayComponentsShowcase(container: HTMLElement): void {
 
   createContextMenu({
     target: contextTarget,
-    triggerMode: 'contextmenu',
+    triggerMode: 'both',
     ariaLabel: 'Deployment row actions',
     items: [
       { id: 'inspect', label: 'Inspect run', iconStart: '↗' },

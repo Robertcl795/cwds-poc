@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { createPrimitiveSelect } from './select';
+import { createPrimitiveSelect } from './select/index';
 
 const demoOptions = [
   { id: 'active', label: 'Active', value: 'active' },

@@ -3,6 +3,7 @@ import {
   createPrimitiveCheckbox,
   createPrimitiveDivider,
   createPrimitiveIconButton,
+  createPrimitiveMeter,
   createPrimitiveProgress,
   createPrimitiveRadio,
   createPrimitiveSwitch
@@ -78,7 +79,15 @@ export function renderPrimitiveComponentsShowcase(container: HTMLElement): void 
     createPrimitiveDivider(),
     dividerRow,
     createPrimitiveProgress({ ariaLabel: 'Upload progress', value: 35 }),
-    createPrimitiveProgress({ ariaLabel: 'Background sync progress', indeterminate: true })
+    createPrimitiveProgress({ ariaLabel: 'Background sync progress', indeterminate: true }),
+    createPrimitiveMeter({
+      label: 'Readiness',
+      helper: 'Native meter expresses bounded quality, not task progress.',
+      value: 72,
+      low: 40,
+      high: 80,
+      optimum: 90
+    }).element
   );
 
   page.append(heading, actions, controls, visuals);

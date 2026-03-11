@@ -1,5 +1,4 @@
 import { setControlDescription } from '../shared/form-assoc';
-import { writeControlStateAttributes } from '@ds/core';
 
 export type PrimitiveSwitchOptions = {
   id: string;
@@ -48,18 +47,7 @@ export function createPrimitiveSwitch(options: PrimitiveSwitchOptions): HTMLLabe
   text.className = 'cv-switch__label';
   text.textContent = options.label;
 
-  const updateState = (): void => {
-    writeControlStateAttributes(wrapper, {
-      disabled: input.disabled,
-      checked: input.checked,
-      invalid: options.invalid
-    });
-  };
-
-  input.addEventListener('change', updateState);
-
   wrapper.append(input, track, text);
-  updateState();
 
   return wrapper;
 }

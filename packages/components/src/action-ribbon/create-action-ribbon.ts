@@ -1,23 +1,12 @@
-import type { InputSource } from '@ds/core';
-
-import { createPrimitiveButton } from '../button/create-button';
-import { createPrimitiveIconButton } from '../icon-button/create-icon-button';
-import { createContextMenu, type PrimitiveContextMenu } from '../menu';
 import { createDismissableController, createLiveRegion, type DismissReason, type FeedbackTone } from '@ds/core';
-import { partitionActions, type SurfaceAction } from '../shared-actions';
+import { partitionActions } from '../shared-actions';
+import {
+  createSurfaceActionButton,
+  createSurfaceOverflowMenu,
+  dispatchSurfaceActionEvent
+} from '../shared-actions/render';
+import type { PrimitiveContextMenu } from '../menu';
 import type { PrimitiveActionRibbon, PrimitiveActionRibbonOptions } from './action-ribbon.types';
-
-const toButtonColor = (action: SurfaceAction): 'primary' | 'secondary' | 'negative' => {
-  if (action.kind === 'primary') {
-    return 'primary';
-  }
-
-  if (action.kind === 'danger') {
-    return 'negative';
-  }
-
-  return 'secondary';
-};
 
 const formatStatusText = (message: string, selectionCount: number | null): string => {
   if (selectionCount === null || selectionCount <= 0) {
@@ -25,18 +14,6 @@ const formatStatusText = (message: string, selectionCount: number | null): strin
   }
 
   return `${selectionCount} selected. ${message}`;
-};
-
-const dispatchAction = (element: HTMLElement, action: SurfaceAction, source: InputSource): void => {
-  element.dispatchEvent(
-    new CustomEvent('cv-action-ribbon-action', {
-      bubbles: true,
-      detail: {
-        action,
-        source
-      }
-    })
-  );
 };
 
 const dispatchDismiss = (element: HTMLElement, reason: DismissReason): void => {
@@ -100,16 +77,14 @@ export const createActionRibbon = (options: PrimitiveActionRibbonOptions): Primi
   const partitioned = partitionActions(options.actions ?? [], options.maxVisibleActions ?? 2);
 
   for (const action of [...partitioned.leading, ...partitioned.trailing]) {
-    const button = createPrimitiveButton({
-      label: action.label,
-      color: toButtonColor(action),
+    const button = createSurfaceActionButton({
+      action,
       shape: action.kind === 'primary' ? 'contained' : 'text',
-      ...(action.icon !== undefined ? { iconStart: action.icon } : {}),
-      ...(options.dense !== undefined ? { dense: options.dense } : {}),
-      ...(action.disabled !== undefined ? { disabled: action.disabled } : {}),
-      onPress(source) {
-        dispatchAction(element, action, source);
-        options.onAction?.(action, source);
+      dense: options.dense,
+      includeIcon: true,
+      onAction(resolvedAction, source) {
+        dispatchSurfaceActionEvent(element, 'cv-action-ribbon-action', resolvedAction, source);
+        options.onAction?.(resolvedAction, source);
       }
     });
 
@@ -119,56 +94,33 @@ export const createActionRibbon = (options: PrimitiveActionRibbonOptions): Primi
 
   let overflowMenu: PrimitiveContextMenu | null = null;
 
-  if (partitioned.overflow.length > 0) {
-    const overflowActionsById = new Map(partitioned.overflow.map((action) => [action.id, action] as const));
-    const overflowIcon = document.createElement('span');
-    overflowIcon.textContent = '⋮';
-    overflowIcon.setAttribute('aria-hidden', 'true');
+  const overflowControls = createSurfaceOverflowMenu({
+    actions: partitioned.overflow,
+    dense: options.dense,
+    ariaLabel: 'Action ribbon overflow actions',
+    onAction(resolvedAction, source) {
+      dispatchSurfaceActionEvent(element, 'cv-action-ribbon-action', resolvedAction, source);
+      options.onAction?.(resolvedAction, source);
+    }
+  });
 
-    const overflowTrigger = createPrimitiveIconButton({
-      icon: overflowIcon,
-      ariaLabel: 'More actions',
-      variant: 'standard',
-      size: options.dense ? 'sm' : 'md'
-    });
-
+  if (overflowControls) {
+    const { trigger: overflowTrigger, menu } = overflowControls;
     overflowTrigger.dataset.ribbonOverflow = 'true';
     overflowTrigger.classList.add('cv-action-ribbon__overflow-trigger');
     actions.append(overflowTrigger);
-
-    overflowMenu = createContextMenu({
-      target: overflowTrigger,
-      triggerMode: 'click',
-      ariaLabel: 'Action ribbon overflow actions',
-      items: partitioned.overflow.map((action) => ({
-        ...{
-          id: action.id,
-          label: action.label,
-          kind: action.kind === 'danger' ? 'danger' : 'default'
-        },
-        ...(action.icon !== undefined ? { iconStart: action.icon } : {}),
-        ...(action.disabled !== undefined ? { disabled: action.disabled } : {}),
-        ...(action.shortcut !== undefined ? { shortcut: action.shortcut } : {})
-      })),
-      onAction(action, source) {
-        const resolvedAction = overflowActionsById.get(action.id);
-        if (!resolvedAction) {
-          return;
-        }
-
-        dispatchAction(element, resolvedAction, source);
-        options.onAction?.(resolvedAction, source);
-      }
-    });
+    overflowMenu = menu;
   }
 
   if (options.dismissible) {
-    const dismissButton = createPrimitiveButton({
-      label: 'Dismiss',
+    const dismissButton = createSurfaceActionButton({
+      action: {
+        id: '__dismiss__',
+        label: 'Dismiss'
+      },
       shape: 'text',
-      color: 'secondary',
-      ...(options.dense !== undefined ? { dense: options.dense } : {}),
-      onPress() {
+      dense: options.dense,
+      onAction() {
         dismissable.dismiss('close-button');
       }
     });

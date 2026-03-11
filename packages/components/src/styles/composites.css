@@ -244,6 +244,8 @@
   --cv-context-menu-fg: var(--cv-sys-color-text);
 
   position: fixed;
+  inset: auto;
+  margin: 0;
   z-index: var(--cv-sys-z-index-popover);
   display: grid;
   gap: 0.15rem;
@@ -259,6 +261,10 @@
     );
   color: var(--cv-context-menu-fg);
   box-shadow: 0 0.9rem 2.125rem oklch(0.19 0.02 258 / 0.24);
+}
+
+.cv-context-menu[popover]:not(:popover-open) {
+  display: none;
 }
 
 .cv-context-menu__item {

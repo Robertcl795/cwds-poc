@@ -1,6 +1,7 @@
 import { advancedSelectStyles } from './cv-advanced-select.styles';
 import { type ComboboxOption, defineCvCombobox } from '../combobox';
 import { createFormValueAdapter } from '@ds/core';
+import { reflectStringAttribute, upgradeProperties } from '../internal/custom-element';
 
 export class CvAdvancedSelect extends HTMLElement {
   static formAssociated = true;
@@ -38,11 +39,7 @@ export class CvAdvancedSelect extends HTMLElement {
 
   set name(value: string) {
     this._name = value;
-    if (value.length > 0) {
-      this.setAttribute('name', value);
-    } else {
-      this.removeAttribute('name');
-    }
+    reflectStringAttribute(this, 'name', value);
     this.formAdapter.setName(value);
   }
 
@@ -128,15 +125,17 @@ export class CvAdvancedSelect extends HTMLElement {
   }
 
   connectedCallback(): void {
-    this.upgradeProperty('name');
-    this.upgradeProperty('value');
-    this.upgradeProperty('label');
-    this.upgradeProperty('placeholder');
-    this.upgradeProperty('noResultsText');
-    this.upgradeProperty('disabled');
-    this.upgradeProperty('required');
-    this.upgradeProperty('searchable');
-    this.upgradeProperty('options');
+    upgradeProperties(this, [
+      'name',
+      'value',
+      'label',
+      'placeholder',
+      'noResultsText',
+      'disabled',
+      'required',
+      'searchable',
+      'options'
+    ]);
 
     defineCvCombobox();
     this.ensureShadowDom();
@@ -162,16 +161,6 @@ export class CvAdvancedSelect extends HTMLElement {
     this.removeResetListener?.();
     this.removeResetListener = null;
     this.formAdapter.dispose();
-  }
-
-  private upgradeProperty<K extends keyof CvAdvancedSelect>(property: K): void {
-    if (!Object.prototype.hasOwnProperty.call(this, property)) {
-      return;
-    }
-
-    const value = this[property];
-    delete (this as CvAdvancedSelect & Record<string, unknown>)[property as string];
-    this[property] = value;
   }
 
   private ensureShadowDom(): void {

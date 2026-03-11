@@ -1,4 +1,4 @@
-interface FormValueAdapter {
+export interface FormValueAdapter {
   setName: (name: string) => void;
   setDisabled: (disabled: boolean) => void;
   setRequired: (required: boolean) => void;
@@ -15,14 +15,21 @@ const createHiddenInput = (host: HTMLElement): HTMLInputElement => {
   return input;
 };
 
-const toFormAssociatedElement = (host: HTMLElement): HTMLElement & {
-  attachInternals?: () => ElementInternals;
-} => host as HTMLElement & { attachInternals?: () => ElementInternals };
+const isAttachInternals = (value: unknown): value is (this: HTMLElement) => ElementInternals =>
+  typeof value === 'function';
+
+const resolveInternals = (host: HTMLElement): ElementInternals | null => {
+  const attachInternals = Reflect.get(host, 'attachInternals');
+  if (!isAttachInternals(attachInternals)) {
+    return null;
+  }
+
+  const internals = attachInternals.call(host);
+  return typeof internals.setFormValue === 'function' ? internals : null;
+};
 
 export const createFormValueAdapter = (host: HTMLElement): FormValueAdapter => {
-  const attachedInternals = toFormAssociatedElement(host).attachInternals?.();
-  const internals =
-    attachedInternals && typeof attachedInternals.setFormValue === 'function' ? attachedInternals : null;
+  const internals = resolveInternals(host);
   let hiddenInput: HTMLInputElement | null = null;
 
   let name = '';

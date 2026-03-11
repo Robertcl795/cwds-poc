@@ -1,4 +1,5 @@
 import {
+  createPrimitiveAutocomplete,
   createPrimitiveChip,
   createPrimitiveSelect,
   createPrimitiveSlider,
@@ -64,6 +65,18 @@ export function renderFormVerificationShowcase(container: HTMLElement): void {
     showValue: true
   });
 
+  const autocomplete = createPrimitiveAutocomplete({
+    id: 'verification-forms-environment',
+    name: 'environmentPreset',
+    label: 'Environment preset',
+    helperText: 'Native datalist suggestions with freeform submission',
+    options: [
+      { value: 'Production', label: 'Locked rollout' },
+      { value: 'Staging', label: 'Pre-release validation' },
+      { value: 'QA', label: 'Internal verification' }
+    ]
+  });
+
   const selectEnhanced = createPrimitiveSelect({
     id: 'verification-forms-status-enhanced',
     name: 'statusEnhanced',
@@ -108,6 +121,7 @@ export function renderFormVerificationShowcase(container: HTMLElement): void {
     textField.element,
     chipsRow,
     slider.element,
+    autocomplete.element,
     selectEnhanced.element,
     selectBaseline.element,
     actions

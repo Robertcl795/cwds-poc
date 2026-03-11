@@ -1,4 +1,5 @@
 import {
+  createPrimitiveAutocomplete,
   createPrimitiveChip,
   createPrimitiveSelect,
   createPrimitiveSlider,
@@ -73,6 +74,18 @@ export function renderFormComponentsShowcase(container: HTMLElement): void {
       value: 35,
       helper: 'Arrow keys for fine control',
       showValue: true
+    }).element,
+    createPrimitiveAutocomplete({
+      id: 'forms-environment-preset',
+      name: 'forms-environment-preset',
+      label: 'Environment preset',
+      helper: 'Native suggestion list with freeform entry',
+      placeholder: 'Start typing',
+      options: [
+        { value: 'Production', label: 'Locked rollout' },
+        { value: 'Staging', label: 'Pre-release validation' },
+        { value: 'QA', label: 'Internal verification' }
+      ]
     }).element,
     createPrimitiveSelect({
       id: 'forms-status',

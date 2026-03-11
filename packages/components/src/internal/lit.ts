@@ -15,8 +15,3 @@ export const definedAttribute = <T extends string | number>(value: T | null | un
 
   return value;
 };
-
-export const tokenList = (...tokens: Array<string | false | null | undefined>): string | typeof nothing => {
-  const resolved = tokens.filter((token): token is string => typeof token === 'string' && token.length > 0);
-  return resolved.length > 0 ? resolved.join(' ') : nothing;
-};

@@ -29,66 +29,35 @@ const defaultDisabled = (item: HTMLElement): boolean => {
 
 const clamp = (value: number, min: number, max: number): number => Math.min(Math.max(value, min), max);
 
-const findFirstEnabledIndex = (
-  items: HTMLElement[],
-  isDisabled: (item: HTMLElement, index: number) => boolean
-): number => items.findIndex((item, index) => !isDisabled(item, index));
-
-const findLastEnabledIndex = (
-  items: HTMLElement[],
-  isDisabled: (item: HTMLElement, index: number) => boolean
-): number => {
-  for (let index = items.length - 1; index >= 0; index -= 1) {
-    const item = items[index];
-    if (item && !isDisabled(item, index)) {
-      return index;
-    }
-  }
-
-  return -1;
-};
-
-const findNextEnabledIndex = (
+const findEnabledIndex = (
   items: HTMLElement[],
   isDisabled: (item: HTMLElement, index: number) => boolean,
-  currentIndex: number,
+  startIndex: number,
   step: -1 | 1,
-  loop: boolean
+  options: { loop?: boolean; fallback?: number } = {}
 ): number => {
   if (items.length === 0) {
     return -1;
   }
 
-  const maxIndex = items.length - 1;
-  let cursor = currentIndex;
-  let visited = 0;
+  let index = startIndex;
 
-  while (visited <= maxIndex) {
-    cursor += step;
-
-    if (cursor > maxIndex) {
-      if (!loop) {
-        return currentIndex;
-      }
-      cursor = 0;
+  for (let visited = 0; visited < items.length; visited += 1) {
+    if (options.loop) {
+      index = (index + items.length) % items.length;
+    } else if (index < 0 || index >= items.length) {
+      return options.fallback ?? -1;
     }
 
-    if (cursor < 0) {
-      if (!loop) {
-        return currentIndex;
-      }
-      cursor = maxIndex;
+    const item = items[index];
+    if (item && !isDisabled(item, index)) {
+      return index;
     }
 
-    const item = items[cursor];
-    if (item && !isDisabled(item, cursor)) {
-      return cursor;
-    }
-
-    visited += 1;
+    index += step;
   }
 
-  return currentIndex;
+  return options.fallback ?? -1;
 };
 
 export const createRovingTabIndex = (options: RovingTabIndexOptions): RovingTabIndexController => {
@@ -99,22 +68,14 @@ export const createRovingTabIndex = (options: RovingTabIndexOptions): RovingTabI
   const items = options.items;
 
   let activeIndex = -1;
-
-  const syncTabIndexes = (): void => {
-    for (let index = 0; index < items.length; index += 1) {
-      const item = items[index];
-      if (!item) {
-        continue;
+  const firstEnabledIndex = (): number => findEnabledIndex(items, isItemDisabled, 0, 1);
+  const lastEnabledIndex = (): number => findEnabledIndex(items, isItemDisabled, items.length - 1, -1);
+  const syncTabIndexes = (): void =>
+    items.forEach((item, index) => {
+      if (item) {
+        item.tabIndex = !isItemDisabled(item, index) && index === activeIndex ? 0 : -1;
       }
-
-      if (isItemDisabled(item, index)) {
-        item.tabIndex = -1;
-        continue;
-      }
-
-      item.tabIndex = index === activeIndex ? 0 : -1;
-    }
-  };
+    });
 
   const resolveInitialIndex = (): number => {
     const preferredIndex = options.initialActiveIndex;
@@ -125,7 +86,7 @@ export const createRovingTabIndex = (options: RovingTabIndexOptions): RovingTabI
       }
     }
 
-    return findFirstEnabledIndex(items, isItemDisabled);
+    return firstEnabledIndex();
   };
 
   const setActiveIndex = (index: number, state?: { focus?: boolean }): boolean => {
@@ -139,7 +100,7 @@ export const createRovingTabIndex = (options: RovingTabIndexOptions): RovingTabI
     const nextItem = items[nextIndex];
 
     if (!nextItem || isItemDisabled(nextItem, nextIndex)) {
-      const firstEnabled = findFirstEnabledIndex(items, isItemDisabled);
+      const firstEnabled = firstEnabledIndex();
       if (firstEnabled === -1) {
         activeIndex = -1;
         syncTabIndexes();
@@ -158,10 +119,9 @@ export const createRovingTabIndex = (options: RovingTabIndexOptions): RovingTabI
     return true;
   };
 
-  for (let index = 0; index < items.length; index += 1) {
-    const item = items[index];
+  items.forEach((item, index) => {
     if (!item) {
-      continue;
+      return;
     }
 
     cleanup.add(
@@ -172,7 +132,7 @@ export const createRovingTabIndex = (options: RovingTabIndexOptions): RovingTabI
         }
       })
     );
-  }
+  });
 
   setActiveIndex(resolveInitialIndex());
 
@@ -206,7 +166,7 @@ export const createRovingTabIndex = (options: RovingTabIndexOptions): RovingTabI
         return null;
       }
 
-      const firstEnabled = findFirstEnabledIndex(items, isItemDisabled);
+      const firstEnabled = firstEnabledIndex();
       if (firstEnabled === -1) {
         return null;
       }
@@ -224,7 +184,7 @@ export const createRovingTabIndex = (options: RovingTabIndexOptions): RovingTabI
       }
 
       if (intent === 'last') {
-        const lastEnabled = findLastEnabledIndex(items, isItemDisabled);
+        const lastEnabled = lastEnabledIndex();
         if (lastEnabled === -1) {
           return null;
         }
@@ -235,8 +195,8 @@ export const createRovingTabIndex = (options: RovingTabIndexOptions): RovingTabI
 
       const nextIndex =
         intent === 'next'
-          ? findNextEnabledIndex(items, isItemDisabled, activeIndex, 1, loop)
-          : findNextEnabledIndex(items, isItemDisabled, activeIndex, -1, loop);
+          ? findEnabledIndex(items, isItemDisabled, activeIndex + 1, 1, { loop, fallback: activeIndex })
+          : findEnabledIndex(items, isItemDisabled, activeIndex - 1, -1, { loop, fallback: activeIndex });
 
       setActiveIndex(nextIndex, { focus: true });
       return nextIndex;

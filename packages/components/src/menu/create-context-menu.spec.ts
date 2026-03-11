@@ -192,4 +192,133 @@ describe('createContextMenu', () => {
 
     menu.destroy();
   });
+
+  it('uses popover lifecycle when supported', () => {
+    const originalShowPopover = (HTMLElement.prototype as HTMLElement & { showPopover?: () => void }).showPopover;
+    const originalHidePopover = (HTMLElement.prototype as HTMLElement & { hidePopover?: () => void }).hidePopover;
+
+    Object.defineProperty(HTMLElement.prototype, 'showPopover', {
+      configurable: true,
+      value(this: HTMLElement) {
+        const event = new Event('toggle') as Event & { newState?: 'open' | 'closed' };
+        event.newState = 'open';
+        this.dispatchEvent(event);
+      }
+    });
+
+    Object.defineProperty(HTMLElement.prototype, 'hidePopover', {
+      configurable: true,
+      value(this: HTMLElement) {
+        const event = new Event('toggle') as Event & { newState?: 'open' | 'closed' };
+        event.newState = 'closed';
+        this.dispatchEvent(event);
+      }
+    });
+
+    try {
+      const target = document.createElement('button');
+      document.body.append(target);
+
+      const menu = createContextMenu({
+        target,
+        triggerMode: 'click',
+        items: [{ id: 'rename', label: 'Rename' }]
+      });
+
+      target.click();
+      expect(menu.element.getAttribute('popover')).toBe('auto');
+      expect(menu.element.dataset.open).toBe('true');
+
+      target.click();
+      expect(menu.element.dataset.open).toBe('false');
+
+      menu.destroy();
+    } finally {
+      if (originalShowPopover) {
+        Object.defineProperty(HTMLElement.prototype, 'showPopover', {
+          configurable: true,
+          value: originalShowPopover
+        });
+      } else {
+        Object.defineProperty(HTMLElement.prototype, 'showPopover', {
+          configurable: true,
+          value: undefined
+        });
+      }
+
+      if (originalHidePopover) {
+        Object.defineProperty(HTMLElement.prototype, 'hidePopover', {
+          configurable: true,
+          value: originalHidePopover
+        });
+      } else {
+        Object.defineProperty(HTMLElement.prototype, 'hidePopover', {
+          configurable: true,
+          value: undefined
+        });
+      }
+    }
+  });
+
+  it('falls back to manual lifecycle when popover support is present but does not open the menu', () => {
+    const originalShowPopover = (HTMLElement.prototype as HTMLElement & { showPopover?: () => void }).showPopover;
+    const originalHidePopover = (HTMLElement.prototype as HTMLElement & { hidePopover?: () => void }).hidePopover;
+
+    Object.defineProperty(HTMLElement.prototype, 'showPopover', {
+      configurable: true,
+      value() {}
+    });
+
+    Object.defineProperty(HTMLElement.prototype, 'hidePopover', {
+      configurable: true,
+      value() {}
+    });
+
+    try {
+      const target = document.createElement('button');
+      document.body.append(target);
+
+      const menu = createContextMenu({
+        target,
+        triggerMode: 'click',
+        items: [{ id: 'rename', label: 'Rename' }]
+      });
+
+      target.click();
+
+      expect(menu.element.dataset.open).toBe('true');
+      expect(menu.element.hasAttribute('popover')).toBe(false);
+      expect(menu.element.hidden).toBe(false);
+
+      menu.close();
+      expect(menu.element.dataset.open).toBe('false');
+      expect(menu.element.hidden).toBe(true);
+
+      menu.destroy();
+    } finally {
+      if (originalShowPopover) {
+        Object.defineProperty(HTMLElement.prototype, 'showPopover', {
+          configurable: true,
+          value: originalShowPopover
+        });
+      } else {
+        Object.defineProperty(HTMLElement.prototype, 'showPopover', {
+          configurable: true,
+          value: undefined
+        });
+      }
+
+      if (originalHidePopover) {
+        Object.defineProperty(HTMLElement.prototype, 'hidePopover', {
+          configurable: true,
+          value: originalHidePopover
+        });
+      } else {
+        Object.defineProperty(HTMLElement.prototype, 'hidePopover', {
+          configurable: true,
+          value: undefined
+        });
+      }
+    }
+  });
 });

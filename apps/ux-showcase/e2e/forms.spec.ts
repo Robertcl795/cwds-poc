@@ -8,5 +8,6 @@ test('renders form components route', async ({ page }) => {
   await expect(page.getByRole('button', { name: 'Deploy' })).toBeVisible();
   await expect(page.getByRole('checkbox', { name: 'Stable' })).toBeVisible();
   await expect(page.getByRole('slider', { name: 'Volume' })).toBeVisible();
+  await expect(page.getByLabel('Environment preset')).toBeVisible();
   await expect(page.getByRole('combobox', { name: 'Release status' })).toBeVisible();
 });

@@ -1,5 +1,3 @@
-import type { InputSource } from '@ds/core';
-
 export type SurfaceActionKind = 'primary' | 'secondary' | 'danger';
 export type SurfaceActionGroup = 'leading' | 'trailing' | 'overflow';
 
@@ -11,9 +9,4 @@ export interface SurfaceAction {
   shortcut?: string;
   group?: SurfaceActionGroup;
   icon?: string | HTMLElement;
-}
-
-export interface SurfaceActionEventDetail {
-  action: SurfaceAction;
-  source: InputSource;
 }

@@ -1,9 +1,10 @@
 import { createDisposalBin, listen } from '../dom/events';
+import type { InputSource } from '../types/events';
 import type { RippleController } from '../ripple/types';
 
 import { attachOptionalRipple } from './ripple';
 
-export type PressSource = 'pointer' | 'keyboard' | 'programmatic';
+export type PressSource = InputSource;
 
 export type PressableOptions = {
   disabled?: () => boolean;

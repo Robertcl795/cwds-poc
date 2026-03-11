@@ -1,7 +1,8 @@
 import { createIconNode, createSelectController, type InputSource, type SelectControllerOptions } from '@ds/core';
 
-import { applyFieldLinkage, createFieldIds, resolveFieldMessages, syncFieldDataState } from '@ds/core';
+import { createFieldIds, resolveFieldMessages, syncFieldDataState } from '@ds/core';
 import { enhanceNativeSelect } from './enhance-select';
+import { syncLinkedFieldState } from '../shared/form-assoc';
 import type { PrimitiveSelect, PrimitiveSelectOption, PrimitiveSelectOptions } from './select.types';
 
 const EMPTY_OPTION_ID = '__cv-select-empty-option';
@@ -99,6 +100,7 @@ export const createPrimitiveSelect = (options: PrimitiveSelectOptions): Primitiv
   helper.id = ids.helpId;
   helper.textContent = messages.helperText;
   let open = false;
+  let isEnhanced = false;
 
   const supportsSelectOpenSelector = (() => {
     const css = globalThis.CSS;
@@ -113,22 +115,17 @@ export const createPrimitiveSelect = (options: PrimitiveSelectOptions): Primitiv
     }
   })();
 
-  const syncValidation = (): boolean => {
-    const isInvalid = options.required === true && select.value.trim().length === 0;
-    applyFieldLinkage(select, {
+  const syncState = (invalid = options.required === true && select.value.trim().length === 0): boolean =>
+    syncLinkedFieldState({
+      host: wrapper,
+      control: select,
+      helper,
       helpId: ids.helpId,
       describedBy: options.describedBy,
-      invalid: isInvalid
+      invalid,
+      messages,
+      extraState: { enhanced: isEnhanced, open }
     });
-    helper.textContent = isInvalid ? messages.errorText || messages.helperText : messages.helperText;
-
-    return isInvalid;
-  };
-
-  const syncState = (): void => {
-    const invalid = syncValidation();
-    syncFieldDataState(wrapper, select, { invalid }, { enhanced: wrapper.dataset.enhanced === 'true', open });
-  };
 
   const setOpen = (nextOpen: boolean): void => {
     if (open === nextOpen) {
@@ -163,15 +160,10 @@ export const createPrimitiveSelect = (options: PrimitiveSelectOptions): Primitiv
   if (options.validateOnInitialRender) {
     syncState();
   } else {
-    applyFieldLinkage(select, {
-      helpId: ids.helpId,
-      describedBy: options.describedBy,
-      invalid: false
-    });
-    syncFieldDataState(wrapper, select, { invalid: false }, { open: false });
+    syncState(false);
   }
 
-  const isEnhanced = enhanceNativeSelect(select, {
+  isEnhanced = enhanceNativeSelect(select, {
     enabled: options.enhance !== false
   });
   syncFieldDataState(wrapper, select, {}, { enhanced: isEnhanced });

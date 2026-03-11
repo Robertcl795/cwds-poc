@@ -1,34 +1,11 @@
-import type { InputSource } from '@ds/core';
-
-import { createPrimitiveButton } from '../button/create-button';
-import { createPrimitiveIconButton } from '../icon-button/create-icon-button';
-import { createContextMenu, type PrimitiveContextMenu } from '../menu';
-import { partitionActions, type SurfaceAction } from '../shared-actions';
+import { partitionActions } from '../shared-actions';
+import {
+  createSurfaceActionButton,
+  createSurfaceOverflowMenu,
+  dispatchSurfaceActionEvent
+} from '../shared-actions/render';
+import type { PrimitiveContextMenu } from '../menu';
 import type { PrimitiveToolbar, PrimitiveToolbarOptions } from './toolbar.types';
-
-const dispatchToolbarAction = (element: HTMLElement, action: SurfaceAction, source: InputSource): void => {
-  element.dispatchEvent(
-    new CustomEvent('cv-toolbar-action', {
-      bubbles: true,
-      detail: {
-        action,
-        source
-      }
-    })
-  );
-};
-
-const toButtonColor = (action: SurfaceAction): 'primary' | 'secondary' | 'negative' => {
-  if (action.kind === 'primary') {
-    return 'primary';
-  }
-
-  if (action.kind === 'danger') {
-    return 'negative';
-  }
-
-  return 'secondary';
-};
 
 export const createPrimitiveToolbar = (options: PrimitiveToolbarOptions = {}): PrimitiveToolbar => {
   const element = document.createElement('div');
@@ -71,16 +48,14 @@ export const createPrimitiveToolbar = (options: PrimitiveToolbarOptions = {}): P
   const partitioned = partitionActions(options.actions ?? [], options.maxVisibleActions ?? 3);
 
   for (const action of partitioned.leading) {
-    const button = createPrimitiveButton({
-      label: action.label,
+    const button = createSurfaceActionButton({
+      action,
       shape: 'text',
-      color: toButtonColor(action),
-      ...(action.icon !== undefined ? { iconStart: action.icon } : {}),
-      ...(options.dense !== undefined ? { dense: options.dense } : {}),
-      ...(action.disabled !== undefined ? { disabled: action.disabled } : {}),
-      onPress(source) {
-        dispatchToolbarAction(element, action, source);
-        options.onAction?.(action, source);
+      dense: options.dense,
+      includeIcon: true,
+      onAction(resolvedAction, source) {
+        dispatchSurfaceActionEvent(element, 'cv-toolbar-action', resolvedAction, source);
+        options.onAction?.(resolvedAction, source);
       }
     });
 
@@ -89,16 +64,14 @@ export const createPrimitiveToolbar = (options: PrimitiveToolbarOptions = {}): P
   }
 
   for (const action of partitioned.trailing) {
-    const button = createPrimitiveButton({
-      label: action.label,
+    const button = createSurfaceActionButton({
+      action,
       shape: action.kind === 'primary' ? 'contained' : 'text',
-      color: toButtonColor(action),
-      ...(action.icon !== undefined ? { iconStart: action.icon } : {}),
-      ...(options.dense !== undefined ? { dense: options.dense } : {}),
-      ...(action.disabled !== undefined ? { disabled: action.disabled } : {}),
-      onPress(source) {
-        dispatchToolbarAction(element, action, source);
-        options.onAction?.(action, source);
+      dense: options.dense,
+      includeIcon: true,
+      onAction(resolvedAction, source) {
+        dispatchSurfaceActionEvent(element, 'cv-toolbar-action', resolvedAction, source);
+        options.onAction?.(resolvedAction, source);
       }
     });
 
@@ -112,47 +85,24 @@ export const createPrimitiveToolbar = (options: PrimitiveToolbarOptions = {}): P
 
   let overflowMenu: PrimitiveContextMenu | null = null;
 
-  if ((options.enableOverflowMenu ?? true) && partitioned.overflow.length > 0) {
-    const overflowActionsById = new Map(partitioned.overflow.map((action) => [action.id, action] as const));
-    const overflowIcon = document.createElement('span');
-    overflowIcon.textContent = '⋮';
-    overflowIcon.setAttribute('aria-hidden', 'true');
-
-    const overflowTrigger = createPrimitiveIconButton({
-      icon: overflowIcon,
-      ariaLabel: 'More actions',
-      variant: 'standard',
-      size: options.dense ? 'sm' : 'md'
-    });
-
-    overflowTrigger.dataset.toolbarOverflow = 'true';
-    overflowTrigger.classList.add('cv-toolbar__overflow-trigger');
-    overflow.append(overflowTrigger);
-
-    overflowMenu = createContextMenu({
-      target: overflowTrigger,
-      triggerMode: 'click',
+  if (options.enableOverflowMenu ?? true) {
+    const overflowControls = createSurfaceOverflowMenu({
+      actions: partitioned.overflow,
+      dense: options.dense,
       ariaLabel: options.ariaLabel ? `${options.ariaLabel} overflow actions` : 'Toolbar overflow actions',
-      items: partitioned.overflow.map((action) => ({
-        ...{
-          id: action.id,
-          label: action.label,
-          kind: action.kind === 'danger' ? 'danger' : 'default'
-        },
-        ...(action.icon !== undefined ? { iconStart: action.icon } : {}),
-        ...(action.disabled !== undefined ? { disabled: action.disabled } : {}),
-        ...(action.shortcut !== undefined ? { shortcut: action.shortcut } : {})
-      })),
-      onAction(action, source) {
-        const resolvedAction = overflowActionsById.get(action.id);
-        if (!resolvedAction) {
-          return;
-        }
-
-        dispatchToolbarAction(element, resolvedAction, source);
+      onAction(resolvedAction, source) {
+        dispatchSurfaceActionEvent(element, 'cv-toolbar-action', resolvedAction, source);
         options.onAction?.(resolvedAction, source);
       }
     });
+
+    if (overflowControls) {
+      const { trigger: overflowTrigger, menu } = overflowControls;
+      overflowTrigger.dataset.toolbarOverflow = 'true';
+      overflowTrigger.classList.add('cv-toolbar__overflow-trigger');
+      overflow.append(overflowTrigger);
+      overflowMenu = menu;
+    }
   }
 
   element.append(leading, title, actions, overflow);

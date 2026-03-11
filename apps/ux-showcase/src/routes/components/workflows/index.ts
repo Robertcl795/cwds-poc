@@ -105,7 +105,7 @@ export function renderWorkflowComponentsShowcase(container: HTMLElement): void {
 
   createContextMenu({
     target: contextTarget,
-    triggerMode: 'contextmenu',
+    triggerMode: 'both',
     ariaLabel: 'Deployment row actions',
     items: [
       { type: 'label', id: 'ctx-label', label: 'Deployment row' },

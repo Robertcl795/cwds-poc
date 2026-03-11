@@ -10,11 +10,17 @@ test('renders overlay components route and validates core interactions', async (
   await expect(page.getByRole('tooltip')).toBeVisible();
 
   const contextTarget = page.locator('[data-overlays-context-target="true"]');
-  await contextTarget.click({ button: 'right' });
+  await contextTarget.click();
   await expect(page.getByRole('menu', { name: 'Deployment row actions' })).toBeVisible();
 
   await page.getByRole('menuitem', { name: 'Inspect run' }).click();
   await expect(page.locator('.overlays-log')).toContainText('inspect');
+  await expect(page.getByRole('menu', { name: 'Deployment row actions' })).toBeHidden();
+
+  await contextTarget.click();
+  await expect(page.getByRole('menu', { name: 'Deployment row actions' })).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('menu', { name: 'Deployment row actions' })).toBeHidden();
 
   await page.locator('[data-overlays-adapter="combobox"]').evaluate((node) => {
     const element = node as HTMLElement & { value: string };

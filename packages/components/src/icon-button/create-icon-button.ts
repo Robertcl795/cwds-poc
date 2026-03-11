@@ -1,6 +1,6 @@
 import { applyFocusRing } from '@ds/core';
 
-import { resolveDisabledState, writeDisabledState } from '@ds/core';
+import { resolveDisabledState } from '@ds/core';
 import { buildIconButtonContent } from '../shared/icon-button';
 import { enhancePressable } from '@ds/core';
 
@@ -36,7 +36,11 @@ export function createPrimitiveIconButton(options: PrimitiveIconButtonOptions): 
     button.setAttribute('aria-pressed', options.selected ? 'true' : 'false');
   }
 
-  writeDisabledState(button, state);
+  if (state.aria) {
+    button.setAttribute('aria-disabled', 'true');
+  } else {
+    button.removeAttribute('aria-disabled');
+  }
   applyFocusRing(button, 'auto');
 
   button.append(

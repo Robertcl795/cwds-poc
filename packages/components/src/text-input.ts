@@ -48,7 +48,6 @@ export const createPrimitiveTextInput = (options: PrimitiveTextInputOptions): Pr
   input.name = options.name;
   input.placeholder = options.placeholder ?? '';
   input.value = options.value ?? '';
-  input.dataset.invalid = 'false';
 
   if (options.disabled) {
     input.disabled = true;
@@ -84,7 +83,6 @@ export const createPrimitiveTextInput = (options: PrimitiveTextInputOptions): Pr
 
   const syncValidationState = (): void => {
     const attrs = controller.getValidationAttrs();
-    input.dataset.invalid = attrs['data-invalid'];
 
     if (attrs['aria-invalid']) {
       input.setAttribute('aria-invalid', 'true');

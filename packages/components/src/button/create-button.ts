@@ -1,7 +1,7 @@
 import { applyFocusRing } from '@ds/core';
 
 import { createPrimitiveLoadingIndicator } from '../loading';
-import { resolveDisabledState, writeDisabledState } from '@ds/core';
+import { resolveDisabledState } from '@ds/core';
 import { enhancePressable } from '@ds/core';
 import type { PrimitiveButtonOptions } from './button.types';
 
@@ -32,7 +32,11 @@ export const createPrimitiveButton = (options: PrimitiveButtonOptions): HTMLButt
   button.className = 'cv-button cv-focus-ring';
   button.type = options.type ?? 'button';
   button.disabled = state.native;
-  writeDisabledState(button, state);
+  if (state.aria) {
+    button.setAttribute('aria-disabled', 'true');
+  } else {
+    button.removeAttribute('aria-disabled');
+  }
 
   const color = options.color ?? options.variant ?? 'primary';
   const shape = options.shape ?? 'contained';

@@ -24,10 +24,33 @@ export function listen<K extends keyof HTMLElementEventMap>(
   type: K,
   handler: (event: HTMLElementEventMap[K]) => void,
   options?: AddEventListenerOptions
+): () => void;
+export function listen<K extends keyof DocumentEventMap>(
+  document: Document,
+  type: K,
+  handler: (event: DocumentEventMap[K]) => void,
+  options?: AddEventListenerOptions
+): () => void;
+export function listen<K extends keyof WindowEventMap>(
+  window: Window,
+  type: K,
+  handler: (event: WindowEventMap[K]) => void,
+  options?: AddEventListenerOptions
+): () => void;
+export function listen(
+  target: EventTarget,
+  type: string,
+  handler: EventListenerOrEventListenerObject,
+  options?: AddEventListenerOptions
+): () => void;
+export function listen(
+  target: EventTarget,
+  type: string,
+  handler: EventListenerOrEventListenerObject,
+  options?: AddEventListenerOptions
 ): () => void {
-  const listener = handler as EventListener;
-  element.addEventListener(type, listener, options);
+  target.addEventListener(type, handler, options);
   return () => {
-    element.removeEventListener(type, listener, options);
+    target.removeEventListener(type, handler, options);
   };
 }

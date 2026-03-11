@@ -1,32 +1,5 @@
-import type { InputSource } from '@ds/core';
-
-import { createPrimitiveButton } from '../button/create-button';
-import type { SurfaceAction } from '../shared-actions';
+import { createSurfaceActionButton, dispatchSurfaceActionEvent } from '../shared-actions/render';
 import type { PrimitiveCard, PrimitiveCardOptions, PrimitiveCardVariant } from './card.types';
-
-const toButtonColor = (action: SurfaceAction): 'primary' | 'secondary' | 'negative' => {
-  if (action.kind === 'primary') {
-    return 'primary';
-  }
-
-  if (action.kind === 'danger') {
-    return 'negative';
-  }
-
-  return 'secondary';
-};
-
-const dispatchAction = (element: HTMLElement, action: SurfaceAction, source: InputSource): void => {
-  element.dispatchEvent(
-    new CustomEvent('cv-card-action', {
-      bubbles: true,
-      detail: {
-        action,
-        source
-      }
-    })
-  );
-};
 
 export const createPrimitiveCard = (options: PrimitiveCardOptions = {}): PrimitiveCard => {
   const tagName = options.as ?? 'article';
@@ -81,15 +54,13 @@ export const createPrimitiveCard = (options: PrimitiveCardOptions = {}): Primiti
     actions.className = 'cv-card__actions';
 
     for (const action of options.actions) {
-      const button = createPrimitiveButton({
-        label: action.label,
+      const button = createSurfaceActionButton({
+        action,
         shape: action.kind === 'primary' ? 'contained' : 'text',
-        color: toButtonColor(action),
-        ...(options.dense !== undefined ? { dense: options.dense } : {}),
-        ...(action.disabled !== undefined ? { disabled: action.disabled } : {}),
-        onPress(source) {
-          dispatchAction(element, action, source);
-          options.onAction?.(action, source);
+        dense: options.dense,
+        onAction(resolvedAction, source) {
+          dispatchSurfaceActionEvent(element, 'cv-card-action', resolvedAction, source);
+          options.onAction?.(resolvedAction, source);
         }
       });
 

@@ -1,6 +1,6 @@
 import { createIconNode } from '@ds/core';
 
-export type IconButtonContentOptions = {
+type IconButtonContentOptions = {
   icon: string | HTMLElement;
   ariaLabel?: string;
 };

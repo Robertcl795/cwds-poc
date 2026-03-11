@@ -1,6 +1,8 @@
+import type { InputSource } from '@ds/core';
+
 export type PrimitiveChipVariant = 'action' | 'filter';
 
-export type PrimitiveChipInputSource = 'pointer' | 'keyboard' | 'programmatic';
+export type PrimitiveChipInputSource = InputSource;
 
 export interface PrimitiveChipBaseOptions {
   variant: PrimitiveChipVariant;

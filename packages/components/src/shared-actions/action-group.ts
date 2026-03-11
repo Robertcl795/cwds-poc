@@ -1,6 +1,6 @@
 import type { SurfaceAction } from './action.types';
 
-export interface PartitionedActions {
+interface PartitionedActions {
   leading: SurfaceAction[];
   trailing: SurfaceAction[];
   overflow: SurfaceAction[];

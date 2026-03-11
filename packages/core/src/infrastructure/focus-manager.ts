@@ -29,7 +29,10 @@ export const trapTabWithin = (container: HTMLElement, event: KeyboardEvent): voi
     return;
   }
 
-  const active = document.activeElement as HTMLElement | null;
+  const active = document.activeElement;
+  if (!(active instanceof HTMLElement)) {
+    return;
+  }
 
   if (!event.shiftKey && active === last) {
     event.preventDefault();

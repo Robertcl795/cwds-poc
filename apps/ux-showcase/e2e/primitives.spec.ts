@@ -9,4 +9,5 @@ test('renders primitive components route', async ({ page }) => {
   await expect(page.getByRole('checkbox', { name: 'Enable notifications' })).toBeVisible();
   await expect(page.getByRole('checkbox', { name: 'Auto deploy' })).toBeVisible();
   await expect(page.getByRole('progressbar', { name: 'Upload progress' })).toBeVisible();
+  await expect(page.getByLabel('Readiness')).toBeVisible();
 });

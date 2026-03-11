@@ -66,7 +66,7 @@ const appendAffix = (control: HTMLElement, position: 'start' | 'end', text: stri
 const syncInteractiveState = (wrapper: HTMLDivElement, input: HTMLInputElement): void => {
   wrapper.dataset.focused = document.activeElement === input ? 'true' : 'false';
   wrapper.dataset.filled = input.value.trim().length > 0 ? 'true' : 'false';
-  wrapper.dataset.invalid = input.dataset.invalid === 'true' ? 'true' : 'false';
+  wrapper.dataset.invalid = input.getAttribute('aria-invalid') === 'true' ? 'true' : 'false';
 };
 
 export const createPrimitiveFormField = (options: PrimitiveFormFieldOptions): PrimitiveFormField => {
@@ -79,7 +79,7 @@ export const createPrimitiveFormField = (options: PrimitiveFormFieldOptions): Pr
 
   const wrapper = document.createElement('div');
   wrapper.className = 'cv-form-field';
-  wrapper.dataset.invalid = options.input.element.dataset.invalid === 'true' ? 'true' : 'false';
+  wrapper.dataset.invalid = options.input.element.getAttribute('aria-invalid') === 'true' ? 'true' : 'false';
   wrapper.dataset.variant = variant;
   wrapper.dataset.tone = options.tone ?? 'neutral';
   wrapper.dataset.helperVisibility =

@@ -57,7 +57,7 @@ const buildActionChip = (options: PrimitiveActionChipOptions): PrimitiveChipHand
       return;
     }
 
-    options.onPress?.(pressable.getLastSource() as PrimitiveChipInputSource, event);
+    options.onPress?.(pressable.getLastSource(), event);
   });
 
   return {

@@ -1,6 +1,7 @@
 import { applyFocusRing } from '@ds/core';
 
-import { applyFieldLinkage, createFieldIds, resolveFieldMessages, syncFieldDataState } from '@ds/core';
+import { createFieldIds, resolveFieldMessages } from '@ds/core';
+import { syncLinkedFieldState } from '../shared/form-assoc';
 import type { PrimitiveSlider, PrimitiveSliderInputSource, PrimitiveSliderOptions } from './slider.types';
 
 export const createPrimitiveSlider = (options: PrimitiveSliderOptions): PrimitiveSlider => {
@@ -48,21 +49,16 @@ export const createPrimitiveSlider = (options: PrimitiveSliderOptions): Primitiv
 
   let pendingSource: PrimitiveSliderInputSource = 'programmatic';
 
-  const syncValidation = (): boolean => {
-    const invalid = options.invalid ?? false;
-    applyFieldLinkage(input, {
+  const syncState = (invalid = options.invalid ?? false): boolean =>
+    syncLinkedFieldState({
+      host: wrapper,
+      control: input,
+      helper,
       helpId: ids.helpId,
       describedBy: options.describedBy,
-      invalid
+      invalid,
+      messages
     });
-    helper.textContent = invalid ? messages.errorText || messages.helperText : messages.helperText;
-    return invalid;
-  };
-
-  const syncState = (): void => {
-    const invalid = syncValidation();
-    syncFieldDataState(wrapper, input, { invalid });
-  };
 
   input.addEventListener('pointerdown', () => {
     pendingSource = 'pointer';
@@ -86,8 +82,12 @@ export const createPrimitiveSlider = (options: PrimitiveSliderOptions): Primitiv
     syncState();
   });
 
-  input.addEventListener('focus', syncState);
-  input.addEventListener('blur', syncState);
+  input.addEventListener('focus', () => {
+    syncState();
+  });
+  input.addEventListener('blur', () => {
+    syncState();
+  });
 
   control.append(input);
   if (output) {

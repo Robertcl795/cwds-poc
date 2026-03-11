@@ -12,7 +12,7 @@ export interface FilterStrategyOptions {
 }
 
 export interface FilterStrategy {
-  filter: (options: FilterOption[], query: string) => FilterOption[];
+  filter: <T extends FilterOption>(options: T[], query: string) => T[];
 }
 
 const defaultNormalize = (value: string): string => value.toLocaleLowerCase();
@@ -22,7 +22,7 @@ export const createFilterStrategy = (options: FilterStrategyOptions = {}): Filte
   const normalize = options.normalize ?? defaultNormalize;
 
   return {
-    filter(inputOptions: FilterOption[], query: string): FilterOption[] {
+    filter<T extends FilterOption>(inputOptions: T[], query: string): T[] {
       const normalizedQuery = normalize(query.trim());
 
       if (normalizedQuery.length === 0) {

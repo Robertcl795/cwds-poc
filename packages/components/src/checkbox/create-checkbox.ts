@@ -1,7 +1,6 @@
 import type { CheckboxControllerOptions } from '@ds/core';
 
 import { setControlDescription } from '../shared/form-assoc';
-import { writeControlStateAttributes } from '@ds/core';
 
 export interface PrimitiveCheckboxOptions extends CheckboxControllerOptions {
   id: string;
@@ -48,26 +47,15 @@ export const createPrimitiveCheckbox = (options: PrimitiveCheckboxOptions): HTML
   text.className = 'cv-checkbox__label';
   text.textContent = options.label;
 
-  const updateState = (): void => {
-    writeControlStateAttributes(wrapper, {
-      disabled: input.disabled,
-      checked: input.checked,
-      indeterminate: input.indeterminate,
-      invalid: options.invalid
-    });
-  };
-
   input.addEventListener('change', () => {
     if (input.indeterminate) {
       input.indeterminate = false;
     }
 
-    updateState();
     options.onCheckedChange?.(input.checked, 'pointer');
   });
 
   wrapper.append(input, icon, text);
-  updateState();
 
   return wrapper;
 };

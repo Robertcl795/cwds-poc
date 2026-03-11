@@ -13,7 +13,6 @@ describe('checkbox primitive', () => {
 
     const input = checkbox.querySelector<HTMLInputElement>('input');
     expect(input?.indeterminate).toBe(true);
-    expect(checkbox.dataset.indeterminate).toBe('true');
 
     if (!input) {
       throw new Error('missing checkbox input');
@@ -22,7 +21,7 @@ describe('checkbox primitive', () => {
     input.checked = true;
     input.dispatchEvent(new Event('change'));
 
-    expect(checkbox.dataset.indeterminate).toBe('false');
+    expect(input.indeterminate).toBe(false);
   });
 
   it('supports reduced touch target density mode', () => {

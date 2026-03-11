@@ -1,4 +1,6 @@
-export type PrimitiveSliderInputSource = 'pointer' | 'keyboard' | 'programmatic';
+import type { InputSource } from '@ds/core';
+
+export type PrimitiveSliderInputSource = InputSource;
 
 export interface PrimitiveSliderOptions {
   id: string;

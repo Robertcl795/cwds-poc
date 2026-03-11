@@ -10,7 +10,7 @@ test('renders workflow components route and validates workflow surfaces', async 
   await expect(page.getByRole('tooltip')).toBeVisible();
 
   const contextTarget = page.locator('[data-workflows-context-target="true"]');
-  await contextTarget.click({ button: 'right' });
+  await contextTarget.click();
   await expect(page.getByRole('menu', { name: 'Deployment row actions' })).toBeVisible();
 
   await page.getByRole('menuitem', { name: 'Inspect run' }).click();

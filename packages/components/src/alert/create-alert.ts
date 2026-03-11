@@ -1,8 +1,7 @@
-import type { InputSource } from '@ds/core';
-
-import { createPrimitiveButton } from '../button/create-button';
 import { createDismissableController, type DismissReason } from '@ds/core';
-import type { PrimitiveAlert, PrimitiveAlertAction, PrimitiveAlertOptions } from './alert.types';
+import { createPrimitiveButton } from '../button/create-button';
+import { createSurfaceActionButton, dispatchSurfaceActionEvent } from '../shared-actions/render';
+import type { PrimitiveAlert, PrimitiveAlertOptions } from './alert.types';
 
 const resolveRole = (tone: PrimitiveAlertOptions['tone'], priority: PrimitiveAlertOptions['priority']): 'status' | 'alert' => {
   if (priority === 'assertive') {
@@ -14,30 +13,6 @@ const resolveRole = (tone: PrimitiveAlertOptions['tone'], priority: PrimitiveAle
   }
 
   return 'status';
-};
-
-const toButtonColor = (action: PrimitiveAlertAction): 'primary' | 'secondary' | 'negative' => {
-  if (action.kind === 'primary') {
-    return 'primary';
-  }
-
-  if (action.kind === 'danger') {
-    return 'negative';
-  }
-
-  return 'secondary';
-};
-
-const dispatchAlertAction = (element: HTMLElement, action: PrimitiveAlertAction, source: InputSource): void => {
-  element.dispatchEvent(
-    new CustomEvent('cv-alert-action', {
-      bubbles: true,
-      detail: {
-        action,
-        source
-      }
-    })
-  );
 };
 
 const dispatchAlertDismiss = (element: HTMLElement, reason: DismissReason): void => {
@@ -98,17 +73,15 @@ export const createPrimitiveAlert = (options: PrimitiveAlertOptions): PrimitiveA
   });
 
   for (const action of options.actions ?? []) {
-    const button = createPrimitiveButton({
-      label: action.label,
-      ...(options.dense !== undefined ? { dense: options.dense } : {}),
+    const button = createSurfaceActionButton({
+      action,
       shape: action.kind === 'primary' ? 'contained' : 'text',
-      color: toButtonColor(action),
-      ...(action.disabled !== undefined ? { disabled: action.disabled } : {}),
-      onPress(source) {
-        dispatchAlertAction(element, action, source);
-        options.onAction?.(action, source);
+      dense: options.dense,
+      onAction(resolvedAction, source) {
+        dispatchSurfaceActionEvent(element, 'cv-alert-action', resolvedAction, source);
+        options.onAction?.(resolvedAction, source);
 
-        if (action.dismissOnAction) {
+        if (resolvedAction.dismissOnAction) {
           dismissable.dismiss('action');
         }
       }

@@ -1,5 +1,6 @@
 export { createPrimitiveButton } from './button/create-button';
 export type { PrimitiveButtonColor, PrimitiveButtonOptions, PrimitiveButtonShape } from './button/button.types';
+export * from './autocomplete';
 export { createPrimitiveCheckbox } from './checkbox/create-checkbox';
 export type { PrimitiveCheckboxOptions } from './checkbox/create-checkbox';
 export { createPrimitiveChip } from './chip/create-chip';
@@ -21,16 +22,17 @@ export type {
   PrimitiveIconButtonVariant
 } from './icon-button/create-icon-button';
 export * from './loading';
+export * from './meter';
 export { createPrimitiveProgress } from './progress/create-progress';
 export type { PrimitiveProgressOptions } from './progress/create-progress';
 export { createPrimitiveRadio } from './radio/create-radio';
 export type { PrimitiveRadioOptions } from './radio/create-radio';
-export * from './select';
+export * from './select/index';
 export { createPrimitiveSwitch } from './switch/create-switch';
 export type { PrimitiveSwitchOptions } from './switch/create-switch';
 export { createPrimitiveSlider } from './slider/create-slider';
 export type { PrimitiveSlider, PrimitiveSliderInputSource, PrimitiveSliderOptions } from './slider/slider.types';
-export * from './text-field';
+export * from './text-field/index';
 export * from './text-input';
 export * from './list';
 export * from './tabs';

@@ -1,5 +1,4 @@
 import { setControlDescription } from '../shared/form-assoc';
-import { writeControlStateAttributes } from '@ds/core';
 
 export type PrimitiveRadioOptions = {
   id: string;
@@ -42,18 +41,7 @@ export function createPrimitiveRadio(options: PrimitiveRadioOptions): HTMLLabelE
   text.className = 'cv-radio__label';
   text.textContent = options.label;
 
-  const updateState = (): void => {
-    writeControlStateAttributes(wrapper, {
-      disabled: input.disabled,
-      checked: input.checked,
-      invalid: options.invalid
-    });
-  };
-
-  input.addEventListener('change', updateState);
-
   wrapper.append(input, icon, text);
-  updateState();
 
   return wrapper;
 }
